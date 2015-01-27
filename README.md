@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2  
-Version 1.0
+Version 1.1.1
 
 Installation
 ------------
