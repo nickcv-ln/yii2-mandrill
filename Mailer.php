@@ -106,6 +106,29 @@ class Mailer extends BaseMailer
             return false;
         }
     }
+    
+    private function getMergeParams($params) {
+        $merge = [];
+        foreach ($params as $key => $value) {
+            $merge[] = ['name' => $key, 'content' => $value];
+        }
+        return $merge;
+    }
+    
+    public function compose($templateName = null, array $params = []) {
+        $message = parent::compose();
+        
+        try {
+            $rendered = $this->_mandrill->templates->render($templateName, [], $this->getMergeParams($params));
+            $message->setHtmlBody($rendered['html']);
+            return $message;
+        } catch (Mandrill_Error $e) {
+            \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
+        }
+        
+        // fall back to rendering views
+        return parent::compose($templateName, $params);
+    }
 
     /**
      * parse the mandrill response and returns false if any message was either invalid or rejected
