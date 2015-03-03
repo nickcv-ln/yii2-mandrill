@@ -1,0 +1,173 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 66
+            [file] => ./Mailer.php
+            [message] => Method init has no parent to inherit from in nickcv\mandrill\Mailer.
+        )
+
+    [1] => Array
+        (
+            [line] => 110
+            [file] => ./Mailer.php
+            [message] => Method compose has no parent to inherit from in nickcv\mandrill\Mailer.
+        )
+
+    [2] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_attachments in nickcv\mandrill\Message
+        )
+
+    [3] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_attachments in nickcv\mandrill\Message
+        )
+
+    [4] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_attachments in nickcv\mandrill\Message
+        )
+
+    [5] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_bcc in nickcv\mandrill\Message
+        )
+
+    [6] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_bcc in nickcv\mandrill\Message
+        )
+
+    [7] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_cc in nickcv\mandrill\Message
+        )
+
+    [8] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_cc in nickcv\mandrill\Message
+        )
+
+    [9] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_fromAddress in nickcv\mandrill\Message
+        )
+
+    [10] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_fromAddress in nickcv\mandrill\Message
+        )
+
+    [11] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_fromName in nickcv\mandrill\Message
+        )
+
+    [12] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_fromName in nickcv\mandrill\Message
+        )
+
+    [13] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_html in nickcv\mandrill\Message
+        )
+
+    [14] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_html in nickcv\mandrill\Message
+        )
+
+    [15] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_images in nickcv\mandrill\Message
+        )
+
+    [16] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_images in nickcv\mandrill\Message
+        )
+
+    [17] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_images in nickcv\mandrill\Message
+        )
+
+    [18] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_replyTo in nickcv\mandrill\Message
+        )
+
+    [19] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_replyTo in nickcv\mandrill\Message
+        )
+
+    [20] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_subject in nickcv\mandrill\Message
+        )
+
+    [21] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_subject in nickcv\mandrill\Message
+        )
+
+    [22] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_tags in nickcv\mandrill\Message
+        )
+
+    [23] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_tags in nickcv\mandrill\Message
+        )
+
+    [24] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_text in nickcv\mandrill\Message
+        )
+
+    [25] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_text in nickcv\mandrill\Message
+        )
+
+    [26] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_to in nickcv\mandrill\Message
+        )
+
+    [27] => Array
+        (
+            [file] => ./Message.php
+            [message] => broken link to nickcv\mandrill\Message::$_to in nickcv\mandrill\Message
+        )
+
+)

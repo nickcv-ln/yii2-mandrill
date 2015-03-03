@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2  
-Version 1.1.1
+Version 1.2.0
 
 Installation
 ------------
@@ -76,6 +76,23 @@ From now on you can just use the mandrill mailer just as you used to use the def
     ->send();
 ```
 
+Mandrill Templates
+------------------
+You can use Mandrill's own template system if you want to, just set up as true the ```useMandrillTemplates``` attribute in the component configuration
+
+```
+    'mailer' => [
+        'class' => 'nickcv\mandrill\Mailer',
+        'apikey' => 'YourApiKey',
+        'useMandrillTemplates' => true,
+    ],
+```
+
+If you do turn this feature on the component will look for a template within mandrill named after the view argument of the compose method.
+If no view is found the component will then look for the view file inside the mail directory.
+
+If neither is found an exception will be thrown as standard behavior.
+
 
 Additional Methods
 ------------------
@@ -89,3 +106,22 @@ Mandrill lets you set up tags. The method ```\nickcv\mandrill\Message::setTags($
 ```
 
 For more informations check the component documentation.
+
+Unit Testing
+------------
+
+All the Classes within the package have been unit tested.  
+The tests are included within the package.  
+
+If you wish to run the tests install codeception following the Yii2 documentation.  
+
+The tests use the developer Mandrill Test API key which is only whitelisted for the developer IP.
+
+Logs
+----
+
+The component automatically logs every single message sent through mandrill, inside the "mandrill" category.
+
+Messages sent successfully are logged using ```\Yii::info()```, messages rejected or invalid are logged using ```\Yii::warning()```, and all the exceptions thrown by the Mandrill Class are logged using ```\Yii::error()```.
+
+If you are using mandrill templates and the template is not found the error will be logged using ```Yii::info()```.

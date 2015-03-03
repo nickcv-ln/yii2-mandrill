@@ -38,6 +38,15 @@ class Mailer extends BaseMailer
      * @var string Mandrill API key
      */
     private $_apikey;
+    
+    /**
+     * Whether the mailer should check for mandrill templates before looking for
+     * the view name.
+     *
+     * @var boolean use mandrill templates before looking for view files.
+     * @since 1.2.0
+     */
+    public $useMandrillTemplates = false;
 
     /**
      * @var string message default class name.
@@ -80,12 +89,38 @@ class Mailer extends BaseMailer
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" should be a string, "' . gettype($apikey) . '" given.');
         }
 
-        $apikey = trim($apikey);
-        if (!strlen($apikey) > 0) {
+        $trimmedApikey = trim($apikey);
+        if (!strlen($trimmedApikey) > 0) {
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" length should be greater than 0.');
         }
 
-        $this->_apikey = $apikey;
+        $this->_apikey = $trimmedApikey;
+    }
+    
+    /**
+     * Composes the message using a Mandrill template if the useMandrillTemplates
+     * settings is true.
+     * 
+     * If mandrill templates are not being used or if no template with the given
+     * name has been found it will fallback to the normal compose method.
+     * 
+     * @inheritdoc
+     * @since 1.2.0
+     */
+    public function compose($view = null, array $params = []) {
+        if ($this->useMandrillTemplates) {
+            try {
+                $message = parent::compose();
+                $rendered = $this->_mandrill->templates->render($view, [], $this->getMergeParamsForMandrillTemplate($params));
+                $message->setHtmlBody($rendered['html']);
+                return $message;
+            } catch (Mandrill_Error $e) {
+                \Yii::info('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
+            }
+        }
+        
+        // fall back to rendering views
+        return parent::compose($view, $params);
     }
 
     /**
@@ -105,29 +140,6 @@ class Mailer extends BaseMailer
             \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
             return false;
         }
-    }
-    
-    private function getMergeParams($params) {
-        $merge = [];
-        foreach ($params as $key => $value) {
-            $merge[] = ['name' => $key, 'content' => $value];
-        }
-        return $merge;
-    }
-    
-    public function compose($templateName = null, array $params = []) {
-        $message = parent::compose();
-        
-        try {
-            $rendered = $this->_mandrill->templates->render($templateName, [], $this->getMergeParams($params));
-            $message->setHtmlBody($rendered['html']);
-            return $message;
-        } catch (Mandrill_Error $e) {
-            \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
-        }
-        
-        // fall back to rendering views
-        return parent::compose($templateName, $params);
     }
 
     /**
@@ -162,6 +174,21 @@ class Mailer extends BaseMailer
         }
 
         return $return;
+    }
+    
+    /**
+     * Converts the parameters in the format used by Mandrill to render templates.
+     * 
+     * @param array $params
+     * @return array
+     * @since 1.2.0
+     */
+    private function getMergeParamsForMandrillTemplate($params) {
+        $merge = [];
+        foreach ($params as $key => $value) {
+            $merge[] = ['name' => $key, 'content' => $value];
+        }
+        return $merge;
     }
 
 }
