@@ -147,6 +147,8 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 	{
 		$this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setHtmlBody('<a>testo</a><script>alert("ciao");</script>'));
 		$this->assertEquals('<a>testo</a>', $this->_message->getHtmlBody());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setHtmlBody('<img src="cid:image">'));
+        $this->assertEquals('<img src="cid:image">', $this->_message->getHtmlBody());
 	}
 	
 	public function testMessageAttach()
