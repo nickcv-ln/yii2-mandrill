@@ -1,7 +1,7 @@
 <?php
 /**
  * Contains the Mailer class.
- * 
+ *
  * @link http://www.creationgears.com/
  * @copyright Copyright (c) 2014 Nicola Puddu
  * @license http://www.gnu.org/copyleft/gpl.html
@@ -52,7 +52,7 @@ class Mailer extends BaseMailer
      * @var string message default class name.
      */
     public $messageClass = 'nickcv\mandrill\Message';
-	
+
     /**
      * @var Mandrill the Mandrill instance
      */
@@ -60,7 +60,7 @@ class Mailer extends BaseMailer
 
     /**
      * Checks that the API key has indeed been set.
-     * 
+     *
      * @inheritdoc
      */
     public function init()
@@ -79,7 +79,7 @@ class Mailer extends BaseMailer
 
     /**
      * Sets the API key for Mandrill
-     * 
+     *
      * @param string $apikey the Mandrill API key
      * @throws InvalidConfigException
      */
@@ -100,14 +100,15 @@ class Mailer extends BaseMailer
     /**
      * Composes the message using a Mandrill template if the useMandrillTemplates
      * settings is true.
-     * 
+     *
      * If mandrill templates are not being used or if no template with the given
      * name has been found it will fallback to the normal compose method.
-     * 
+     *
      * @inheritdoc
      * @since 1.2.0
      */
-    public function compose($view = null, array $params = []) {
+    public function compose($view = null, array $params = [])
+    {
         if ($this->useMandrillTemplates) {
             $message = parent::compose();
             $message->setTemplateData($view, $params);
@@ -119,7 +120,7 @@ class Mailer extends BaseMailer
 
     /**
      * Sends the specified message.
-     * 
+     *
      * @param Message $message the message to be sent
      * @return boolean whether the message is sent successfully
      */
@@ -153,7 +154,7 @@ class Mailer extends BaseMailer
 
     /**
      * parse the mandrill response and returns false if any message was either invalid or rejected
-     * 
+     *
      * @param array $mandrillResponse
      * @return boolean
      */
@@ -184,5 +185,4 @@ class Mailer extends BaseMailer
 
         return $return;
     }
-
 }
