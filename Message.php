@@ -163,6 +163,35 @@ class Message extends BaseMessage
     private $_finfo;
 
     /**
+     * In async mode, messages/send will immediately return a status of
+     * "queued" for every recipient.
+     *
+     * Mandrill defaults this value to false for messages with no more than
+     * 10 recipients; messages with more than 10 recipients are always sent
+     * asynchronously, regardless of the value of async.
+     *
+     * @var boolean
+     * @since 1.3.0
+     */
+    private $_async = false;
+
+    /**
+     * The name of the template inside mandrill.
+     *
+     * @var string
+     * @since 1.3.0
+     */
+    private $_templateName;
+
+    /**
+     * The values that will be used to replace the placeholders inside the template.
+     *
+     * @var array
+     * @since 1.3.0
+     */
+    private $_templateContent;
+
+    /**
      * Mandrill does not let users set a charset.
      * 
      * @see \nickcv\mandrill\Message::setCharset() setter
@@ -235,6 +264,43 @@ class Message extends BaseMessage
 
         return $this;
     }
+
+	/**
+	 * Tells whether or not the message will be sent asynchronously.
+	 *
+	 * @return boolean
+	 * @since 1.3.0
+	 */
+	public function isAsync()
+	{
+		return $this->_async;
+	}
+
+	/**
+	 * Enables async sending for this message.
+	 *
+	 * @return \nickcv\mandrill\Message
+	 * @since 1.3.0
+	 */
+	public function enableAsync()
+	{
+		$this->_async = true;
+
+		return $this;
+	}
+
+	/**
+	 * Disables async sending the this message.
+	 *
+	 * @return \nickcv\mandrill\Message
+	 * @since 1.3.0
+	 */
+	public function disableAsync()
+	{
+		$this->_async = false;
+
+		return $this;
+	}
 
     /**
      * Returns the from email address in this format:
@@ -692,6 +758,46 @@ class Message extends BaseMessage
     }
 
     /**
+     * Sets the data to be used by the Mandrill template system.
+     *
+     * @param string $templateName
+     * @param array $templateContent
+     *
+     * @return \nickcv\mandrill\Message
+     *
+     * @since 1.3.0
+     */
+    public function setTemplateData($templateName, array $templateContent = [])
+    {
+        $this->_templateName = $templateName;
+        $this->_templateContent = $this->convertParamsForTemplate($templateContent);
+
+        return $this;
+    }
+
+    /**
+     * Returns the name of the mandrill template to be used.
+     *
+     * @return string
+     * @since 1.3.0
+     */
+    public function getTemplateName()
+    {
+        return $this->_templateName;
+    }
+
+    /**
+     * Returns the dynamic content used to replace blocks in the template.
+     *
+     * @return array
+     * @since 1.3.0
+     */
+    public function getTemplateContent()
+    {
+        return $this->_templateContent;
+    }
+
+    /**
      * Returns the string representation of this message.
      * 
      * @return string
@@ -914,6 +1020,21 @@ class Message extends BaseMessage
             'name' => is_string($key) ? $value : null,
             'type' => $type,
         ];
+    }
+
+    /**
+     * Converts the parameters in the format used by Mandrill to render templates.
+     *
+     * @param array $params
+     * @return array
+     * @since 1.3.0
+     */
+    private function convertParamsForTemplate($params) {
+        $merge = [];
+        foreach ($params as $key => $value) {
+            $merge[] = ['name' => $key, 'content' => $value];
+        }
+        return $merge;
     }
 
 }

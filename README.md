@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2  
-Version 1.2.0
+Version 1.3.0
 
 Installation
 ------------
@@ -89,9 +89,9 @@ You can use Mandrill's own template system if you want to, just set up as true t
 ```
 
 If you do turn this feature on the component will look for a template within mandrill named after the view argument of the compose method.
-If no view is found the component will then look for the view file inside the mail directory.
 
-If neither is found an exception will be thrown as standard behavior.
+Since **version 1.3.0** the component will stop falling back to rendering the internal views.
+This change has been made because now the mandrill send-template method will be used, avoiding to make two API calls when templates are enabled.
 
 
 Additional Methods
@@ -103,6 +103,17 @@ Mandrill lets you set up tags. The method ```\nickcv\mandrill\Message::setTags($
 \Yii::$app->mailer
     ->compose('mailViewName', ['model' => $model])
     ->setTags(['registration']);
+```
+
+Since **version 1.3.0** it's also possible to enable the async mode.
+When using async mode mandrill will queue the messages and send em in batches.
+If you send a message to more than 10 email addresses async mode will be used
+automatically.
+
+```
+\Yii::$app->mailer
+    ->compose('mailViewName', ['model' => $model])
+    ->enableAsync();
 ```
 
 For more informations check the component documentation.

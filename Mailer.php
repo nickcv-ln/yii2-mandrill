@@ -52,7 +52,7 @@ class Mailer extends BaseMailer
      * @var string message default class name.
      */
     public $messageClass = 'nickcv\mandrill\Message';
-
+	
     /**
      * @var Mandrill the Mandrill instance
      */
@@ -109,17 +109,11 @@ class Mailer extends BaseMailer
      */
     public function compose($view = null, array $params = []) {
         if ($this->useMandrillTemplates) {
-            try {
-                $message = parent::compose();
-                $rendered = $this->_mandrill->templates->render($view, [], $this->getMergeParamsForMandrillTemplate($params));
-                $message->setHtmlBody($rendered['html']);
-                return $message;
-            } catch (Mandrill_Error $e) {
-                \Yii::info('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
-            }
+            $message = parent::compose();
+            $message->setTemplateData($view, $params);
+            return $message;
         }
-        
-        // fall back to rendering views
+
         return parent::compose($view, $params);
     }
 
@@ -131,11 +125,26 @@ class Mailer extends BaseMailer
      */
     protected function sendMessage($message)
     {
-        $address = $address = implode(', ', $message->getTo());
-        \Yii::info('Sending email "' . $message->getSubject() . '" to "' . $address . '"', self::LOG_CATEGORY);
+        \Yii::info('Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"', self::LOG_CATEGORY);
 
         try {
-            return $this->wasMessageSentSuccesfully($this->_mandrill->messages->send($message->getMandrillMessageArray()));
+            if ($this->useMandrillTemplates) {
+                return $this->wasMessageSentSuccesfully(
+                    $this->_mandrill->messages->sendTemplate(
+                        $message->getTemplateName(),
+                        $message->getTemplateContent(),
+                        $message->getMandrillMessageArray(),
+                        $message->isAsync()
+                    )
+                );
+            } else {
+                return $this->wasMessageSentSuccesfully(
+                    $this->_mandrill->messages->send(
+                        $message->getMandrillMessageArray(),
+                        $message->isAsync()
+                    )
+                );
+            }
         } catch (Mandrill_Error $e) {
             \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
             return false;
@@ -174,21 +183,6 @@ class Mailer extends BaseMailer
         }
 
         return $return;
-    }
-    
-    /**
-     * Converts the parameters in the format used by Mandrill to render templates.
-     * 
-     * @param array $params
-     * @return array
-     * @since 1.2.0
-     */
-    private function getMergeParamsForMandrillTemplate($params) {
-        $merge = [];
-        foreach ($params as $key => $value) {
-            $merge[] = ['name' => $key, 'content' => $value];
-        }
-        return $merge;
     }
 
 }

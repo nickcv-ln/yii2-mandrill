@@ -71,21 +71,23 @@ class MandrillTest extends \Codeception\TestCase\Test
 		$this->assertTrue($result);
     }
     
-    public function testCannotSendIfMandrillTemplateAndViewNotFound()
+    public function testCannotSendIfMandrillTemplateNotFound()
     {
         $directory = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'mail' . DIRECTORY_SEPARATOR;
-        $this->setExpectedException('yii\base\InvalidParamException', 'The view file does not exist: '.$directory.'madeupTemplate.php');
         
         $mandrill = new \nickcv\mandrill\Mailer([
             'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
             'useMandrillTemplates' => true,
         ]);
-		$mandrill->compose('madeupTemplate', ['WORD' => 'my word'])
+
+        $result = $mandrill->compose('madeupTemplate', ['WORD' => 'my word'])
             ->setTo('test@example.com')
             ->setSubject('test template email')
             ->embed($this->getTestImagePath())
             ->attach($this->getTestPdfPath())
             ->send();
+
+        $this->assertFalse($result);
     }
 	
 	/**

@@ -4,19 +4,19 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="language" content="en" />
-        <link href="./assets/21e8f65d/css/bootstrap.css" rel="stylesheet">
-<link href="./assets/1cf36a4d/style.css" rel="stylesheet">
-<script src="./assets/5f6e0fbd/jquery.js"></script>
-<script src="./assets/21e8f65d/js/bootstrap.js"></script>
-<script src="./assets/47445b4d/jssearch.js"></script>    <title>Message, nickcv\mandrill\Message - Yii Framework 2.0 API Documentation</title>
+        <link href="./assets/a8dd1a9b/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/2ad63a1e/style.css" rel="stylesheet">
+<script src="./assets/97b00d5d/jquery.js"></script>
+<script src="./assets/a8dd1a9b/js/bootstrap.js"></script>
+<script src="./assets/d63c799d/jssearch.js"></script>    <title>Message, nickcv\mandrill\Message - Yii Framework 2.0 API Documentation</title>
 </head>
 <body>
 
 <div class="wrap">
-    <nav id="w4" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w4-collapse"><span class="sr-only">Toggle navigation</span>
+    <nav id="w1" class="navbar-inverse navbar-fixed-top navbar" role="navigation"><div class="navbar-header"><button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w1-collapse"><span class="sr-only">Toggle navigation</span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
-<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w4-collapse" class="collapse navbar-collapse"><ul id="w5" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li></ul><div class="navbar-form navbar-left" role="search">
+<span class="icon-bar"></span></button><a class="navbar-brand" href="./index.html">Yii Framework 2.0 API Documentation</a></div><div id="w1-collapse" class="collapse navbar-collapse"><ul id="w2" class="navbar-nav nav"><li><a href="./index.html">Class reference</a></li></ul><div class="navbar-form navbar-left" role="search">
   <div class="form-group">
     <input id="searchbox" type="text" class="form-control" placeholder="Search">
   </div>
@@ -30,7 +30,7 @@
     
 <div class="row">
     <div class="col-md-3">
-                <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-3" data-toggle="collapse" data-parent="#navigation">nickcv\mandrill <b class="caret"></b></a><div id="navigation-3" class="submenu panel-collapse collapse in"><a class="list-group-item" href="./nickcv-mandrill-mailer.html">Mailer</a>
+                <div id="navigation" class="list-group"><a class="list-group-item active" href="#navigation-0" data-toggle="collapse" data-parent="#navigation">nickcv\mandrill <b class="caret"></b></a><div id="navigation-0" class="submenu panel-collapse collapse in"><a class="list-group-item" href="./nickcv-mandrill-mailer.html">Mailer</a>
 <a class="list-group-item active" href="./nickcv-mandrill-message.html">Message</a></div></div>    </div>
     <div class="col-md-9 api-content" role="main">
         <h1>Class nickcv\mandrill\Message</h1>
@@ -82,6 +82,11 @@ will be sent through Mandrill API.</strong></p>
         <td>Attach specified content as file for the email message.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
+            <tr id="disableAsync()">
+        <td><a href="nickcv-mandrill-message.html#disableAsync()-detail">disableAsync()</a></td>
+        <td>Disables async sending the this message.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
             <tr id="embed()">
         <td><a href="nickcv-mandrill-message.html#embed()-detail">embed()</a></td>
         <td>Embeds an image in the email message.</td>
@@ -90,6 +95,11 @@ will be sent through Mandrill API.</strong></p>
             <tr id="embedContent()">
         <td><a href="nickcv-mandrill-message.html#embedContent()-detail">embedContent()</a></td>
         <td>Embed a binary as an image in the message.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="enableAsync()">
+        <td><a href="nickcv-mandrill-message.html#enableAsync()-detail">enableAsync()</a></td>
+        <td>Enables async sending for this message.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
             <tr id="getAttachments()">
@@ -148,6 +158,16 @@ and submit it.</td>
         <td>Returns the list of tags you already set for this message.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
+            <tr id="getTemplateContent()">
+        <td><a href="nickcv-mandrill-message.html#getTemplateContent()-detail">getTemplateContent()</a></td>
+        <td>Returns the dynamic content used to replace blocks in the template.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="getTemplateName()">
+        <td><a href="nickcv-mandrill-message.html#getTemplateName()-detail">getTemplateName()</a></td>
+        <td>Returns the name of the mandrill template to be used.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
             <tr id="getTextBody()">
         <td><a href="nickcv-mandrill-message.html#getTextBody()-detail">getTextBody()</a></td>
         <td>Returns the html-purified version of the raw text body.</td>
@@ -156,6 +176,11 @@ and submit it.</td>
             <tr id="getTo()">
         <td><a href="nickcv-mandrill-message.html#getTo()-detail">getTo()</a></td>
         <td>Returns an array of email addresses in the following format:</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="isAsync()">
+        <td><a href="nickcv-mandrill-message.html#isAsync()-detail">isAsync()</a></td>
+        <td>Tells whether or not the message will be sent asynchronously.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
             <tr id="setBcc()">
@@ -198,6 +223,11 @@ and submit it.</td>
         <td>Mandrill lets you use tags to categorize your messages, making it much
 easier to find the messages your are looking for within their website
 dashboard.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="setTemplateData()">
+        <td><a href="nickcv-mandrill-message.html#setTemplateData()-detail">setTemplateData()</a></td>
+        <td>Sets the data to be used by the Mandrill template system.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
             <tr id="setTextBody()">
@@ -302,6 +332,29 @@ dashboard.</td>
 
 <!--	-->
 
+    <div class="detail-header h3" id="disableAsync()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#disableAsync()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        disableAsync()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Disables async sending the this message.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#disableAsync()-detail">disableAsync</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
     <div class="detail-header h3" id="embed()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="nickcv-mandrill-message.html#embed()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -375,6 +428,29 @@ dashboard.</td>
 </td>
                 </tr>
                                                 </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="enableAsync()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#enableAsync()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        enableAsync()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Enables async sending for this message.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#enableAsync()-detail">enableAsync</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
 
 <!--	-->
 
@@ -654,6 +730,52 @@ and submit it.</strong></p>
 
 <!--	-->
 
+    <div class="detail-header h3" id="getTemplateContent()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#getTemplateContent()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getTemplateContent()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Returns the dynamic content used to replace blocks in the template.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getTemplateContent()-detail">getTemplateContent</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getTemplateName()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#getTemplateName()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getTemplateName()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Returns the name of the mandrill template to be used.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.string">string</a> <strong><a href="nickcv-mandrill-message.html#getTemplateName()-detail">getTemplateName</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
     <div class="detail-header h3" id="getTextBody()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="nickcv-mandrill-message.html#getTextBody()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -699,6 +821,29 @@ and submit it.</strong></p>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getTo()-detail">getTo</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="isAsync()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#isAsync()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        isAsync()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Tells whether or not the message will be sent asynchronously.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.boolean">boolean</a> <strong><a href="nickcv-mandrill-message.html#isAsync()-detail">isAsync</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
             </table>
 
 <!--	-->
@@ -949,6 +1094,39 @@ will be ignored.</p>
 
 <!--	-->
 
+    <div class="detail-header h3" id="setTemplateData()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#setTemplateData()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        setTemplateData()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.3.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Sets the data to be used by the Mandrill template system.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setTemplateData()-detail">setTemplateData</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$templateName</span><span style="color: #007700">,&nbsp;array&nbsp;</span><span style="color: #0000BB">$templateContent&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$templateName</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.string">string</a></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                            <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$templateContent</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.array">array</a></td>
+                  <td class="param-desc-col"></td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
     <div class="detail-header h3" id="setTextBody()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="nickcv-mandrill-message.html#setTextBody()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -1068,7 +1246,7 @@ You may also specify receiver name in addition to email address using format:
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Tue, 03 Mar 2015 15:05:18 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Tue, 21 Apr 2015 10:29:41 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script type="text/javascript">jQuery(document).ready(function () {

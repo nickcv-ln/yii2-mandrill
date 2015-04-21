@@ -49,6 +49,31 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 		$this->assertContains('tag2', $tags);
 		$this->assertContains('tag3', $tags);
 	}
+
+    public function testChangeMessageAsyncMode()
+    {
+        $this->assertFalse($this->_message->isAsync());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->enableAsync());
+        $this->assertTrue($this->_message->isAsync());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->disableAsync());
+        $this->assertFalse($this->_message->isAsync());
+    }
+
+    public function testSetTemplateData()
+    {
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTemplateData('viewName', [
+			'money' => 300,
+		]));
+
+		$this->assertEquals('viewName', $this->_message->getTemplateName());
+
+		$this->assertEquals([
+			[
+				'name' => 'money',
+				'content' => 300,
+			]
+		], $this->_message->getTemplateContent());
+    }
 	
 	public function testMessageSetRecipient()
 	{
