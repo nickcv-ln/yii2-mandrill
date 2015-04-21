@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2  
-Version 1.3.0
+Version 1.3.0 [![Build Status](//api.travis-ci.org/nickcv-ln/yii2-mandrill.png)](//travis-ci.org/nickcv-ln/yii2-mandrill)
 
 Installation
 ------------
