@@ -11,9 +11,18 @@ defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 defined('YII_ENV') or define('YII_ENV', 'test');
 
-require_once(__DIR__ . '/../../../autoload.php');
+$vendorDir = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
 
-require_once(__DIR__ . '/../../../yiisoft/yii2/Yii.php');
+if (!file_exists($vendorDir)) {
+	$vendorDir = dirname(dirname(dirname(dirname($vendorDir)))) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR;
+	if (!file_exists($vendorDir)) {
+		throw new Exception('vendor directory not found.');
+	}
+}
+
+require_once($vendorDir . 'autoload.php');
+
+require_once($vendorDir . 'yiisoft/yii2/Yii.php');
 
 // set correct script paths
 $_SERVER['SCRIPT_FILENAME'] = TEST_ENTRY_FILE;
