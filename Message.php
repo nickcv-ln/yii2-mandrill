@@ -192,6 +192,24 @@ class Message extends BaseMessage
     private $_templateContent;
 
     /**
+     * Value use to decide whether the message should calculate default values
+     * for the sender based on the application settings or return nulls to use
+     * mandrill template defaults.
+     *
+     * @var boolean
+     * @since 1.4.0
+     */
+    private $_ = false;
+
+    /**
+     * Global merge vars used when sending the message to mandrill.
+     *
+     * @var array
+     * @since 1.4.0
+     */
+    private $_globalMergeVars = [];
+
+    /**
      * Mandrill does not let users set a charset.
      *
      * @see \nickcv\mandrill\Message::setCharset() setter
@@ -220,7 +238,6 @@ class Message extends BaseMessage
      * Returns the list of tags you already set for this message.
      *
      * @see \nickcv\mandrill\Message::setTags() setter
-     * @see \nickcv\mandrill\Message::$_tags private attribute
      *
      * @return array the list of tags
      */
@@ -243,7 +260,6 @@ class Message extends BaseMessage
      * Some common tags include *registration* and *password reset*.
      *
      * @see \nickcv\mandrill\Message::getTags() getter
-     * @see \nickcv\mandrill\Message::$_tags private attribute
      *
      * @param string|array $tag tag or list of tags
      * @return \nickcv\mandrill\Message
@@ -316,22 +332,28 @@ class Message extends BaseMessage
      * inside `config/params.php`.
      *
      * @see \nickcv\mandrill\Message::setFrom() setter
-     * @see \nickcv\mandrill\Message::$_fromName name private attribute
-     * @see \nickcv\mandrill\Message::$_fromAddress address private attribute
      *
      * @return string
      */
     public function getFrom()
     {
-        return $this->getFromName() . '<' . $this->getFromAddress() . '>';
+        $from = null;
+
+        if ($this->getFromName()) {
+            $from .= $this->getFromName();
+        }
+
+        if ($this->getFromAddress()) {
+            $from .= $from === null ? $this->getFromAddress() : '<' . $this->getFromAddress() . '>';
+        }
+
+        return $from;
     }
 
     /**
      * Sets the message sender.
      *
      * @see \nickcv\mandrill\Message::getFrom() getter
-     * @see \nickcv\mandrill\Message::$_fromName name private attribute
-     * @see \nickcv\mandrill\Message::$_fromAddress address private attribute
      *
      * @param string|array $from sender email address.
      * You may specify sender name in addition to email address using format:
@@ -377,7 +399,6 @@ class Message extends BaseMessage
      * ~~~
      *
      * @see \nickcv\mandrill\Message::setTo() setter
-     * @see \nickcv\mandrill\Message::$_to private attribute
      *
      * @return array
      */
@@ -390,7 +411,6 @@ class Message extends BaseMessage
      * Sets the message recipient(s).
      *
      * @see \nickcv\mandrill\Message::getTo() getter
-     * @see \nickcv\mandrill\Message::$_to private attribute
      *
      * @param string|array $to receiver email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
@@ -416,7 +436,6 @@ class Message extends BaseMessage
      * ~~~
      *
      * @see \nickcv\mandrill\Message::setReplyTo() setter
-     * @see \nickcv\mandrill\Message::$_replyTo private attribute
      *
      * @return array
      */
@@ -429,7 +448,6 @@ class Message extends BaseMessage
      * Sets the message recipient(s).
      *
      * @see \nickcv\mandrill\Message::getReplyTo() getter
-     * @see \nickcv\mandrill\Message::$_replyTo private attribute
      *
      * @param string|array $replyTo Reply-To email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
@@ -455,7 +473,6 @@ class Message extends BaseMessage
      * ~~~
      *
      * @see \nickcv\mandrill\Message::setCc() setter
-     * @see \nickcv\mandrill\Message::$_cc private attribute
      *
      * @return array
      */
@@ -468,7 +485,6 @@ class Message extends BaseMessage
      * Sets the message recipient(s).
      *
      * @see \nickcv\mandrill\Message::getCc() getter
-     * @see \nickcv\mandrill\Message::$_cc private attribute
      *
      * @param string|array $cc cc email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
@@ -494,7 +510,6 @@ class Message extends BaseMessage
      * ~~~
      *
      * @see \nickcv\mandrill\Message::setBcc() setter
-     * @see \nickcv\mandrill\Message::$_bcc private attribute
      *
      * @return array
      */
@@ -507,7 +522,6 @@ class Message extends BaseMessage
      * Sets the message recipient(s).
      *
      * @see \nickcv\mandrill\Message::getBcc() getter
-     * @see \nickcv\mandrill\Message::$_bcc private attribute
      *
      * @param string|array $bcc bcc email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
@@ -526,7 +540,6 @@ class Message extends BaseMessage
      * Returns the html-encoded subject.
      *
      * @see \nickcv\mandrill\Message::setSubject() setter
-     * @see \nickcv\mandrill\Message::$_subject private attribute
      *
      * @return string
      */
@@ -539,7 +552,6 @@ class Message extends BaseMessage
      * Sets the message subject.
      *
      * @see \nickcv\mandrill\Message::getSubject() getter
-     * @see \nickcv\mandrill\Message::$_subject private attribute
      *
      * @param string $subject
      * The subject will be trimmed and html-encoded.
@@ -558,7 +570,6 @@ class Message extends BaseMessage
      * Returns the html-purified version of the raw text body.
      *
      * @see \nickcv\mandrill\Message::setTextBody() setter
-     * @see \nickcv\mandrill\Message::$_text private attribute
      *
      * @return string
      */
@@ -571,7 +582,6 @@ class Message extends BaseMessage
      * Sets the raw text body.
      *
      * @see \nickcv\mandrill\Message::getTextBody() getter
-     * @see \nickcv\mandrill\Message::$_text private attribute
      *
      * @param string $text
      * The text will be purified.
@@ -590,7 +600,6 @@ class Message extends BaseMessage
      * Returns the html purified version of the html body.
      *
      * @see \nickcv\mandrill\Message::setHtmlBody() setter
-     * @see \nickcv\mandrill\Message::$_html private attribute
      *
      * @return string
      */
@@ -603,7 +612,6 @@ class Message extends BaseMessage
      * Sets the html body.
      *
      * @see \nickcv\mandrill\Message::getHtmlBody() getter
-     * @see \nickcv\mandrill\Message::$_html private attribute
      *
      * @param string $html
      * The html will be purified.
@@ -623,7 +631,6 @@ class Message extends BaseMessage
      *
      * @see \nickcv\mandrill\Message::attach() setter for file name
      * @see \nickcv\mandrill\Message::attachContent() setter for binary
-     * @see \nickcv\mandrill\Message::$_attachments private attribute
      *
      * @return array
      */
@@ -636,7 +643,6 @@ class Message extends BaseMessage
      * Attaches existing file to the email message.
      *
      * @see \nickcv\mandrill\Message::getAttachments() getter
-     * @see \nickcv\mandrill\Message::$_attachments private attribute
      *
      * @param string $fileName full file name
      * @param array $options options for embed file. Valid options are:
@@ -663,7 +669,6 @@ class Message extends BaseMessage
      * Attach specified content as file for the email message.
      *
      * @see \nickcv\mandrill\Message::getAttachments() getter
-     * @see \nickcv\mandrill\Message::$_attachments private attribute
      *
      * @param string $content attachment file content.
      * @param array $options options for embed file. Valid options are:
@@ -690,7 +695,6 @@ class Message extends BaseMessage
     /**
      * Returns the images array.
      *
-     * @see \nickcv\mandrill\Message::$_images private attribute
      * @see \nickcv\mandrill\Message::embed() setter for file name
      * @see \nickcv\mandrill\Message::embedContent() setter for binary
      *
@@ -704,7 +708,6 @@ class Message extends BaseMessage
     /**
      * Embeds an image in the email message.
      *
-     * @see \nickcv\mandrill\Message::$_images private attribute
      * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
      *
      * @param string $fileName file name.
@@ -731,7 +734,6 @@ class Message extends BaseMessage
     /**
      * Embed a binary as an image in the message.
      *
-     * @see \nickcv\mandrill\Message::$_images private attribute
      * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
      *
      * @param string $content attachment file content.
@@ -764,7 +766,6 @@ class Message extends BaseMessage
      * @param array $templateContent
      *
      * @return \nickcv\mandrill\Message
-     *
      * @since 1.3.0
      */
     public function setTemplateData($templateName, array $templateContent = [])
@@ -795,6 +796,68 @@ class Message extends BaseMessage
     public function getTemplateContent()
     {
         return $this->_templateContent;
+    }
+
+    /**
+     * Enable the use of template defaults.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.4.0
+     */
+    public function enableTemplateDefaults()
+    {
+        $this->_ = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable the use of template defaults.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.4.0
+     */
+    public function disableTemplateDefaults()
+    {
+        $this->_ = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the global merge vars that will be submitted to mandrill.
+     *
+     * @return array
+     * @since 1.4.0
+     */
+    public function getGlobalMergeVars()
+    {
+        return $this->_globalMergeVars;
+    }
+
+    /**
+     * Adds the given merge vars to the global merge vars array.
+     * Merge vars are case insensitive and cannot start with _
+     *
+     * @param array $mergeVars
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.4.0
+     */
+    public function setGlobalMergeVars(array $mergeVars)
+    {
+        foreach ($mergeVars as $name => $content) {
+            if ($name{0} === '_') {
+                continue;
+            }
+
+            array_push($this->_globalMergeVars, [
+                'name' => $name,
+                'content' => $content
+            ]);
+        }
+
+        return $this;
     }
 
     /**
@@ -831,6 +894,7 @@ class Message extends BaseMessage
             'track_opens' => true,
             'track_clicks' => true,
             'tags' => $this->_tags,
+            'global_merge_vars' => $this->_globalMergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
         ];
@@ -968,6 +1032,10 @@ class Message extends BaseMessage
      */
     private function getFromName()
     {
+        if ($this->_) {
+            return $this->_fromName ? $this->_fromName : null;
+        }
+
         return $this->_fromName ? $this->_fromName : \Yii::$app->name;
     }
 
@@ -978,6 +1046,10 @@ class Message extends BaseMessage
      */
     private function getFromAddress()
     {
+        if ($this->_) {
+            return $this->_fromAddress ? $this->_fromAddress : null;
+        }
+
         return $this->_fromAddress ? $this->_fromAddress : \Yii::$app->params['adminEmail'];
     }
 

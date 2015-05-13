@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2  
-Version 1.3.0 [![Build Status](https://travis-ci.org/nickcv-ln/yii2-mandrill.svg)](https://travis-ci.org/nickcv-ln/yii2-mandrill)
+[![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![Build Status](https://travis-ci.org/nickcv-ln/yii2-mandrill.svg)](https://travis-ci.org/nickcv-ln/yii2-mandrill) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
 
 Installation
 ------------
@@ -93,6 +93,19 @@ If you do turn this feature on the component will look for a template within man
 Since **version 1.3.0** the component will stop falling back to rendering the internal views.
 This change has been made because now the mandrill send-template method will be used, avoiding to make two API calls when templates are enabled.
 
+Since **version 1.4.0** the component won't default to the application name and admin email when using mandrill templates. This has been done to allow the use of Mandrill defaults values for the template.
+
+To override this behavior you can set to false the ```useTemplateDefaults``` attribute in the component configuration
+
+```
+    'mailer' => [
+        'class' => 'nickcv\mandrill\Mailer',
+        'apikey' => 'YourApiKey',
+        'useMandrillTemplates' => true,
+        'useTemplateDefaults' => false,
+    ],
+```
+
 
 Additional Methods
 ------------------
@@ -115,6 +128,10 @@ automatically.
     ->compose('mailViewName', ['model' => $model])
     ->enableAsync();
 ```
+
+Since **version 1.4.0** it's also possible to use global merge vars.
+This variables will be use to replace placeholders by mandrill.
+This is especially useful when dealing with templates.
 
 For more informations check the component documentation.
 

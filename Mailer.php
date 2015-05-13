@@ -40,13 +40,21 @@ class Mailer extends BaseMailer
     private $_apikey;
     
     /**
-     * Whether the mailer should check for mandrill templates before looking for
-     * the view name.
+     * Whether the mailer should use mandrill templates instead of Yii views.
      *
-     * @var boolean use mandrill templates before looking for view files.
+     * @var boolean use mandrill templates instead of Yii views.
      * @since 1.2.0
      */
     public $useMandrillTemplates = false;
+
+    /**
+     * Whether the mailer should use the template defaults when using mandrill
+     * templates.
+     *
+     * @var boolean use mandrill template defaults.
+     * @since 1.4.0
+     */
+    public $useTemplateDefaults = true;
 
     /**
      * @var string message default class name.
@@ -112,6 +120,9 @@ class Mailer extends BaseMailer
         if ($this->useMandrillTemplates) {
             $message = parent::compose();
             $message->setTemplateData($view, $params);
+            if ($this->useTemplateDefaults) {
+                $message->enableTemplateDefaults();
+            }
             return $message;
         }
 

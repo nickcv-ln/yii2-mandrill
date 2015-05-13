@@ -4,11 +4,11 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="language" content="en" />
-        <link href="./assets/a8dd1a9b/css/bootstrap.css" rel="stylesheet">
-<link href="./assets/2ad63a1e/style.css" rel="stylesheet">
-<script src="./assets/97b00d5d/jquery.js"></script>
-<script src="./assets/a8dd1a9b/js/bootstrap.js"></script>
-<script src="./assets/d63c799d/jssearch.js"></script>    <title>Message, nickcv\mandrill\Message - Yii Framework 2.0 API Documentation</title>
+        <link href="./assets/ff6cd317/css/bootstrap.css" rel="stylesheet">
+<link href="./assets/53a66b71/style.css" rel="stylesheet">
+<script src="./assets/e581094f/jquery.js"></script>
+<script src="./assets/ff6cd317/js/bootstrap.js"></script>
+<script src="./assets/57f09b3c/jssearch.js"></script>    <title>Message, nickcv\mandrill\Message - Yii Framework 2.0 API Documentation</title>
 </head>
 <body>
 
@@ -46,7 +46,7 @@
     </colgroup>
             <tr><th>Inheritance</th><td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> &raquo;
 yii\mail\BaseMessage</td></tr>
-                                </table>
+                                        </table>
 
 <div id="classDescription">
     <p><strong>Message is the class that is used to store the data of an email message that
@@ -87,6 +87,11 @@ will be sent through Mandrill API.</strong></p>
         <td>Disables async sending the this message.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
+            <tr id="disableTemplateDefaults()">
+        <td><a href="nickcv-mandrill-message.html#disableTemplateDefaults()-detail">disableTemplateDefaults()</a></td>
+        <td>Disable the use of template defaults.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
             <tr id="embed()">
         <td><a href="nickcv-mandrill-message.html#embed()-detail">embed()</a></td>
         <td>Embeds an image in the email message.</td>
@@ -100,6 +105,11 @@ will be sent through Mandrill API.</strong></p>
             <tr id="enableAsync()">
         <td><a href="nickcv-mandrill-message.html#enableAsync()-detail">enableAsync()</a></td>
         <td>Enables async sending for this message.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="enableTemplateDefaults()">
+        <td><a href="nickcv-mandrill-message.html#enableTemplateDefaults()-detail">enableTemplateDefaults()</a></td>
+        <td>Enable the use of template defaults.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
             <tr id="getAttachments()">
@@ -130,6 +140,11 @@ will be sent through Mandrill API.</strong></p>
             <tr id="getFrom()">
         <td><a href="nickcv-mandrill-message.html#getFrom()-detail">getFrom()</a></td>
         <td>Returns the from email address in this format:</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
+            <tr id="getGlobalMergeVars()">
+        <td><a href="nickcv-mandrill-message.html#getGlobalMergeVars()-detail">getGlobalMergeVars()</a></td>
+        <td>Returns the global merge vars that will be submitted to mandrill.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
             <tr id="getHtmlBody()">
@@ -203,6 +218,11 @@ and submit it.</td>
         <td>Sets the message sender.</td>
         <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
     </tr>
+            <tr id="setGlobalMergeVars()">
+        <td><a href="nickcv-mandrill-message.html#setGlobalMergeVars()-detail">setGlobalMergeVars()</a></td>
+        <td>Adds the given merge vars to the global merge vars array.</td>
+        <td><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a></td>
+    </tr>
             <tr id="setHtmlBody()">
         <td><a href="nickcv-mandrill-message.html#setHtmlBody()-detail">setHtmlBody()</a></td>
         <td>Sets the html body.</td>
@@ -270,7 +290,7 @@ dashboard.</td>
         <p><strong>Attaches existing file to the email message.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getAttachments()-detail">nickcv\mandrill\Message::getAttachments()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_attachments</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getAttachments()-detail">nickcv\mandrill\Message::getAttachments()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#attach()-detail">attach</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$fileName</span><span style="color: #007700">,&nbsp;array&nbsp;</span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
@@ -308,7 +328,7 @@ dashboard.</td>
         <p><strong>Attach specified content as file for the email message.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getAttachments()-detail">nickcv\mandrill\Message::getAttachments()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_attachments</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getAttachments()-detail">nickcv\mandrill\Message::getAttachments()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#attachContent()-detail">attachContent</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$content</span><span style="color: #007700">,&nbsp;array&nbsp;</span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
@@ -355,6 +375,29 @@ dashboard.</td>
 
 <!--	-->
 
+    <div class="detail-header h3" id="disableTemplateDefaults()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#disableTemplateDefaults()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        disableTemplateDefaults()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.4.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Disable the use of template defaults.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#disableTemplateDefaults()-detail">disableTemplateDefaults</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
     <div class="detail-header h3" id="embed()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="nickcv-mandrill-message.html#embed()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -369,7 +412,7 @@ dashboard.</td>
         <p><strong>Embeds an image in the email message.</strong></p>
 
         
-        <p>See also:</p><ul><li><span class="broken-link">nickcv\mandrill\Message::$_images</span> private attribute.</li><li><a href="nickcv-mandrill-message.html#getEmbeddedContent()-detail">nickcv\mandrill\Message::getEmbeddedContent()</a> getter.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getEmbeddedContent()-detail">nickcv\mandrill\Message::getEmbeddedContent()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#embed()-detail">embed</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$fileName</span><span style="color: #007700">,&nbsp;array&nbsp;</span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
@@ -407,7 +450,7 @@ dashboard.</td>
         <p><strong>Embed a binary as an image in the message.</strong></p>
 
         
-        <p>See also:</p><ul><li><span class="broken-link">nickcv\mandrill\Message::$_images</span> private attribute.</li><li><a href="nickcv-mandrill-message.html#getEmbeddedContent()-detail">nickcv\mandrill\Message::getEmbeddedContent()</a> getter.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getEmbeddedContent()-detail">nickcv\mandrill\Message::getEmbeddedContent()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#embedContent()-detail">embedContent</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$content</span><span style="color: #007700">,&nbsp;array&nbsp;</span><span style="color: #0000BB">$options&nbsp;</span><span style="color: #007700">=&nbsp;[]&nbsp;)</span></td></tr>
@@ -454,6 +497,29 @@ dashboard.</td>
 
 <!--	-->
 
+    <div class="detail-header h3" id="enableTemplateDefaults()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#enableTemplateDefaults()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        enableTemplateDefaults()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.4.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Enable the use of template defaults.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#enableTemplateDefaults()-detail">enableTemplateDefaults</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
     <div class="detail-header h3" id="getAttachments()-detail">
         <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
         <a class="tool-link hash" href="nickcv-mandrill-message.html#getAttachments()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
@@ -468,7 +534,7 @@ dashboard.</td>
         <p><strong>Returns the attachments array.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#attach()-detail">nickcv\mandrill\Message::attach()</a> setter for file name.</li><li><a href="nickcv-mandrill-message.html#attachContent()-detail">nickcv\mandrill\Message::attachContent()</a> setter for binary.</li><li><span class="broken-link">nickcv\mandrill\Message::$_attachments</span> private attribute.</li></ul>    </div>
+        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#attach()-detail">nickcv\mandrill\Message::attach()</a> setter for file name.</li><li><a href="nickcv-mandrill-message.html#attachContent()-detail">nickcv\mandrill\Message::attachContent()</a> setter for binary.</li></ul>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getAttachments()-detail">getAttachments</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -495,7 +561,7 @@ dashboard.</td>
 ]
 </code></pre>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setBcc()-detail">nickcv\mandrill\Message::setBcc()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_bcc</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setBcc()-detail">nickcv\mandrill\Message::setBcc()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getBcc()-detail">getBcc</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -522,7 +588,7 @@ dashboard.</td>
 ]
 </code></pre>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setCc()-detail">nickcv\mandrill\Message::setCc()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_cc</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setCc()-detail">nickcv\mandrill\Message::setCc()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getCc()-detail">getCc</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -566,7 +632,7 @@ dashboard.</td>
         <p><strong>Returns the images array.</strong></p>
 
         
-        <p>See also:</p><ul><li><span class="broken-link">nickcv\mandrill\Message::$_images</span> private attribute.</li><li><a href="nickcv-mandrill-message.html#embed()-detail">nickcv\mandrill\Message::embed()</a> setter for file name.</li><li><a href="nickcv-mandrill-message.html#embedContent()-detail">nickcv\mandrill\Message::embedContent()</a> setter for binary.</li></ul>    </div>
+        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#embed()-detail">nickcv\mandrill\Message::embed()</a> setter for file name.</li><li><a href="nickcv-mandrill-message.html#embedContent()-detail">nickcv\mandrill\Message::embedContent()</a> setter for binary.</li></ul>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getEmbeddedContent()-detail">getEmbeddedContent</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -600,10 +666,33 @@ configuration parameter inside <code>config/web.php</code>.</p>
 <p>The default value for the sender address is the adminEmail parameter
 inside <code>config/params.php</code>.</p>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setFrom()-detail">nickcv\mandrill\Message::setFrom()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_fromName</span> name private attribute.</li><li><span class="broken-link">nickcv\mandrill\Message::$_fromAddress</span> address private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setFrom()-detail">nickcv\mandrill\Message::setFrom()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.string">string</a> <strong><a href="nickcv-mandrill-message.html#getFrom()-detail">getFrom</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
+            </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="getGlobalMergeVars()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#getGlobalMergeVars()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        getGlobalMergeVars()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.4.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Returns the global merge vars that will be submitted to mandrill.</strong></p>
+
+        
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getGlobalMergeVars()-detail">getGlobalMergeVars</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
             </table>
 
 <!--	-->
@@ -622,7 +711,7 @@ inside <code>config/params.php</code>.</p>
         <p><strong>Returns the html purified version of the html body.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setHtmlBody()-detail">nickcv\mandrill\Message::setHtmlBody()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_html</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setHtmlBody()-detail">nickcv\mandrill\Message::setHtmlBody()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.string">string</a> <strong><a href="nickcv-mandrill-message.html#getHtmlBody()-detail">getHtmlBody</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -672,7 +761,7 @@ and submit it.</strong></p>
 ]
 </code></pre>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setReplyTo()-detail">nickcv\mandrill\Message::setReplyTo()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_replyTo</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setReplyTo()-detail">nickcv\mandrill\Message::setReplyTo()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getReplyTo()-detail">getReplyTo</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -694,7 +783,7 @@ and submit it.</strong></p>
         <p><strong>Returns the html-encoded subject.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setSubject()-detail">nickcv\mandrill\Message::setSubject()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_subject</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setSubject()-detail">nickcv\mandrill\Message::setSubject()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.string">string</a> <strong><a href="nickcv-mandrill-message.html#getSubject()-detail">getSubject</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -716,7 +805,7 @@ and submit it.</strong></p>
         <p><strong>Returns the list of tags you already set for this message.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setTags()-detail">nickcv\mandrill\Message::setTags()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_tags</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setTags()-detail">nickcv\mandrill\Message::setTags()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getTags()-detail">getTags</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -790,7 +879,7 @@ and submit it.</strong></p>
         <p><strong>Returns the html-purified version of the raw text body.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setTextBody()-detail">nickcv\mandrill\Message::setTextBody()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_text</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setTextBody()-detail">nickcv\mandrill\Message::setTextBody()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.string">string</a> <strong><a href="nickcv-mandrill-message.html#getTextBody()-detail">getTextBody</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -817,7 +906,7 @@ and submit it.</strong></p>
 ]
 </code></pre>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#setTo()-detail">nickcv\mandrill\Message::setTo()</a> setter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_to</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#setTo()-detail">nickcv\mandrill\Message::setTo()</a> setter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="http://www.php.net/language.types.array">array</a> <strong><a href="nickcv-mandrill-message.html#getTo()-detail">getTo</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;)</span></td></tr>
@@ -862,7 +951,7 @@ and submit it.</strong></p>
         <p><strong>Sets the message recipient(s).</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getBcc()-detail">nickcv\mandrill\Message::getBcc()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_bcc</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getBcc()-detail">nickcv\mandrill\Message::getBcc()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setBcc()-detail">setBcc</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$bcc&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -893,7 +982,7 @@ You may also specify receiver name in addition to email address using format:
         <p><strong>Sets the message recipient(s).</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getCc()-detail">nickcv\mandrill\Message::getCc()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_cc</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getCc()-detail">nickcv\mandrill\Message::getCc()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setCc()-detail">setCc</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$cc&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -952,7 +1041,7 @@ You may also specify receiver name in addition to email address using format:
         <p><strong>Sets the message sender.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getFrom()-detail">nickcv\mandrill\Message::getFrom()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_fromName</span> name private attribute.</li><li><span class="broken-link">nickcv\mandrill\Message::$_fromAddress</span> address private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getFrom()-detail">nickcv\mandrill\Message::getFrom()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setFrom()-detail">setFrom</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$from&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -966,6 +1055,35 @@ If you don't set this parameter the application adminEmail parameter will
 be used as the sender email address and the application name will be used
 as the sender name.</p>
 </td>
+                </tr>
+                                                </table>
+
+<!--	-->
+
+    <div class="detail-header h3" id="setGlobalMergeVars()-detail">
+        <a href="#" class="tool-link" title="go to top"><span class="glyphicon glyphicon-arrow-up"></span></a>
+        <a class="tool-link hash" href="nickcv-mandrill-message.html#setGlobalMergeVars()-detail" title="direct link to this method"><span class="glyphicon icon-hash"></span></a>
+        
+        setGlobalMergeVars()
+        <span class="detail-header-tag small">
+            public            method
+                            (available since version 1.4.0)
+                    </span>
+    </div>
+
+    <div class="doc-description">
+        <p><strong>Adds the given merge vars to the global merge vars array.</strong></p>
+
+        <p>Merge vars are case insensitive and cannot start with _</p>
+
+            </div>
+
+    <table class="detail-table table table-striped table-bordered table-hover">
+        <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setGlobalMergeVars()-detail">setGlobalMergeVars</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;array&nbsp;</span><span style="color: #0000BB">$mergeVars&nbsp;</span><span style="color: #007700">)</span></td></tr>
+                                    <tr>
+                  <td class="param-name-col"><span style="color: #0000BB">$mergeVars</span></td>
+                  <td class="param-type-col"><a href="http://www.php.net/language.types.array">array</a></td>
+                  <td class="param-desc-col"></td>
                 </tr>
                                                 </table>
 
@@ -985,7 +1103,7 @@ as the sender name.</p>
         <p><strong>Sets the html body.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getHtmlBody()-detail">nickcv\mandrill\Message::getHtmlBody()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_html</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getHtmlBody()-detail">nickcv\mandrill\Message::getHtmlBody()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setHtmlBody()-detail">setHtmlBody</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$html&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1013,7 +1131,7 @@ as the sender name.</p>
         <p><strong>Sets the message recipient(s).</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getReplyTo()-detail">nickcv\mandrill\Message::getReplyTo()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_replyTo</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getReplyTo()-detail">nickcv\mandrill\Message::getReplyTo()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setReplyTo()-detail">setReplyTo</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$replyTo&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1044,7 +1162,7 @@ You may also specify receiver name in addition to email address using format:
         <p><strong>Sets the message subject.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getSubject()-detail">nickcv\mandrill\Message::getSubject()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_subject</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getSubject()-detail">nickcv\mandrill\Message::getSubject()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setSubject()-detail">setSubject</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$subject&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1080,7 +1198,7 @@ Any tags starting with an underscore are reserved for internal use and
 will be ignored.</p>
 <p>Some common tags include <em>registration</em> and <em>password reset</em>.</p>
 
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getTags()-detail">nickcv\mandrill\Message::getTags()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_tags</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getTags()-detail">nickcv\mandrill\Message::getTags()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setTags()-detail">setTags</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$tag&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1141,7 +1259,7 @@ will be ignored.</p>
         <p><strong>Sets the raw text body.</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getTextBody()-detail">nickcv\mandrill\Message::getTextBody()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_text</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getTextBody()-detail">nickcv\mandrill\Message::getTextBody()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setTextBody()-detail">setTextBody</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$text&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1169,7 +1287,7 @@ will be ignored.</p>
         <p><strong>Sets the message recipient(s).</strong></p>
 
         
-        <p>See also:</p><ul><li><a href="nickcv-mandrill-message.html#getTo()-detail">nickcv\mandrill\Message::getTo()</a> getter.</li><li><span class="broken-link">nickcv\mandrill\Message::$_to</span> private attribute.</li></ul>    </div>
+        <p>See also <a href="nickcv-mandrill-message.html#getTo()-detail">nickcv\mandrill\Message::getTo()</a> getter.</p>    </div>
 
     <table class="detail-table table table-striped table-bordered table-hover">
         <tr><td colspan="3" class="signature"><a href="nickcv-mandrill-message.html">nickcv\mandrill\Message</a> <strong><a href="nickcv-mandrill-message.html#setTo()-detail">setTo</a></strong><span style="color: #0000BB"></span><span style="color: #007700">(&nbsp;</span><span style="color: #0000BB">$to&nbsp;</span><span style="color: #007700">)</span></td></tr>
@@ -1246,7 +1364,7 @@ You may also specify receiver name in addition to email address using format:
 </div>
 
 <footer class="footer">
-        <p class="pull-right"><small>Page generated on Tue, 21 Apr 2015 10:29:41 +0000</small></p>
+        <p class="pull-right"><small>Page generated on Wed, 13 May 2015 15:40:36 +0000</small></p>
     Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a></footer>
 
 <script type="text/javascript">jQuery(document).ready(function () {
