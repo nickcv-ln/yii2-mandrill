@@ -106,6 +106,19 @@ To override this behavior you can set to false the ```useTemplateDefaults``` att
     ],
 ```
 
+Since **version 1.5.0** the component has a configurable property ```templateLanguage``` that can contain either 'mailchimp' or 'handlebars' ('mailchimp' is by default).
+
+You can change preferred language by editing ```templateLanguage``` attribute in the component configuration
+
+```
+    'mailer' => [
+        'class' => 'nickcv\mandrill\Mailer',
+        'apikey' => 'YourApiKey',
+        'useMandrillTemplates' => true,
+        'templateLanguage' => nickcv\mandrill\Mailer::LANGUAGE_HANDLEBARS,
+    ],
+```
+
 
 Additional Methods
 ------------------
