@@ -61,6 +61,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
     public function testSetTemplateData()
     {
+        // mailchimp
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTemplateData('viewName', [
             'money' => 300,
         ]));
@@ -73,6 +74,23 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
                 'content' => 300,
             ]
         ], $this->_message->getTemplateContent());
+
+        // handlebars
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTemplateData('viewName', [
+            'money' => 300,
+        ], \nickcv\mandrill\Message::LANGUAGE_HANDLEBARS));
+
+        $this->assertEquals('viewName', $this->_message->getTemplateName());
+
+        $this->assertEquals([
+            [
+                'name' => 'money',
+                'content' => 300,
+            ]
+        ], $this->_message->getGlobalMergeVars());
+
+        $this->assertEquals(\nickcv\mandrill\Message::LANGUAGE_HANDLEBARS,
+            $this->_message->getMandrillMessageArray()['merge_language']);
     }
 
     public function testMessageSetRecipient()

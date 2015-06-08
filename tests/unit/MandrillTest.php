@@ -33,7 +33,14 @@ class MandrillTest extends \Codeception\TestCase\Test
         $this->setExpectedException('yii\base\InvalidConfigException', '"nickcv\mandrill\Mailer::apikey" length should be greater than 0.');
         new \nickcv\mandrill\Mailer(['apikey'=>' ']);
     }
-    
+
+    public function testTemplateLanguageIsValid()
+    {
+        $this->setExpectedException('yii\base\InvalidConfigException', '"nickcv\mandrill\Mailer::::templateLanguage" has an invalid value.');
+
+        new \nickcv\mandrill\Mailer(['templateLanguage' => 'invalid']);
+    }
+
     public function testSetUseMandrillTemplates()
     {
         $mandrillWithoutTemplates = new \nickcv\mandrill\Mailer(['apikey'=>'testing']);
@@ -62,7 +69,7 @@ class MandrillTest extends \Codeception\TestCase\Test
 
         $this->assertTrue($result);
     }
-    
+
     public function testSendMessageUsingMandrillTemplate()
     {
         $mandrill = new \nickcv\mandrill\Mailer([
@@ -79,9 +86,26 @@ class MandrillTest extends \Codeception\TestCase\Test
 
         $this->assertTrue($result);
     }
-    
+
+    public function testSendMessageUsingMandrillTemplateHandlebars()
+    {
+        $mandrill = new \nickcv\mandrill\Mailer([
+            'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
+            'useMandrillTemplates' => true,
+        ]);
+        $result = $mandrill->compose('testTemplateHandlebars', ['variable' => 'test content'])
+            ->setTo('test@example.com')
+            ->setSubject('test template email')
+            ->embed($this->getTestImagePath())
+            ->attach($this->getTestPdfPath())
+            ->setGlobalMergeVars(['MERGEVAR' => 'prova'])
+            ->send();
+
+        $this->assertTrue($result);
+    }
+
     public function testCannotSendIfMandrillTemplateNotFound()
-    {   
+    {
         $mandrill = new \nickcv\mandrill\Mailer([
             'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
             'useMandrillTemplates' => true,
