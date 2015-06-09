@@ -26,6 +26,8 @@ use yii\helpers\FileHelper;
  */
 class Message extends BaseMessage
 {
+    const LANGUAGE_MAILCHIMP = 'mailchimp';
+    const LANGUAGE_HANDLEBARS = 'handlebars';
 
     /**
      * Contains the custom from address. If empty the adminEmail param of the
@@ -208,6 +210,15 @@ class Message extends BaseMessage
      * @since 1.4.0
      */
     private $_globalMergeVars = [];
+
+    /**
+     * What language will be used in the template
+     * Check @link http://handlebarsjs.com/ for more documentation about handlebars language
+     *
+     * @var string
+     * @since 1.5.0
+     */
+    private $_mergeLanguage = self::LANGUAGE_MAILCHIMP;
 
     /**
      * Mandrill does not let users set a charset.
@@ -764,14 +775,22 @@ class Message extends BaseMessage
      *
      * @param string $templateName
      * @param array $templateContent
+     * @param string $templateLanguage
      *
      * @return \nickcv\mandrill\Message
      * @since 1.3.0
      */
-    public function setTemplateData($templateName, array $templateContent = [])
+    public function setTemplateData($templateName, array $templateContent = [], $templateLanguage = self::LANGUAGE_MAILCHIMP)
     {
         $this->_templateName = $templateName;
-        $this->_templateContent = $this->convertParamsForTemplate($templateContent);
+
+        if ($templateLanguage === self::LANGUAGE_MAILCHIMP) {
+            $this->_templateContent = $this->convertParamsForTemplate($templateContent);
+        } elseif ($templateLanguage === self::LANGUAGE_HANDLEBARS) {
+            $this->setGlobalMergeVars($templateContent);
+        }
+
+        $this->_mergeLanguage = $templateLanguage;
 
         return $this;
     }
@@ -894,6 +913,7 @@ class Message extends BaseMessage
             'track_opens' => true,
             'track_clicks' => true,
             'tags' => $this->_tags,
+            'merge_language' => $this->_mergeLanguage,
             'global_merge_vars' => $this->_globalMergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
@@ -957,7 +977,7 @@ class Message extends BaseMessage
         if (array_search($emailAddress, $this->{$privateAttributeName}) !== false) {
             return false;
         }
-        
+
         if (array_key_exists($emailAddress, $this->{$privateAttributeName}) !== false) {
             return false;
         }
@@ -978,11 +998,11 @@ class Message extends BaseMessage
         if (array_search($string, $this->{$privateAttributeName}) !== false) {
             return false;
         }
-        
+
         if (strlen($string) > 50) {
             return false;
         }
-        
+
         if ($string[0] === '_') {
             return false;
         }

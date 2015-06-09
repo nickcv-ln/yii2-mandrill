@@ -34,11 +34,14 @@ class Mailer extends BaseMailer
     const STATUS_INVALID = 'invalid';
     const LOG_CATEGORY = 'mandrill';
 
+    const LANGUAGE_MAILCHIMP = 'mailchimp';
+    const LANGUAGE_HANDLEBARS = 'handlebars';
+
     /**
      * @var string Mandrill API key
      */
     private $_apikey;
-    
+
     /**
      * Whether the mailer should use mandrill templates instead of Yii views.
      *
@@ -55,6 +58,16 @@ class Mailer extends BaseMailer
      * @since 1.4.0
      */
     public $useTemplateDefaults = true;
+
+    /**
+     * What language is used in mandrill templates, either mailchimp or handlebars
+     * Mailchimp language allows to use mc:edit and *|VAR|*
+     * Handlebars language allows to use {{ var }}, loops, conditions @link http://handlebarsjs.com/
+     *
+     * @var string language, that is used in templates
+     * @since 1.5.0
+     */
+    public $templateLanguage = self::LANGUAGE_MAILCHIMP;
 
     /**
      * @var string message default class name.
@@ -77,11 +90,15 @@ class Mailer extends BaseMailer
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" cannot be null.');
         }
 
+        if (!in_array($this->templateLanguage, [self::LANGUAGE_MAILCHIMP, self::LANGUAGE_HANDLEBARS])) {
+            throw new InvalidConfigException('"' . get_class($this) . '::templateLanguage" has an invalid value.');
+        }
+
         try {
             $this->_mandrill = new Mandrill($this->_apikey);
         } catch (\Exception $exc) {
             \Yii::error($exc->getMessage());
-            throw new Exception('an error occurred with your mailer. Please check the application logs.', 500);
+            throw new \Exception('an error occurred with your mailer. Please check the application logs.', 500);
         }
     }
 
@@ -104,7 +121,7 @@ class Mailer extends BaseMailer
 
         $this->_apikey = $trimmedApikey;
     }
-    
+
     /**
      * Composes the message using a Mandrill template if the useMandrillTemplates
      * settings is true.
@@ -118,8 +135,9 @@ class Mailer extends BaseMailer
     public function compose($view = null, array $params = [])
     {
         if ($this->useMandrillTemplates) {
+            /** @var Message $message */
             $message = parent::compose();
-            $message->setTemplateData($view, $params);
+            $message->setTemplateData($view, $params, $this->templateLanguage);
             if ($this->useTemplateDefaults) {
                 $message->enableTemplateDefaults();
             }
