@@ -36,9 +36,9 @@ class MandrillTest extends \Codeception\TestCase\Test
 
     public function testTemplateLanguageIsValid()
     {
-        $this->setExpectedException('yii\base\InvalidConfigException', '"nickcv\mandrill\Mailer::::templateLanguage" has an invalid value.');
+        $this->setExpectedException('yii\base\InvalidConfigException', '"nickcv\mandrill\Mailer::templateLanguage" has an invalid value.');
 
-        new \nickcv\mandrill\Mailer(['templateLanguage' => 'invalid']);
+        new \nickcv\mandrill\Mailer(['templateLanguage' => 'invalid', 'apikey' => 'string']);
     }
 
     public function testSetUseMandrillTemplates()
@@ -92,13 +92,12 @@ class MandrillTest extends \Codeception\TestCase\Test
         $mandrill = new \nickcv\mandrill\Mailer([
             'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
             'useMandrillTemplates' => true,
+			'useTemplateDefaults' => false,
+			'templateLanguage' => \nickcv\mandrill\Mailer::LANGUAGE_HANDLEBARS,
         ]);
         $result = $mandrill->compose('testTemplateHandlebars', ['variable' => 'test content'])
             ->setTo('test@example.com')
-            ->setSubject('test template email')
-            ->embed($this->getTestImagePath())
-            ->attach($this->getTestPdfPath())
-            ->setGlobalMergeVars(['MERGEVAR' => 'prova'])
+            ->setSubject('test handlebars')
             ->send();
 
         $this->assertTrue($result);
