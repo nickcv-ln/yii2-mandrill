@@ -2,14 +2,14 @@ Array
 (
     [0] => Array
         (
-            [line] => 74
+            [line] => 87
             [file] => ./Mailer.php
             [message] => Method init has no parent to inherit from in nickcv\mandrill\Mailer.
         )
 
     [1] => Array
         (
-            [line] => 118
+            [line] => 145
             [file] => ./Mailer.php
             [message] => Method compose has no parent to inherit from in nickcv\mandrill\Mailer.
         )
