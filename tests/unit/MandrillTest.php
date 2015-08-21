@@ -120,6 +120,12 @@ class MandrillTest extends \Codeception\TestCase\Test
         $this->assertFalse($result);
     }
 
+	public function testGetMandrill()
+	{
+		$mandrillMailer = new \nickcv\mandrill\Mailer(['apikey'=>'testing']);
+		$this->assertInstanceOf('\Mandrill', $mandrillMailer->getMandrill());
+	}
+
     /**
      * @return string
      */

@@ -151,6 +151,8 @@ Since **version 1.4.0** it's also possible to use global merge vars.
 This variables will be use to replace placeholders by mandrill.
 This is especially useful when dealing with templates.
 
+Since **version 1.6.0** you can get the Mandrill object used by the component calling the ```Mailer::getMandrill``` method.
+
 For more informations check the component documentation.
 
 Unit Testing
