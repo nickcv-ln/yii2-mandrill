@@ -9,7 +9,7 @@ Array
 
     [1] => Array
         (
-            [line] => 145
+            [line] => 146
             [file] => ./Mailer.php
             [message] => Method compose has no parent to inherit from in nickcv\mandrill\Mailer.
         )

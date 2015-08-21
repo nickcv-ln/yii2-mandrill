@@ -126,6 +126,7 @@ class Mailer extends BaseMailer
      * Gets Mandrill instance
      *
      * @return Mandrill initialized Mandrill
+     * @since 1.6.0
      */
     public function getMandrill()
     {
