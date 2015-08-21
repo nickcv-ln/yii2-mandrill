@@ -11,4 +11,5 @@ install:
   - composer update
 
 script:
+  - codecept build
   - codecept run
