@@ -571,7 +571,7 @@ class Message extends BaseMessage
     public function setSubject($subject)
     {
         if (is_string($subject)) {
-            $this->_subject = trim(Html::encode($subject));
+            $this->_subject = trim(html_entity_decode($subject));
         }
 
         return $this;
