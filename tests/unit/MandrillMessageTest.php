@@ -177,7 +177,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageSetSubject()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setSubject('    <a>Testo '));
-        $this->assertEquals('&lt;a&gt;Testo', $this->_message->getSubject());
+        $this->assertEquals('<a>Testo', $this->_message->getSubject());
     }
 
     public function testMessageSetTextBody()
@@ -188,8 +188,8 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
     public function testMessageSetHtmlBody()
     {
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setHtmlBody('<a>testo</a><script>alert("ciao");</script>'));
-        $this->assertEquals('<a>testo</a>', $this->_message->getHtmlBody());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setHtmlBody('<a>testo & co</a><script>alert("ciao");</script>'));
+        $this->assertEquals('<a>testo & co</a><script>alert("ciao");</script>', $this->_message->getHtmlBody());
     }
 
     public function testMessageAttach()
@@ -312,7 +312,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
                 ->setGlobalMergeVars(['var1' => 'value1'])
                 ->setSubject('    <a>Testo ')
                 ->setTextBody('testo<script>alert("ciao");</script>')
-                ->setHtmlBody('<a>testo</a><script>alert("ciao");</script>')
+                ->setHtmlBody('<a>testo</a>')
                 ->attachContent($this->getTestPdfBinary(),['fileName'=>'12.txt','contentType'=>'image/png'])
                 ->embed($this->getTestImagePath());
         $this->assertInstanceOf('\nickcv\mandrill\Message', $result);
@@ -343,7 +343,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
         $this->assertEquals([['name' => 'var1', 'content' => 'value1']], $this->_message->getGlobalMergeVars());
 
-        $this->assertEquals('&lt;a&gt;Testo', $this->_message->getSubject());
+        $this->assertEquals('<a>Testo', $this->_message->getSubject());
         $this->assertEquals('testo', $this->_message->getTextBody());
         $this->assertEquals('<a>testo</a>', $this->_message->getHtmlBody());
 
@@ -374,7 +374,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
                 ->setSubject('    <a>Testo ')
                 ->setGlobalMergeVars(['var1' => 'value1'])
                 ->setTextBody('testo<script>alert("ciao");</script>')
-                ->setHtmlBody('<a>testo</a><script>alert("ciao");</script>')
+                ->setHtmlBody('<a>testo</a>')
                 ->attachContent($this->getTestPdfBinary(),['fileName'=>'12.txt','contentType'=>'image/png'])
                 ->embed($this->getTestImagePath());
         $this->assertInstanceOf('\nickcv\mandrill\Message', $result);
@@ -383,7 +383,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals('reply@email.it;user <reply2@email.it>', $array['headers']['Reply-To']);
         $this->assertEquals('<a>testo</a>', $array['html']);
         $this->assertEquals('testo', $array['text']);
-        $this->assertEquals('&lt;a&gt;Testo', $array['subject']);
+        $this->assertEquals('<a>Testo', $array['subject']);
         $this->assertEquals('from@email.it', $array['from_email']);
         $this->assertEquals('My Application', $array['from_name']);
 

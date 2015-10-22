@@ -12,7 +12,6 @@
 namespace nickcv\mandrill;
 
 use yii\mail\BaseMessage;
-use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -194,14 +193,14 @@ class Message extends BaseMessage
     private $_templateContent;
 
     /**
-     * Value use to decide whether the message should calculate default values
+     * Value used to decide whether the message should calculate default values
      * for the sender based on the application settings or return nulls to use
      * mandrill template defaults.
      *
      * @var boolean
      * @since 1.4.0
      */
-    private $_ = false;
+    private $_calculateDefaultValues = false;
 
     /**
      * Global merge vars used when sending the message to mandrill.
@@ -565,13 +564,13 @@ class Message extends BaseMessage
      * @see \nickcv\mandrill\Message::getSubject() getter
      *
      * @param string $subject
-     * The subject will be trimmed and html-encoded.
+     * The subject will be trimmed.
      * @return \nickcv\mandrill\Message
      */
     public function setSubject($subject)
     {
         if (is_string($subject)) {
-            $this->_subject = trim(Html::encode($subject));
+            $this->_subject = trim($subject);
         }
 
         return $this;
@@ -625,13 +624,12 @@ class Message extends BaseMessage
      * @see \nickcv\mandrill\Message::getHtmlBody() getter
      *
      * @param string $html
-     * The html will be purified.
      * @return \nickcv\mandrill\Message
      */
     public function setHtmlBody($html)
     {
         if (is_string($html)) {
-            $this->_html = HtmlPurifier::process($html);
+            $this->_html = $html;
         }
 
         return $this;
@@ -825,7 +823,7 @@ class Message extends BaseMessage
      */
     public function enableTemplateDefaults()
     {
-        $this->_ = true;
+        $this->_calculateDefaultValues = true;
 
         return $this;
     }
@@ -838,7 +836,7 @@ class Message extends BaseMessage
      */
     public function disableTemplateDefaults()
     {
-        $this->_ = false;
+        $this->_calculateDefaultValues = false;
 
         return $this;
     }
@@ -1052,7 +1050,7 @@ class Message extends BaseMessage
      */
     private function getFromName()
     {
-        if ($this->_) {
+        if ($this->_calculateDefaultValues) {
             return $this->_fromName ? $this->_fromName : null;
         }
 
@@ -1066,7 +1064,7 @@ class Message extends BaseMessage
      */
     private function getFromAddress()
     {
-        if ($this->_) {
+        if ($this->_calculateDefaultValues) {
             return $this->_fromAddress ? $this->_fromAddress : null;
         }
 

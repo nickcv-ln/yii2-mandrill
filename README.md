@@ -3,6 +3,13 @@ Mandrill API Extension
 Mandrill Api Integration for Yii2  
 [![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![Build Status](https://travis-ci.org/nickcv-ln/yii2-mandrill.svg)](https://travis-ci.org/nickcv-ln/yii2-mandrill) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
 
+Change Log
+----------
+
+Since **version 1.6.1** the methods ```nickcv\mandrill\Message::setHtmlBody``` and ```nickcv\mandrill\Message::setSubject``` do not purify/encode the data automatically.
+
+This has been done to offer a greater degree of flexibility to developers, see issues [#16](https://github.com/nickcv-ln/yii2-mandrill/issues/16) and [#19](https://github.com/nickcv-ln/yii2-mandrill/issues/19).
+
 Installation
 ------------
 
