@@ -74,6 +74,9 @@ class Mailer extends BaseMailer
      */
     public $messageClass = 'nickcv\mandrill\Message';
 
+    /** @var bool show detailed responses from mandrill API */
+    public $detailed = false;
+
     /**
      * @var Mandrill the Mandrill instance
      */
@@ -200,6 +203,10 @@ class Mailer extends BaseMailer
      */
     private function wasMessageSentSuccesfully($mandrillResponse)
     {
+        if($this->detailed) {
+            return $mandrillResponse;
+        }
+
         $return = true;
         foreach ($mandrillResponse as $recipient) {
             switch ($recipient['status']) {
