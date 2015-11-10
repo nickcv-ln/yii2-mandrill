@@ -74,9 +74,6 @@ class Mailer extends BaseMailer
      */
     public $messageClass = 'nickcv\mandrill\Message';
 
-    /** @var bool show detailed responses from mandrill API */
-    public $detailed = false;
-
     /**
      * @var Mandrill the Mandrill instance
      */
