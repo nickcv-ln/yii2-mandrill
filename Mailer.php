@@ -82,6 +82,9 @@ class Mailer extends BaseMailer
      */
     private $_mandrill;
 
+    /** @var  array last response from mandrill */
+    private $_mandrillResponse;
+
     /**
      * Checks that the API key has indeed been set.
      *
@@ -134,6 +137,10 @@ class Mailer extends BaseMailer
     public function getMandrill()
     {
         return $this->_mandrill;
+    }
+
+    public function getLastTransaction() {
+        return $this->_mandrillResponse;
     }
 
     /**
@@ -203,9 +210,7 @@ class Mailer extends BaseMailer
      */
     private function wasMessageSentSuccesfully($mandrillResponse)
     {
-        if($this->detailed) {
-            return $mandrillResponse;
-        }
+        $this->_mandrillResponse = $mandrillResponse;
 
         $return = true;
         foreach ($mandrillResponse as $recipient) {
