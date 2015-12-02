@@ -220,6 +220,11 @@ class Message extends BaseMessage
     private $_mergeLanguage = self::LANGUAGE_MAILCHIMP;
 
     /**
+     * @var null|string Subaccount to use for Mandrill
+     */
+    private $_subaccount = null;
+
+    /**
      * Mandrill does not let users set a charset.
      *
      * @see \nickcv\mandrill\Message::setCharset() setter
@@ -915,6 +920,7 @@ class Message extends BaseMessage
             'global_merge_vars' => $this->_globalMergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
+            'subaccount' => $this->getSubaccount(),
         ];
     }
 
@@ -1127,4 +1133,20 @@ class Message extends BaseMessage
         }
         return $merge;
     }
+
+    /**
+     * @return string
+     */
+    public function getSubaccount() {
+        return $this->_subaccount;
+    }
+
+    /**
+     * @param string $subaccount
+     */
+    public function setSubaccount($subaccount) {
+        $this->_subaccount = $subaccount;
+    }
+
+
 }
