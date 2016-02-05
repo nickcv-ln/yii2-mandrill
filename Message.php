@@ -225,6 +225,11 @@ class Message extends BaseMessage
     private $_subaccount = null;
 
     /**
+     * @var bool Give this email more priority in mandrill's queue
+     */
+    private $_important = false;
+
+    /**
      * Mandrill does not let users set a charset.
      *
      * @see \nickcv\mandrill\Message::setCharset() setter
@@ -921,6 +926,7 @@ class Message extends BaseMessage
             'attachments' => $this->_attachments,
             'images' => $this->_images,
             'subaccount' => $this->getSubaccount(),
+            'important' => $this->isImportant(),
         ];
     }
 
@@ -1148,5 +1154,17 @@ class Message extends BaseMessage
         $this->_subaccount = $subaccount;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isImportant() {
+        return $this->_important;
+    }
 
+    /**
+     * @param boolean $important
+     */
+    public function setImportant($important) {
+        $this->_important = $important;
+    }
 }
