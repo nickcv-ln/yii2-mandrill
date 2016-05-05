@@ -229,6 +229,10 @@ class Message extends BaseMessage
      */
     private $_important = false;
 
+    private $_trackOpens = true;
+
+    private $_trackClicks = true;
+
     /**
      * Mandrill does not let users set a charset.
      *
@@ -918,8 +922,8 @@ class Message extends BaseMessage
             'from_email' => $this->getFromAddress(),
             'from_name' => $this->getFromName(),
             'to' => $this->getAllRecipients(),
-            'track_opens' => true,
-            'track_clicks' => true,
+            'track_opens' => $this->isTrackOpens(),
+            'track_clicks' => $this->isTrackClicks(),
             'tags' => $this->_tags,
             'merge_language' => $this->_mergeLanguage,
             'global_merge_vars' => $this->_globalMergeVars,
@@ -1166,5 +1170,33 @@ class Message extends BaseMessage
      */
     public function setImportant($important) {
         $this->_important = $important;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTrackOpens() {
+        return $this->_trackOpens;
+    }
+
+    /**
+     * @param boolean $trackOpens
+     */
+    public function setTrackOpens($trackOpens) {
+        $this->_trackOpens = $trackOpens;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isTrackClicks() {
+        return $this->_trackClicks;
+    }
+
+    /**
+     * @param boolean $trackClicks
+     */
+    public function setTrackClicks($trackClicks) {
+        $this->_trackClicks = $trackClicks;
     }
 }
