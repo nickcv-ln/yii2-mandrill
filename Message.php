@@ -220,6 +220,16 @@ class Message extends BaseMessage
     private $_mergeLanguage = self::LANGUAGE_MAILCHIMP;
 
     /**
+     * Allows to override params before sending request to Mandrill API
+     *
+     * @var array
+     * @see \nickcv\mandrill\Message::getParamsOverride() getter
+     * @see \nickcv\mandrill\Message::setParamsOverride() setter
+     * @see \nickcv\mandrill\Message::addParamsOverride() setter
+     */
+    private $_paramsOverride = [];
+
+    /**
      * Mandrill does not let users set a charset.
      *
      * @see \nickcv\mandrill\Message::setCharset() setter
@@ -898,7 +908,7 @@ class Message extends BaseMessage
      */
     public function getMandrillMessageArray()
     {
-        return [
+        return  ArrayHelper::merge([
             'headers' => [
                 'Reply-To' => $this->getReplyToString(),
             ],
@@ -915,7 +925,7 @@ class Message extends BaseMessage
             'global_merge_vars' => $this->_globalMergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
-        ];
+        ], $this->getParamsOverride());
     }
 
     /**
@@ -1126,5 +1136,42 @@ class Message extends BaseMessage
             $merge[] = ['name' => $key, 'content' => $value];
         }
         return $merge;
+    }
+
+    /**
+     * Gets the array with params used to override the default ones before sending the request to Mandrill API
+     * Used in @see nickcv\mandrill\Message::getMandrillMessageArray()
+     *
+     * @return array
+     */
+    public function getParamsOverride()
+    {
+        return $this->_paramsOverride;
+    }
+
+    /**
+     * Sets the array which will be merged with default params before sending the request to Mandrill API
+     *
+     * @param array $paramsOverride
+     * @return Message
+     */
+    public function setParamsOverride($paramsOverride)
+    {
+        $this->_paramsOverride = $paramsOverride;
+
+        return $this;
+    }
+
+    /**
+     * Adds parameters for override
+     * @see nickcv\mandrill\Message::setParamsOverride()
+     *
+     * @param $paramsOverride
+     * @return Message
+     */
+    public function addParamsOverride($paramsOverride) {
+        $this->_paramsOverride = ArrayHelper::merge($this->_paramsOverride, $paramsOverride);
+
+        return $this;
     }
 }
