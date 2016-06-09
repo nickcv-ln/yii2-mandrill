@@ -59,7 +59,7 @@ class MandrillTest extends \Codeception\TestCase\Test
 
     public function testSendMessage()
     {
-        $mandrill = new \nickcv\mandrill\Mailer(['apikey'=>'raHz6vHU9J2YxN-F1QryTw']);
+        $mandrill = new \nickcv\mandrill\Mailer(['apikey'=>'wq4uhYEddK1K3WXK8-Adsg']);
         $result = $mandrill->compose('test')
                 ->setTo('test@example.com')
                 ->setSubject('test email')
@@ -67,13 +67,21 @@ class MandrillTest extends \Codeception\TestCase\Test
                 ->attach($this->getTestPdfPath())
                 ->send();
 
+        $this->assertInternalType('array', $mandrill->getLastTransaction());
+        $lastTransaction = $mandrill->getLastTransaction()[0];
+        $this->assertArrayHasKey('email', $lastTransaction);
+        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertArrayHasKey('status', $lastTransaction);
+        $this->assertEquals('queued', $lastTransaction['status']);
+        $this->assertArrayHasKey('_id', $lastTransaction);
+
         $this->assertTrue($result);
     }
 
     public function testSendMessageUsingMandrillTemplate()
     {
         $mandrill = new \nickcv\mandrill\Mailer([
-            'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
+            'apikey'=>'wq4uhYEddK1K3WXK8-Adsg',
             'useMandrillTemplates' => true,
         ]);
         $result = $mandrill->compose('testTemplate', ['WORD' => 'my word'])
@@ -84,21 +92,37 @@ class MandrillTest extends \Codeception\TestCase\Test
                 ->setGlobalMergeVars(['MERGEVAR' => 'prova'])
                 ->send();
 
+        $this->assertInternalType('array', $mandrill->getLastTransaction());
+        $lastTransaction = $mandrill->getLastTransaction()[0];
+        $this->assertArrayHasKey('email', $lastTransaction);
+        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertArrayHasKey('status', $lastTransaction);
+        $this->assertEquals('queued', $lastTransaction['status']);
+        $this->assertArrayHasKey('_id', $lastTransaction);
+
         $this->assertTrue($result);
     }
 
     public function testSendMessageUsingMandrillTemplateHandlebars()
     {
         $mandrill = new \nickcv\mandrill\Mailer([
-            'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
+            'apikey'=>'wq4uhYEddK1K3WXK8-Adsg',
             'useMandrillTemplates' => true,
 			'useTemplateDefaults' => false,
 			'templateLanguage' => \nickcv\mandrill\Mailer::LANGUAGE_HANDLEBARS,
         ]);
         $result = $mandrill->compose('testTemplateHandlebars', ['variable' => 'test content'])
+            ->setFrom('testing@creationgears.com')
             ->setTo('test@example.com')
             ->setSubject('test handlebars')
             ->send();
+
+        $this->assertInternalType('array', $mandrill->getLastTransaction());
+        $lastTransaction = $mandrill->getLastTransaction()[0];
+        $this->assertArrayHasKey('email', $lastTransaction);
+        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertArrayHasKey('status', $lastTransaction);
+        $this->assertArrayHasKey('_id', $lastTransaction);
 
         $this->assertTrue($result);
     }
@@ -106,7 +130,7 @@ class MandrillTest extends \Codeception\TestCase\Test
     public function testCannotSendIfMandrillTemplateNotFound()
     {
         $mandrill = new \nickcv\mandrill\Mailer([
-            'apikey'=>'raHz6vHU9J2YxN-F1QryTw',
+            'apikey'=>'wq4uhYEddK1K3WXK8-Adsg',
             'useMandrillTemplates' => true,
         ]);
 
@@ -116,6 +140,9 @@ class MandrillTest extends \Codeception\TestCase\Test
             ->embed($this->getTestImagePath())
             ->attach($this->getTestPdfPath())
             ->send();
+
+        $this->assertInternalType('array', $mandrill->getLastTransaction());
+        $this->assertCount(0, $mandrill->getLastTransaction());
 
         $this->assertFalse($result);
     }

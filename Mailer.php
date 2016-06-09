@@ -79,8 +79,11 @@ class Mailer extends BaseMailer
      */
     private $_mandrill;
 
-    /** @var  array last response from mandrill */
-    private $_mandrillResponse;
+    /**
+     * @var array last response from mandrill
+     * @since 1.7.0
+     */
+    private $_mandrillResponse = [];
 
     /**
      * Checks that the API key has indeed been set.
@@ -136,6 +139,12 @@ class Mailer extends BaseMailer
         return $this->_mandrill;
     }
 
+    /**
+     * Returns the array of the last transaction returned by Mandrill.
+     *
+     * @return array
+     * @since 1.7.0
+     */
     public function getLastTransaction() {
         return $this->_mandrillResponse;
     }
