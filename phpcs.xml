@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ruleset name="Yii2Mandrill">
+    <description>Yii2Mandrill</description>
+
+    <!-- Yii2 Standards -->
+    <rule ref="vendor/yiisoft/yii2-coding-standards/Yii2/ruleset.xml" />
+
+</ruleset>

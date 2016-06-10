@@ -299,6 +299,40 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals('fakeuser<email2@email.it>', $this->_message->getFrom());
     }
 
+    public function testSetAsImportant()
+    {
+        $this->assertFalse($this->_message->isImportant());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setAsImportant());
+        $this->assertTrue($this->_message->isImportant());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setAsNotImportant());
+        $this->assertFalse($this->_message->isImportant());
+    }
+
+    public function testSetClickTracking()
+    {
+        $this->assertTrue($this->_message->areClicksTracked());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->disableClicksTracking());
+        $this->assertFalse($this->_message->areClicksTracked());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->enableClicksTracking());
+        $this->assertTrue($this->_message->areClicksTracked());
+    }
+
+    public function testSetOpenTracking()
+    {
+        $this->assertTrue($this->_message->areOpensTracked());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->disableOpensTracking());
+        $this->assertFalse($this->_message->areOpensTracked());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->enableOpensTracking());
+        $this->assertTrue($this->_message->areOpensTracked());
+    }
+
+    public function testSetSubAccount()
+    {
+        $this->assertNull($this->_message->getSubaccount());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setSubaccount('testing-subaccount'));
+        $this->assertEquals('testing-subaccount', $this->_message->getSubaccount());
+    }
+
     public function testMessageComplete()
     {
         $result = $this->_message
@@ -312,6 +346,10 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
                 ->setGlobalMergeVars(['var1' => 'value1'])
                 ->setSubject('    <a>Testo ')
                 ->setTextBody('testo<script>alert("ciao");</script>')
+                ->setSubaccount('test-subaccount')
+                ->setAsImportant()
+                ->disableClicksTracking()
+                ->disableOpensTracking()
                 ->setHtmlBody('<a>testo</a>')
                 ->attachContent($this->getTestPdfBinary(),['fileName'=>'12.txt','contentType'=>'image/png'])
                 ->embed($this->getTestImagePath());
@@ -347,6 +385,11 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals('testo', $this->_message->getTextBody());
         $this->assertEquals('<a>testo</a>', $this->_message->getHtmlBody());
 
+        $this->assertFalse($this->_message->areOpensTracked());
+        $this->assertFalse($this->_message->areClicksTracked());
+        $this->assertTrue($this->_message->isImportant());
+        $this->assertEquals('test-subaccount', $this->_message->getSubaccount());
+
         $attachments = $this->_message->getAttachments();
         $this->assertCount(1, $attachments);
         $this->assertEquals($this->getTestPdfBinary(true), $attachments[0]['content']);
@@ -374,6 +417,10 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
                 ->setSubject('    <a>Testo ')
                 ->setGlobalMergeVars(['var1' => 'value1'])
                 ->setTextBody('testo<script>alert("ciao");</script>')
+                ->setSubaccount('test-subaccount')
+                ->setAsImportant()
+                ->disableClicksTracking()
+                ->disableOpensTracking()
                 ->setHtmlBody('<a>testo</a>')
                 ->attachContent($this->getTestPdfBinary(),['fileName'=>'12.txt','contentType'=>'image/png'])
                 ->embed($this->getTestImagePath());
@@ -404,8 +451,10 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertNull($to[2]['name']);
         $this->assertEquals('bcc', $to[2]['type']);
 
-        $this->assertTrue($array['track_opens']);
-        $this->assertTrue($array['track_clicks']);
+        $this->assertFalse($array['track_opens']);
+        $this->assertFalse($array['track_clicks']);
+        $this->assertTrue($array['important']);
+        $this->assertEquals('test-subaccount', $array['subaccount']);
         $this->assertContains('tag1', $array['tags']);
 
         $attachments = $array['attachments'];
