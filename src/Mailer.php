@@ -145,7 +145,8 @@ class Mailer extends BaseMailer
      * @return array
      * @since 1.7.0
      */
-    public function getLastTransaction() {
+    public function getLastTransaction()
+    {
         return $this->_mandrillResponse;
     }
 
