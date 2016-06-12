@@ -444,6 +444,30 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals('My Message - Recipients: [TO] to@email.it [CC] cc@email.it [BCC] bcc@email.it', $string);
     }
 
+    public function testMessageSetParamsOverride()
+    {
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setParamsOverride(array('track_opens' => false)));
+        $array = $this->_message->getMandrillMessageArray();
+        $this->assertEquals(false, $array['track_opens']);
+    }
+
+    public function testMessageAddParamsOverride()
+    {
+        $array_before = array(
+            'track_opens' => false,
+            'track_clicks' => false,
+        );
+
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setParamsOverride($array_before));
+        $array = $this->_message->getMandrillMessageArray();
+        $this->assertEquals(false, $array['track_opens']);
+        $this->assertEquals(false, $array['track_clicks']);
+
+        $this->_message->addParamsOverride(array('track_opens' => true));
+        $array = $this->_message->getMandrillMessageArray();
+        $this->assertEquals(false, $array['track_clicks']);
+    }
+
     /**
      * @return string
      */
