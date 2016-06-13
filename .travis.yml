@@ -6,10 +6,9 @@ php:
 
 install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  - composer global require "fxp/composer-asset-plugin:1.0.0"
-  - composer global require "codeception/codeception:*"
+  - composer global require "fxp/composer-asset-plugin:~1.1.1"
   - composer update
 
 script:
-  - codecept build
-  - codecept run
+  - ./vendor/bin/codecept run
+  - ./vendor/bin/phpcs src

@@ -220,6 +220,34 @@ class Message extends BaseMessage
     private $_mergeLanguage = self::LANGUAGE_MAILCHIMP;
 
     /**
+     * Subaccount to use for Mandrill
+     *
+     * @var null|string
+     * @since 1.7.0
+     */
+    private $_subaccount = null;
+
+    /**
+     * Give this email more priority in mandrill's queue
+     *
+     * @var boolean
+     * @since 1.7.0
+     */
+    private $_important = false;
+
+    /**
+     * @var boolean
+     * @since 1.7.0
+     */
+    private $_trackOpens = true;
+
+    /**
+     * @var boolean
+     * @since 1.7.0
+     */
+    private $_trackClicks = true;
+
+    /**
      * Allows to override params before sending request to Mandrill API
      *
      * @var array
@@ -852,6 +880,139 @@ class Message extends BaseMessage
     }
 
     /**
+     * @param string $subaccount
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function setSubaccount($subaccount)
+    {
+        $this->_subaccount = $subaccount;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @since 1.7.0
+     */
+    public function getSubaccount()
+    {
+        return $this->_subaccount;
+    }
+
+    /**
+     * Make the message important.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function setAsImportant()
+    {
+        $this->_important = true;
+
+        return $this;
+    }
+
+    /**
+     * Make the message not important.
+     * The message is not important by default.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function setAsNotImportant()
+    {
+        $this->_important = false;
+
+        return $this;
+    }
+
+    /**
+     * @return boolean
+     * @since 1.7.0
+     */
+    public function isImportant()
+    {
+        return $this->_important;
+    }
+
+    /**
+     * Enable tracking of when the message is opened.
+     * Tracking is enabled by default.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function enableOpensTracking()
+    {
+        $this->_trackOpens = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable tracking of when the message is opened.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function disableOpensTracking()
+    {
+        $this->_trackOpens = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the status of tracking for when the message is opened.
+     *
+     * @return boolean
+     * @since 1.7.0
+     */
+    public function areOpensTracked()
+    {
+        return $this->_trackOpens;
+    }
+
+    /**
+     * Enable tracking of when links in the message are being clicked.
+     * Tracking is enabled by default.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function enableClicksTracking()
+    {
+        $this->_trackClicks = true;
+
+        return $this;
+    }
+
+    /**
+     * Disable tracking of when links in the message are being clicked.
+     *
+     * @return \nickcv\mandrill\Message
+     * @since 1.7.0
+     */
+    public function disableClicksTracking()
+    {
+        $this->_trackClicks = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the status of tracking for when the links in the message are clicked.
+     *
+     * @return boolean
+     * @since 1.7.0
+     */
+    public function areClicksTracked()
+    {
+        return $this->_trackClicks;
+    }
+
+    /**
      * Returns the global merge vars that will be submitted to mandrill.
      *
      * @return array
@@ -918,13 +1079,15 @@ class Message extends BaseMessage
             'from_email' => $this->getFromAddress(),
             'from_name' => $this->getFromName(),
             'to' => $this->getAllRecipients(),
-            'track_opens' => true,
-            'track_clicks' => true,
+            'track_opens' => $this->_trackOpens,
+            'track_clicks' => $this->_trackClicks,
             'tags' => $this->_tags,
             'merge_language' => $this->_mergeLanguage,
             'global_merge_vars' => $this->_globalMergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
+            'subaccount' => $this->_subaccount,
+            'important' => $this->_important,
         ], $this->getParamsOverride());
     }
 
