@@ -164,6 +164,21 @@ Since **version 1.7.0** it's also possible to enable/disable messages clicks/ope
 
 It is also possible to retrieve the full body of the response returned from Mandrill using the `Mailer::getLastTransaction` method.
 
+
+**Sending Multiple Email with Mandril Template using merge_vars**
+
+You can consider using this method for using mandrill template and change the variable based on your data :
+
+```
+\Yii::$app->mailer
+    ->compose($stringTemplate)
+    ->setTo($arrayTo)
+    ->setGlobalMergeVars($arrayGolbalMergeVars)
+    ->setMergeVars($arrayMergeVars)
+    ->send();
+```
+
+
 Unit Testing
 ------------
 
