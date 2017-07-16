@@ -210,6 +210,15 @@ class Message extends BaseMessage
      */
     private $_globalMergeVars = [];
 
+
+    /**
+     * Merge vars used when sending the message to mandrill.
+     *
+     * @var array
+     */
+    private $_mergeVars = [];
+
+
     /**
      * What language will be used in the template
      * Check @link http://handlebarsjs.com/ for more documentation about handlebars language
@@ -1014,6 +1023,16 @@ class Message extends BaseMessage
     }
 
     /**
+     * Returns the merge vars that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getMergeVars()
+    {
+        return $this->_mergeVars;
+    }
+
+    /**
      * Adds the given merge vars to the global merge vars array.
      * Merge vars are case insensitive and cannot start with _
      *
@@ -1037,6 +1056,28 @@ class Message extends BaseMessage
 
         return $this;
     }
+
+
+    /**
+     * Adds the given merge vars to the merge vars array.
+     *
+     * @param array $mergeVars with format : 
+     * [
+     *    'rcpt' => 'string email address of the recipient that the merge variables should apply to',
+     *    'vars' => [
+     *                 'name'    => 'NAMEOFVARIABLE_IN_MANDRIL',
+     *                 'content' => 'VALUEOFVARIABLE_IN_MANDRIL_TEMPLATE',
+     *    ]                       
+     * ], ...
+     *
+     * @return \nickcv\mandrill\Message
+     */
+    public function setMergeVars(array $mergeVars)
+    {
+        $this->_mergeVars = $mergeVars;
+        return $this;
+    }
+
 
     /**
      * Returns the string representation of this message.
@@ -1074,6 +1115,7 @@ class Message extends BaseMessage
             'tags' => $this->_tags,
             'merge_language' => $this->_mergeLanguage,
             'global_merge_vars' => $this->_globalMergeVars,
+            'merge_vars' => $this->_mergeVars,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
             'subaccount' => $this->_subaccount,
