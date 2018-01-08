@@ -1,27 +1,37 @@
 {
-    "name": "nickcv/yii2-mandrill",
-    "description": "Mandrill Api Integration for Yii2",
-    "type": "yii2-extension",
-    "keywords": ["yii2", "extension", "mandrill", "mailer", "email"],
-    "license": "GPL-3.0",
-    "authors": [
-        {
-            "name": "Nicola Puddu",
-            "email": "n.puddu@outlook.com"
-        }
-    ],
-    "require": {
-        "yiisoft/yii2": "*",
-        "mandrill/mandrill": "*"
-    },
-    "require-dev": {
-        "codeception/codeception": "*",
-        "victorjonsson/markdowndocs": "*",
-        "yiisoft/yii2-coding-standards": "~2.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "nickcv\\mandrill\\": "src/"
-        }
-    }
+	"name": "simialbi/yii2-mandrill",
+	"description": "Mandrill Api Integration for Yii2",
+	"type": "yii2-extension",
+	"keywords": ["yii2", "extension", "mandrill", "mailer", "email"],
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Nicola Puddu",
+			"email": "n.puddu@outlook.com"
+		},
+		{
+			"name": "Simon Karlen",
+			"email": "simi.albi@gmail.com"
+		}
+	],
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "https://asset-packagist.org"
+		}
+	],
+	"require": {
+		"yiisoft/yii2": "~2.0",
+		"mandrill/mandrill": "~1.0"
+	},
+	"require-dev": {
+		"codeception/codeception": "*",
+		"victorjonsson/markdowndocs": "*",
+		"yiisoft/yii2-coding-standards": "~2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"nickcv\\mandrill\\": "src/"
+		}
+	}
 }
