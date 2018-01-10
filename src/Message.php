@@ -231,6 +231,16 @@ class Message extends BaseMessage {
 	 */
 	private $_recipientMetadata = [];
 
+	/**
+	 * @var array an array of strings indicating for which any matching URLs will automatically have Google Analytics
+	 * parameters appended to their query string automatically
+	 */
+	private $_googleAnalyticsDomains = [];
+
+	/**
+	 * @var string indicating the value to set for the utm_campaign tracking parameter (optional)
+	 */
+	private $_googleAnalyticsCampaign;
 
 	/**
 	 * What language will be used in the template
@@ -1126,6 +1136,49 @@ class Message extends BaseMessage {
 		return $this;
 	}
 
+	/**
+	 * Returns the Google Analytics domains that will be submitted to mandrill.
+	 *
+	 * @return array
+	 */
+	public function getGoogleAnalyticsDomains() {
+		return $this->_googleAnalyticsDomains;
+	}
+
+	/**
+	 * Returns the Google Analytics campaign that will be submitted to mandrill.
+	 *
+	 * @return string
+	 */
+	public function getGoogleAnalyticsCampaign() {
+		return $this->_googleAnalyticsCampaign;
+	}
+
+	/**
+	 * Sets the Google Analytics domains that will be submitted to mandrill.
+	 *
+	 * @param array $domains
+	 *
+	 * @return static
+	 */
+	public function setGoogleAnalyticsDomains(array $domains) {
+		$this->_googleAnalyticsDomains = $domains;
+
+		return $this;
+	}
+
+	/**
+	 * Sets the Google Analytics campaign that will be submitted to mandrill.
+	 *
+	 * @param string $campaign
+	 *
+	 * @return static
+	 */
+	public function setGoogleAnalyticsCampaign($campaign) {
+		$this->_googleAnalyticsCampaign = $campaign;
+
+		return $this;
+	}
 
 	/**
 	 * Returns the string representation of this message.
@@ -1147,27 +1200,29 @@ class Message extends BaseMessage {
 	 */
 	public function getMandrillMessageArray() {
 		return [
-			'headers'            => [
+			'headers'                   => [
 				'Reply-To' => $this->getReplyToString(),
 			],
-			'html'               => $this->getHtmlBody(),
-			'text'               => $this->getTextBody(),
-			'subject'            => $this->getSubject(),
-			'from_email'         => $this->getFromAddress(),
-			'from_name'          => $this->getFromName(),
-			'to'                 => $this->getAllRecipients(),
-			'track_opens'        => $this->_trackOpens,
-			'track_clicks'       => $this->_trackClicks,
-			'tags'               => $this->_tags,
-			'merge_language'     => $this->_mergeLanguage,
-			'global_merge_vars'  => $this->_globalMergeVars,
-			'merge_vars'         => $this->_mergeVars,
-			'metadata'           => $this->_metadata,
-			'recipient_metadata' => $this->_recipientMetadata,
-			'attachments'        => $this->_attachments,
-			'images'             => $this->_images,
-			'subaccount'         => $this->_subaccount,
-			'important'          => $this->_important,
+			'html'                      => $this->getHtmlBody(),
+			'text'                      => $this->getTextBody(),
+			'subject'                   => $this->getSubject(),
+			'from_email'                => $this->getFromAddress(),
+			'from_name'                 => $this->getFromName(),
+			'to'                        => $this->getAllRecipients(),
+			'track_opens'               => $this->_trackOpens,
+			'track_clicks'              => $this->_trackClicks,
+			'tags'                      => $this->_tags,
+			'merge_language'            => $this->_mergeLanguage,
+			'global_merge_vars'         => $this->_globalMergeVars,
+			'merge_vars'                => $this->_mergeVars,
+			'metadata'                  => $this->_metadata,
+			'recipient_metadata'        => $this->_recipientMetadata,
+			'google_analytics_domains'  => $this->_googleAnalyticsDomains,
+			'google_analytics_campaign' => $this->_googleAnalyticsCampaign,
+			'attachments'               => $this->_attachments,
+			'images'                    => $this->_images,
+			'subaccount'                => $this->_subaccount,
+			'important'                 => $this->_important,
 		];
 	}
 
