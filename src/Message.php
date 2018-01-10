@@ -217,6 +217,20 @@ class Message extends BaseMessage {
 	 */
 	private $_mergeVars = [];
 
+	/**
+	 * Global meta data used when sending the message to mandrill.
+	 *
+	 * @var array
+	 */
+	private $_metadata = [];
+
+	/**
+	 * Per client meta data used when sending the message to mandrill.
+	 *
+	 * @var array
+	 */
+	private $_recipientMetadata = [];
+
 
 	/**
 	 * What language will be used in the template
@@ -273,7 +287,7 @@ class Message extends BaseMessage {
 	 *
 	 * @param string $charset character set name.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setCharset($charset) {
 		return $this;
@@ -307,7 +321,7 @@ class Message extends BaseMessage {
 	 *
 	 * @param string|array $tag tag or list of tags
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setTags($tag) {
 		if (is_string($tag) && $this->isTagValid($tag, '_tags')) {
@@ -338,7 +352,7 @@ class Message extends BaseMessage {
 	/**
 	 * Enables async sending for this message.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.3.0
 	 */
 	public function enableAsync() {
@@ -350,7 +364,7 @@ class Message extends BaseMessage {
 	/**
 	 * Disables async sending the this message.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.3.0
 	 */
 	public function disableAsync() {
@@ -402,7 +416,7 @@ class Message extends BaseMessage {
 	 * be used as the sender email address and the application name will be used
 	 * as the sender name.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setFrom($from) {
 		if (is_string($from) && filter_var($from, FILTER_VALIDATE_EMAIL)) {
@@ -456,7 +470,7 @@ class Message extends BaseMessage {
 	 * You may also specify receiver name in addition to email address using format:
 	 * `[email => name]`.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setTo($to) {
 		$this->storeEmailAddressesInContainer($to, '_to');
@@ -492,7 +506,7 @@ class Message extends BaseMessage {
 	 * You may also specify receiver name in addition to email address using format:
 	 * `[email => name]`.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setReplyTo($replyTo) {
 		$this->storeEmailAddressesInContainer($replyTo, '_replyTo');
@@ -528,7 +542,7 @@ class Message extends BaseMessage {
 	 * You may also specify receiver name in addition to email address using format:
 	 * `[email => name]`.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setCc($cc) {
 		$this->storeEmailAddressesInContainer($cc, '_cc');
@@ -564,7 +578,7 @@ class Message extends BaseMessage {
 	 * You may also specify receiver name in addition to email address using format:
 	 * `[email => name]`.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setBcc($bcc) {
 		$this->storeEmailAddressesInContainer($bcc, '_bcc');
@@ -591,7 +605,7 @@ class Message extends BaseMessage {
 	 * @param string $subject
 	 * The subject will be trimmed.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setSubject($subject) {
 		if (is_string($subject)) {
@@ -620,7 +634,7 @@ class Message extends BaseMessage {
 	 * @param string $text
 	 * The text will be purified.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setTextBody($text) {
 		if (is_string($text)) {
@@ -648,7 +662,7 @@ class Message extends BaseMessage {
 	 *
 	 * @param string $html
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setHtmlBody($html) {
 		if (is_string($html)) {
@@ -681,7 +695,7 @@ class Message extends BaseMessage {
 	 * - fileName: name, which should be used to attach file.
 	 * - contentType: attached file MIME type.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @throws \yii\base\InvalidConfigException
 	 */
 	public function attach($fileName, array $options = []) {
@@ -707,7 +721,7 @@ class Message extends BaseMessage {
 	 * - fileName: name, which should be used to attach file.
 	 * - contentType: attached file MIME type.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function attachContent($content, array $options = []) {
 		$purifiedOptions = is_array($options) ? $options : [];
@@ -746,7 +760,7 @@ class Message extends BaseMessage {
 	 * - fileName: name, which should be used to attach file.
 	 * - contentType: attached file MIME type.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @throws \yii\base\InvalidConfigException
 	 */
 	public function embed($fileName, array $options = []) {
@@ -772,7 +786,7 @@ class Message extends BaseMessage {
 	 * - fileName: name, which should be used to attach file.
 	 * - contentType: attached file MIME type.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function embedContent($content, array $options = []) {
 		$purifiedOptions = is_array($options) ? $options : [];
@@ -795,7 +809,7 @@ class Message extends BaseMessage {
 	 * @param array $templateContent
 	 * @param string $templateLanguage
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.3.0
 	 */
 	public function setTemplateData($templateName, array $templateContent = [], $templateLanguage = self::LANGUAGE_MAILCHIMP) {
@@ -835,7 +849,7 @@ class Message extends BaseMessage {
 	/**
 	 * Enable the use of template defaults.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.4.0
 	 */
 	public function enableTemplateDefaults() {
@@ -847,7 +861,7 @@ class Message extends BaseMessage {
 	/**
 	 * Disable the use of template defaults.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.4.0
 	 */
 	public function disableTemplateDefaults() {
@@ -859,7 +873,7 @@ class Message extends BaseMessage {
 	/**
 	 * @param string $subaccount
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function setSubaccount($subaccount) {
@@ -879,7 +893,7 @@ class Message extends BaseMessage {
 	/**
 	 * Make the message important.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function setAsImportant() {
@@ -892,7 +906,7 @@ class Message extends BaseMessage {
 	 * Make the message not important.
 	 * The message is not important by default.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function setAsNotImportant() {
@@ -913,7 +927,7 @@ class Message extends BaseMessage {
 	 * Enable tracking of when the message is opened.
 	 * Tracking is enabled by default.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function enableOpensTracking() {
@@ -925,7 +939,7 @@ class Message extends BaseMessage {
 	/**
 	 * Disable tracking of when the message is opened.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function disableOpensTracking() {
@@ -948,7 +962,7 @@ class Message extends BaseMessage {
 	 * Enable tracking of when links in the message are being clicked.
 	 * Tracking is enabled by default.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function enableClicksTracking() {
@@ -960,7 +974,7 @@ class Message extends BaseMessage {
 	/**
 	 * Disable tracking of when links in the message are being clicked.
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.7.0
 	 */
 	public function disableClicksTracking() {
@@ -1004,7 +1018,7 @@ class Message extends BaseMessage {
 	 *
 	 * @param array $mergeVars
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 * @since 1.4.0
 	 */
 	public function setGlobalMergeVars(array $mergeVars) {
@@ -1035,10 +1049,79 @@ class Message extends BaseMessage {
 	 *    ]
 	 * ], ...
 	 *
-	 * @return \nickcv\mandrill\Message
+	 * @return static
 	 */
 	public function setMergeVars(array $mergeVars) {
 		$this->_mergeVars = $mergeVars;
+
+		return $this;
+	}
+
+	/**
+	 * Returns the global meta data that will be submitted to mandrill.
+	 *
+	 * @return array
+	 */
+	public function getMetadata() {
+		return $this->_metadata;
+	}
+
+	/**
+	 * Returns the per recipient meta data that will be submitted to mandrill.
+	 *
+	 * @return array
+	 */
+	public function getRecipientMetadata() {
+		return $this->_recipientMetadata;
+	}
+
+	/**
+	 * Adds the given meta data to the global meta data array
+	 *
+	 * @param array $metadata
+	 *
+	 * Example
+	 * ```php
+	 * [
+	 *      'group_id' => 'users_active'
+	 * ]
+	 * ```
+	 *
+	 * @return static
+	 */
+	public function setMetadata(array $metadata) {
+		$this->_metadata = $metadata;
+
+		return $this;
+	}
+
+	/**
+	 * Adds the given meta data to the per recipient meta data array
+	 *
+	 * @param array $recipientMetadata
+	 *
+	 * Example
+	 * ```php
+	 * [
+	 *      [
+	 *          'rcpt' => 'foo@example.com',
+	 *          'values' => [
+	 *              'user_id' => '123'
+	 *          ]
+	 *      ],
+	 *      [
+	 *          'rcpt' => 'bar@example.com',
+	 *          'values' => [
+	 *              'user_id' => '456'
+	 *          ]
+	 *      ]
+	 * ]
+	 * ```
+	 *
+	 * @return static
+	 */
+	public function setRecipientMetadata(array $recipientMetadata) {
+		$this->_metadata = $recipientMetadata;
 
 		return $this;
 	}
@@ -1064,25 +1147,27 @@ class Message extends BaseMessage {
 	 */
 	public function getMandrillMessageArray() {
 		return [
-			'headers'           => [
+			'headers'            => [
 				'Reply-To' => $this->getReplyToString(),
 			],
-			'html'              => $this->getHtmlBody(),
-			'text'              => $this->getTextBody(),
-			'subject'           => $this->getSubject(),
-			'from_email'        => $this->getFromAddress(),
-			'from_name'         => $this->getFromName(),
-			'to'                => $this->getAllRecipients(),
-			'track_opens'       => $this->_trackOpens,
-			'track_clicks'      => $this->_trackClicks,
-			'tags'              => $this->_tags,
-			'merge_language'    => $this->_mergeLanguage,
-			'global_merge_vars' => $this->_globalMergeVars,
-			'merge_vars'        => $this->_mergeVars,
-			'attachments'       => $this->_attachments,
-			'images'            => $this->_images,
-			'subaccount'        => $this->_subaccount,
-			'important'         => $this->_important,
+			'html'               => $this->getHtmlBody(),
+			'text'               => $this->getTextBody(),
+			'subject'            => $this->getSubject(),
+			'from_email'         => $this->getFromAddress(),
+			'from_name'          => $this->getFromName(),
+			'to'                 => $this->getAllRecipients(),
+			'track_opens'        => $this->_trackOpens,
+			'track_clicks'       => $this->_trackClicks,
+			'tags'               => $this->_tags,
+			'merge_language'     => $this->_mergeLanguage,
+			'global_merge_vars'  => $this->_globalMergeVars,
+			'merge_vars'         => $this->_mergeVars,
+			'metadata'           => $this->_metadata,
+			'recipient_metadata' => $this->_recipientMetadata,
+			'attachments'        => $this->_attachments,
+			'images'             => $this->_images,
+			'subaccount'         => $this->_subaccount,
+			'important'          => $this->_important,
 		];
 	}
 
