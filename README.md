@@ -52,12 +52,14 @@ First of all you will need to add an `application name`.
 By default this extension will send every single email using the application name as the sender name and the `adminEmail` parameter inside `params.php` as the sender email.
 
 
-```
-'id' => 'basic',
-'name' => 'Application Name',
+```php
+[
+	'id' => 'basic',
+	'name' => 'Application Name',
+]
 ```
 
-```
+```php
 return [
     'adminEmail' => 'admin@example.com',
 ];
@@ -65,7 +67,7 @@ return [
 
 You will then need to add the component
 
-```
+```php
     'mailer' => [
         'class' => 'nickcv\mandrill\Mailer',
         'apikey' => 'YourApiKey',
@@ -74,7 +76,7 @@ You will then need to add the component
 
 From now on you can just use the mandrill mailer just as you used to use the default one.
 
-```
+```php
 \Yii::$app->mailer
     ->compose('mailViewName', ['model' => $model])
     ->setTo('email@email.com')
@@ -102,7 +104,7 @@ Since **version 1.4.0** the component won't default to the application name and 
 
 To override this behavior you can set to false the `useTemplateDefaults` attribute in the component configuration
 
-```
+```php
     'mailer' => [
         'class' => 'nickcv\mandrill\Mailer',
         'apikey' => 'YourApiKey',
@@ -120,7 +122,7 @@ For more information about handlebars usage check these links:
 
 You can change preferred language by editing `templateLanguage` attribute in the component configuration
 
-```
+```php
     'mailer' => [
         'class' => 'nickcv\mandrill\Mailer',
         'apikey' => 'YourApiKey',
@@ -135,7 +137,7 @@ Additional Methods
 
 Mandrill lets you set up tags. The method `\nickcv\mandrill\Message::setTags($tags)` accept as an argument both a string or an array of strings:
 
-```
+```php
 \Yii::$app->mailer
     ->compose('mailViewName', ['model' => $model])
     ->setTags(['registration']);
@@ -146,7 +148,7 @@ When using async mode mandrill will queue the messages and send em in batches.
 If you send a message to more than 10 email addresses async mode will be used
 automatically.
 
-```
+```php
 \Yii::$app->mailer
     ->compose('mailViewName', ['model' => $model])
     ->enableAsync();
@@ -163,6 +165,21 @@ For more informations check the component documentation.
 Since **version 1.7.0** it's also possible to enable/disable messages clicks/opens tracking and to decide whether or not it is a priority message.
 
 It is also possible to retrieve the full body of the response returned from Mandrill using the `Mailer::getLastTransaction` method.
+
+
+**Sending Multiple Email with Mandril Template using merge_vars**
+
+You can consider using this method for using mandrill template and change the variable based on your data :
+
+```php
+\Yii::$app->mailer
+    ->compose($stringTemplate)
+    ->setTo($arrayTo)
+    ->setGlobalMergeVars($arrayGolbalMergeVars)
+    ->setMergeVars($arrayMergeVars)
+    ->send();
+```
+
 
 Unit Testing
 ------------

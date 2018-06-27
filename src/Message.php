@@ -11,10 +11,10 @@
 
 namespace nickcv\mandrill;
 
-use yii\mail\BaseMessage;
-use yii\helpers\HtmlPurifier;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\helpers\HtmlPurifier;
+use yii\mail\BaseMessage;
 
 /**
  * Message is the class that is used to store the data of an email message that
@@ -210,6 +210,39 @@ class Message extends BaseMessage
      */
     private $_globalMergeVars = [];
 
+
+    /**
+     * Merge vars used when sending the message to mandrill.
+     *
+     * @var array
+     */
+    private $_mergeVars = [];
+
+    /**
+     * Global meta data used when sending the message to mandrill.
+     *
+     * @var array
+     */
+    private $_metadata = [];
+
+    /**
+     * Per client meta data used when sending the message to mandrill.
+     *
+     * @var array
+     */
+    private $_recipientMetadata = [];
+
+    /**
+     * @var array an array of strings indicating for which any matching URLs will automatically have Google Analytics
+     * parameters appended to their query string automatically
+     */
+    private $_googleAnalyticsDomains = [];
+
+    /**
+     * @var string indicating the value to set for the utm_campaign tracking parameter (optional)
+     */
+    private $_googleAnalyticsCampaign;
+
     /**
      * What language will be used in the template
      * Check @link http://handlebarsjs.com/ for more documentation about handlebars language
@@ -265,7 +298,8 @@ class Message extends BaseMessage
      * @see \nickcv\mandrill\Message::getCharset() getter
      *
      * @param string $charset character set name.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setCharset($charset)
     {
@@ -300,7 +334,8 @@ class Message extends BaseMessage
      * @see \nickcv\mandrill\Message::getTags() getter
      *
      * @param string|array $tag tag or list of tags
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setTags($tag)
     {
@@ -333,7 +368,7 @@ class Message extends BaseMessage
     /**
      * Enables async sending for this message.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.3.0
      */
     public function enableAsync()
@@ -346,7 +381,7 @@ class Message extends BaseMessage
     /**
      * Disables async sending the this message.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.3.0
      */
     public function disableAsync()
@@ -399,7 +434,8 @@ class Message extends BaseMessage
      * If you don't set this parameter the application adminEmail parameter will
      * be used as the sender email address and the application name will be used
      * as the sender name.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setFrom($from)
     {
@@ -454,7 +490,8 @@ class Message extends BaseMessage
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setTo($to)
     {
@@ -491,7 +528,8 @@ class Message extends BaseMessage
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setReplyTo($replyTo)
     {
@@ -528,7 +566,8 @@ class Message extends BaseMessage
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setCc($cc)
     {
@@ -565,7 +604,8 @@ class Message extends BaseMessage
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setBcc($bcc)
     {
@@ -593,7 +633,8 @@ class Message extends BaseMessage
      *
      * @param string $subject
      * The subject will be trimmed.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setSubject($subject)
     {
@@ -623,7 +664,8 @@ class Message extends BaseMessage
      *
      * @param string $text
      * The text will be purified.
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setTextBody($text)
     {
@@ -652,7 +694,8 @@ class Message extends BaseMessage
      * @see \nickcv\mandrill\Message::getHtmlBody() getter
      *
      * @param string $html
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      */
     public function setHtmlBody($html)
     {
@@ -687,7 +730,8 @@ class Message extends BaseMessage
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
+     * @throws \yii\base\InvalidConfigException
      */
     public function attach($fileName, array $options = [])
     {
@@ -713,7 +757,7 @@ class Message extends BaseMessage
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      */
     public function attachContent($content, array $options = [])
     {
@@ -726,6 +770,7 @@ class Message extends BaseMessage
                 'content' => base64_encode($content),
             ];
         }
+
         return $this;
     }
 
@@ -753,7 +798,8 @@ class Message extends BaseMessage
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
+     * @throws \yii\base\InvalidConfigException
      */
     public function embed($fileName, array $options = [])
     {
@@ -779,7 +825,7 @@ class Message extends BaseMessage
      * - fileName: name, which should be used to attach file.
      * - contentType: attached file MIME type.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      */
     public function embedContent($content, array $options = [])
     {
@@ -803,7 +849,7 @@ class Message extends BaseMessage
      * @param array $templateContent
      * @param string $templateLanguage
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.3.0
      */
     public function setTemplateData($templateName, array $templateContent = [], $templateLanguage = self::LANGUAGE_MAILCHIMP)
@@ -846,7 +892,7 @@ class Message extends BaseMessage
     /**
      * Enable the use of template defaults.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.4.0
      */
     public function enableTemplateDefaults()
@@ -859,7 +905,7 @@ class Message extends BaseMessage
     /**
      * Disable the use of template defaults.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.4.0
      */
     public function disableTemplateDefaults()
@@ -871,7 +917,8 @@ class Message extends BaseMessage
 
     /**
      * @param string $subaccount
-     * @return \nickcv\mandrill\Message
+     *
+     * @return static
      * @since 1.7.0
      */
     public function setSubaccount($subaccount)
@@ -893,7 +940,7 @@ class Message extends BaseMessage
     /**
      * Make the message important.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function setAsImportant()
@@ -907,7 +954,7 @@ class Message extends BaseMessage
      * Make the message not important.
      * The message is not important by default.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function setAsNotImportant()
@@ -930,7 +977,7 @@ class Message extends BaseMessage
      * Enable tracking of when the message is opened.
      * Tracking is enabled by default.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function enableOpensTracking()
@@ -943,7 +990,7 @@ class Message extends BaseMessage
     /**
      * Disable tracking of when the message is opened.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function disableOpensTracking()
@@ -968,7 +1015,7 @@ class Message extends BaseMessage
      * Enable tracking of when links in the message are being clicked.
      * Tracking is enabled by default.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function enableClicksTracking()
@@ -981,7 +1028,7 @@ class Message extends BaseMessage
     /**
      * Disable tracking of when links in the message are being clicked.
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.7.0
      */
     public function disableClicksTracking()
@@ -1014,12 +1061,22 @@ class Message extends BaseMessage
     }
 
     /**
+     * Returns the merge vars that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getMergeVars()
+    {
+        return $this->_mergeVars;
+    }
+
+    /**
      * Adds the given merge vars to the global merge vars array.
      * Merge vars are case insensitive and cannot start with _
      *
      * @param array $mergeVars
      *
-     * @return \nickcv\mandrill\Message
+     * @return static
      * @since 1.4.0
      */
     public function setGlobalMergeVars(array $mergeVars)
@@ -1038,6 +1095,149 @@ class Message extends BaseMessage
         return $this;
     }
 
+
+    /**
+     * Adds the given merge vars to the merge vars array.
+     *
+     * @param array $mergeVars with format :
+     * [
+     *    'rcpt' => 'string email address of the recipient that the merge variables should apply to',
+     *    'vars' => [
+     *                 'name'    => 'NAMEOFVARIABLE_IN_MANDRIL',
+     *                 'content' => 'VALUEOFVARIABLE_IN_MANDRIL_TEMPLATE',
+     *    ]
+     * ], ...
+     *
+     * @return static
+     */
+    public function setMergeVars(array $mergeVars)
+    {
+        $this->_mergeVars = $mergeVars;
+
+        return $this;
+    }
+
+    /**
+     * Returns the global meta data that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getMetadata()
+    {
+        return $this->_metadata;
+    }
+
+    /**
+     * Returns the per recipient meta data that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getRecipientMetadata()
+    {
+        return $this->_recipientMetadata;
+    }
+
+    /**
+     * Adds the given meta data to the global meta data array
+     *
+     * @param array $metadata
+     *
+     * Example
+     * ```php
+     * [
+     *      'group_id' => 'users_active'
+     * ]
+     * ```
+     *
+     * @return static
+     */
+    public function setMetadata(array $metadata)
+    {
+        $this->_metadata = $metadata;
+
+        return $this;
+    }
+
+    /**
+     * Adds the given meta data to the per recipient meta data array
+     *
+     * @param array $recipientMetadata
+     *
+     * Example
+     * ```php
+     * [
+     *      [
+     *          'rcpt' => 'foo@example.com',
+     *          'values' => [
+     *              'user_id' => '123'
+     *          ]
+     *      ],
+     *      [
+     *          'rcpt' => 'bar@example.com',
+     *          'values' => [
+     *              'user_id' => '456'
+     *          ]
+     *      ]
+     * ]
+     * ```
+     *
+     * @return static
+     */
+    public function setRecipientMetadata(array $recipientMetadata)
+    {
+        $this->_metadata = $recipientMetadata;
+
+        return $this;
+    }
+
+    /**
+     * Returns the Google Analytics domains that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getGoogleAnalyticsDomains()
+    {
+        return $this->_googleAnalyticsDomains;
+    }
+
+    /**
+     * Returns the Google Analytics campaign that will be submitted to mandrill.
+     *
+     * @return string
+     */
+    public function getGoogleAnalyticsCampaign()
+    {
+        return $this->_googleAnalyticsCampaign;
+    }
+
+    /**
+     * Sets the Google Analytics domains that will be submitted to mandrill.
+     *
+     * @param array $domains
+     *
+     * @return static
+     */
+    public function setGoogleAnalyticsDomains(array $domains)
+    {
+        $this->_googleAnalyticsDomains = $domains;
+
+        return $this;
+    }
+
+    /**
+     * Sets the Google Analytics campaign that will be submitted to mandrill.
+     *
+     * @param string $campaign
+     *
+     * @return static
+     */
+    public function setGoogleAnalyticsCampaign($campaign)
+    {
+        $this->_googleAnalyticsCampaign = $campaign;
+
+        return $this;
+    }
+
     /**
      * Returns the string representation of this message.
      *
@@ -1046,9 +1246,9 @@ class Message extends BaseMessage
     public function toString()
     {
         return $this->getSubject() . ' - Recipients:'
-                . ' [TO] ' . implode('; ', $this->getTo())
-                . ' [CC] ' . implode('; ', $this->getCc())
-                . ' [BCC] ' . implode('; ', $this->getBcc());
+            . ' [TO] ' . implode('; ', $this->getTo())
+            . ' [CC] ' . implode('; ', $this->getCc())
+            . ' [BCC] ' . implode('; ', $this->getBcc());
     }
 
     /**
@@ -1074,6 +1274,11 @@ class Message extends BaseMessage
             'tags' => $this->_tags,
             'merge_language' => $this->_mergeLanguage,
             'global_merge_vars' => $this->_globalMergeVars,
+            'merge_vars' => $this->_mergeVars,
+            'metadata' => $this->_metadata,
+            'recipient_metadata' => $this->_recipientMetadata,
+            'google_analytics_domains' => $this->_googleAnalyticsDomains,
+            'google_analytics_campaign' => $this->_googleAnalyticsCampaign,
             'attachments' => $this->_attachments,
             'images' => $this->_images,
             'subaccount' => $this->_subaccount,
@@ -1127,6 +1332,7 @@ class Message extends BaseMessage
      *
      * @param string $emailAddress
      * @param string $privateAttributeName
+     *
      * @return boolean
      */
     private function isRecipientValid($emailAddress, $privateAttributeName)
@@ -1152,6 +1358,7 @@ class Message extends BaseMessage
      *
      * @param string $string
      * @param string $privateAttributeName
+     *
      * @return boolean
      */
     private function isTagValid($string, $privateAttributeName)
@@ -1175,6 +1382,7 @@ class Message extends BaseMessage
      * Returns the Mime Type from the file binary.
      *
      * @param string $binary
+     *
      * @return string
      */
     private function getMimeTypeFromBinary($binary)
@@ -1264,6 +1472,7 @@ class Message extends BaseMessage
      * @param string $key
      * @param string $value
      * @param string $type
+     *
      * @return array
      */
     private function getRecipientEntry($key, $value, $type)
@@ -1279,6 +1488,7 @@ class Message extends BaseMessage
      * Converts the parameters in the format used by Mandrill to render templates.
      *
      * @param array $params
+     *
      * @return array
      * @since 1.3.0
      */
@@ -1288,6 +1498,7 @@ class Message extends BaseMessage
         foreach ($params as $key => $value) {
             $merge[] = ['name' => $key, 'content' => $value];
         }
+
         return $merge;
     }
 }

@@ -13,7 +13,6 @@ namespace nickcv\mandrill;
 
 use yii\mail\BaseMailer;
 use yii\base\InvalidConfigException;
-use nickcv\mandrill\Message;
 use Mandrill;
 use Mandrill_Error;
 
@@ -72,7 +71,7 @@ class Mailer extends BaseMailer
     /**
      * @var string message default class name.
      */
-    public $messageClass = 'nickcv\mandrill\Message';
+    public $messageClass = '\nickcv\mandrill\Message';
 
     /**
      * @var Mandrill the Mandrill instance
@@ -88,7 +87,9 @@ class Mailer extends BaseMailer
     /**
      * Checks that the API key has indeed been set.
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function init()
     {
@@ -112,6 +113,7 @@ class Mailer extends BaseMailer
      * Sets the API key for Mandrill
      *
      * @param string $apikey the Mandrill API key
+     *
      * @throws InvalidConfigException
      */
     public function setApikey($apikey)
@@ -157,7 +159,8 @@ class Mailer extends BaseMailer
      * If mandrill templates are not being used or if no template with the given
      * name has been found it will fallback to the normal compose method.
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @since 1.2.0
      */
     public function compose($view = null, array $params = [])
@@ -169,6 +172,7 @@ class Mailer extends BaseMailer
             if ($this->useTemplateDefaults) {
                 $message->enableTemplateDefaults();
             }
+
             return $message;
         }
 
@@ -179,6 +183,7 @@ class Mailer extends BaseMailer
      * Sends the specified message.
      *
      * @param Message $message the message to be sent
+     *
      * @return boolean whether the message is sent successfully
      */
     protected function sendMessage($message)
@@ -205,6 +210,7 @@ class Mailer extends BaseMailer
             }
         } catch (Mandrill_Error $e) {
             \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
+
             return false;
         }
     }
@@ -213,6 +219,7 @@ class Mailer extends BaseMailer
      * parse the mandrill response and returns false if any message was either invalid or rejected
      *
      * @param array $mandrillResponse
+     *
      * @return boolean
      */
     private function wasMessageSentSuccesfully($mandrillResponse)
