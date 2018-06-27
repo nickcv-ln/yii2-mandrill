@@ -24,5 +24,10 @@ composer.lock
 
 # phpunit itself is not needed
 phpunit.phar
+
 # local phpunit config
 /phpunit.xml
+
+# test suite files
+tests/runtime/
+tests/_support/_generated

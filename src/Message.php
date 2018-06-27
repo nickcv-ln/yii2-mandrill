@@ -11,10 +11,10 @@
 
 namespace nickcv\mandrill;
 
-use yii\mail\BaseMessage;
-use yii\helpers\HtmlPurifier;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\helpers\HtmlPurifier;
+use yii\mail\BaseMessage;
 
 /**
  * Message is the class that is used to store the data of an email message that

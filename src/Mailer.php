@@ -87,7 +87,9 @@ class Mailer extends BaseMailer
     /**
      * Checks that the API key has indeed been set.
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
+     * @throws \Exception
      */
     public function init()
     {
@@ -157,7 +159,8 @@ class Mailer extends BaseMailer
      * If mandrill templates are not being used or if no template with the given
      * name has been found it will fallback to the normal compose method.
      *
-     * @inheritdoc
+     * {@inheritdoc}
+     *
      * @since 1.2.0
      */
     public function compose($view = null, array $params = [])
