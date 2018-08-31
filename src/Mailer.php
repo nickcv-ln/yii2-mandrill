@@ -168,6 +168,7 @@ class Mailer extends BaseMailer
         if ($this->useMandrillTemplates) {
             /** @var Message $message */
             $message = parent::compose();
+            $message->setGlobalMergeVars($params);
             $message->setTemplateData($view, $params, $this->templateLanguage);
             if ($this->useTemplateDefaults) {
                 $message->enableTemplateDefaults();
