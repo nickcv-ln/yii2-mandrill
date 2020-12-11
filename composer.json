@@ -27,6 +27,7 @@
         }
     ],
     "require": {
+        "ext-fileinfo": "*",
         "yiisoft/yii2": "~2.0",
         "mandrill/mandrill": "~1.0"
     },

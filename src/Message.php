@@ -1186,7 +1186,7 @@ class Message extends BaseMessage
      */
     public function setRecipientMetadata(array $recipientMetadata)
     {
-        $this->_metadata = $recipientMetadata;
+        $this->_recipientMetadata = $recipientMetadata;
 
         return $this;
     }

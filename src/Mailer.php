@@ -11,6 +11,7 @@
 
 namespace nickcv\mandrill;
 
+use Yii;
 use yii\mail\BaseMailer;
 use yii\base\InvalidConfigException;
 use Mandrill;
@@ -104,7 +105,7 @@ class Mailer extends BaseMailer
         try {
             $this->_mandrill = new Mandrill($this->_apikey);
         } catch (\Exception $exc) {
-            \Yii::error($exc->getMessage());
+            Yii::error($exc->getMessage());
             throw new \Exception('an error occurred with your mailer. Please check the application logs.', 500);
         }
     }
@@ -188,7 +189,7 @@ class Mailer extends BaseMailer
      */
     protected function sendMessage($message)
     {
-        \Yii::info('Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"', self::LOG_CATEGORY);
+        Yii::info('Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"', self::LOG_CATEGORY);
 
         try {
             if ($this->useMandrillTemplates) {
@@ -209,7 +210,7 @@ class Mailer extends BaseMailer
                 );
             }
         } catch (Mandrill_Error $e) {
-            \Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
+            Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
 
             return false;
         }
@@ -231,20 +232,20 @@ class Mailer extends BaseMailer
             switch ($recipient['status']) {
                 case self::STATUS_INVALID:
                     $return = false;
-                    \Yii::warning('the email for "' . $recipient['email'] . '" has not been sent: status "' . $recipient['status'] . '"', self::LOG_CATEGORY);
+                    Yii::warning('the email for "' . $recipient['email'] . '" has not been sent: status "' . $recipient['status'] . '"', self::LOG_CATEGORY);
                     break;
                 case self::STATUS_QUEUED:
-                    \Yii::info('the email for "' . $recipient['email'] . '" is now in a queue waiting to be sent.', self::LOG_CATEGORY);
+                    Yii::info('the email for "' . $recipient['email'] . '" is now in a queue waiting to be sent.', self::LOG_CATEGORY);
                     break;
                 case self::STATUS_REJECTED:
                     $return = false;
-                    \Yii::warning('the email for "' . $recipient['email'] . '" has been rejected: reason "' . $recipient['reject_reason'] . '"', self::LOG_CATEGORY);
+                    Yii::warning('the email for "' . $recipient['email'] . '" has been rejected: reason "' . $recipient['reject_reason'] . '"', self::LOG_CATEGORY);
                     break;
                 case self::STATUS_SCHEDULED:
-                    \Yii::info('the email submission for "' . $recipient['email'] . '" has been scheduled.', self::LOG_CATEGORY);
+                    Yii::info('the email submission for "' . $recipient['email'] . '" has been scheduled.', self::LOG_CATEGORY);
                     break;
                 case self::STATUS_SENT:
-                    \Yii::info('the email for "' . $recipient['email'] . '" has been sent.', self::LOG_CATEGORY);
+                    Yii::info('the email for "' . $recipient['email'] . '" has been sent.', self::LOG_CATEGORY);
                     break;
             }
         }
