@@ -167,10 +167,12 @@ class MandrillTest extends \Codeception\TestCase\Test
 
     protected function _before()
     {
+        \yii\helpers\FileHelper::createDirectory(dirname(__DIR__) . '/runtime');
     }
 
     protected function _after()
     {
+        \yii\helpers\FileHelper::removeDirectory(dirname(__DIR__) . '/runtime');
     }
 
 }
