@@ -31,8 +31,9 @@
         "mandrill/mandrill": "~1.0"
     },
     "require-dev": {
-        "codeception/codeception": "*",
-        "victorjonsson/markdowndocs": "*",
+        "codeception/codeception": "^4.1.0",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "victorjonsson/markdowndocs": "^1.3.0",
         "yiisoft/yii2-coding-standards": "~2.0"
     },
     "autoload": {
