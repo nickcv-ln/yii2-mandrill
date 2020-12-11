@@ -22,15 +22,6 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
      */
     private $_testPdfBinary;
 
-    protected function _before()
-    {
-        $this->_message = new \nickcv\mandrill\Message;
-    }
-
-    protected function _after()
-    {
-    }
-
     public function testMessageSetCharset()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setCharset('utf-8'));
@@ -219,6 +210,46 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals($this->getTestPdfBinary(true), $attachments[3]['content']);
         $this->assertEquals('12.txt', $attachments[3]['name']);
         $this->assertEquals('image/png', $attachments[3]['type']);
+    }
+
+    /**
+     * @return string
+     */
+    private function getTestImagePath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'test.png';
+    }
+
+    /**
+     * @param boolean $encode
+     * @return string
+     */
+    private function getTestPdfBinary($encode = false)
+    {
+        if ($this->_testPdfBinary === null)
+            $this->_testPdfBinary = file_get_contents($this->getTestPdfPath());
+
+        return $encode ? base64_encode($this->_testPdfBinary) : $this->_testPdfBinary;
+    }
+
+    /**
+     * @return string
+     */
+    private function getTestPdfPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'test.pdf';
+    }
+
+    /**
+     * @param boolean $encode
+     * @return string
+     */
+    private function getTestImageBinary($encode = false)
+    {
+        if ($this->_testImageBinary === null)
+            $this->_testImageBinary = file_get_contents($this->getTestImagePath());
+
+        return $encode ? base64_encode($this->_testImageBinary) : $this->_testImageBinary;
     }
 
     public function testMessageEmbed()
@@ -565,44 +596,15 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertEquals('My Message - Recipients: [TO] to@email.it [CC] cc@email.it [BCC] bcc@email.it', $string);
     }
 
-    /**
-     * @return string
-     */
-    private function getTestImagePath()
+    protected function _before()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'test.png';
+        $this->_message = new \nickcv\mandrill\Message;
+        \yii\helpers\FileHelper::createDirectory(dirname(__DIR__) . '/runtime');
     }
 
-    /**
-     * @param boolean $encode
-     * @return string
-     */
-    private function getTestImageBinary($encode = false)
+    protected function _after()
     {
-        if ($this->_testImageBinary === null)
-            $this->_testImageBinary = file_get_contents($this->getTestImagePath());
-
-        return $encode ? base64_encode($this->_testImageBinary) : $this->_testImageBinary;
-    }
-
-    /**
-     * @return string
-     */
-    private function getTestPdfPath()
-    {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'test.pdf';
-    }
-
-    /**
-     * @param boolean $encode
-     * @return string
-     */
-    private function getTestPdfBinary($encode = false)
-    {
-        if ($this->_testPdfBinary === null)
-            $this->_testPdfBinary = file_get_contents($this->getTestPdfPath());
-
-        return $encode ? base64_encode($this->_testPdfBinary) : $this->_testPdfBinary;
+        \yii\helpers\FileHelper::removeDirectory(dirname(__DIR__) . '/runtime');
     }
 
 }
