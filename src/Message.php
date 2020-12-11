@@ -11,6 +11,7 @@
 
 namespace nickcv\mandrill;
 
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 use yii\helpers\HtmlPurifier;
@@ -1082,7 +1083,7 @@ class Message extends BaseMessage
     public function setGlobalMergeVars(array $mergeVars)
     {
         foreach ($mergeVars as $name => $content) {
-            if ($name{0} === '_') {
+            if ($name[0] === '_') {
                 continue;
             }
 
@@ -1425,7 +1426,7 @@ class Message extends BaseMessage
             return $this->_fromName ? $this->_fromName : null;
         }
 
-        return $this->_fromName ? $this->_fromName : \Yii::$app->name;
+        return $this->_fromName ? $this->_fromName : Yii::$app->name;
     }
 
     /**
@@ -1439,7 +1440,7 @@ class Message extends BaseMessage
             return $this->_fromAddress ? $this->_fromAddress : null;
         }
 
-        return $this->_fromAddress ? $this->_fromAddress : \Yii::$app->params['adminEmail'];
+        return $this->_fromAddress ? $this->_fromAddress : Yii::$app->params['adminEmail'];
     }
 
     /**
