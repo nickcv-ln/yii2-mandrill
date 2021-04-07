@@ -31,13 +31,18 @@
         "mailchimp/transactional": "^1.0.0"
     },
     "require-dev": {
-        "codeception/codeception": "<2",
+        "phpunit/phpunit": "4.8.34",
         "victorjonsson/markdowndocs": "*",
         "yiisoft/yii2-coding-standards": "~2.0"
     },
     "autoload": {
         "psr-4": {
             "nickcv\\mandrill\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "yiiunit\\extensions\\mandrill\\": "tests/"
         }
     }
 }

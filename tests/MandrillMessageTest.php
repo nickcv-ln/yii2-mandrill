@@ -1,15 +1,13 @@
 <?php
 
+namespace yiiunit\extensions\mandrill;
 
-class MandrillMessageTest extends \Codeception\TestCase\Test
+use nickcv\mandrill\Message;
+
+class MandrillMessageTest extends TestCase
 {
     /**
-     * @var \CodeGuy
-     */
-    protected $tester;
-
-    /**
-     * @var \nickcv\mandrill\Message
+     * @var Message
      */
     private $_message;
 
@@ -17,14 +15,17 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
      * @var string
      */
     private $_testImageBinary;
+
     /**
      * @var string
      */
     private $_testPdfBinary;
 
-    protected function _before()
+    protected function setUp()
     {
-        $this->_message = new \nickcv\mandrill\Message;
+        parent::setUp();
+
+        $this->_message = new Message;
     }
 
     protected function _after()
@@ -40,7 +41,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageSetTags()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTags('tag1'));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTags(array('tag1', 'tag2', 'tag3')));
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTags(['tag1', 'tag2', 'tag3']));
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTags('_tag5'));
 
         $tags = $this->_message->getTags();
@@ -78,7 +79,7 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         // handlebars
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTemplateData('viewName', [
             'money' => 300,
-        ], \nickcv\mandrill\Message::LANGUAGE_HANDLEBARS));
+        ], Message::LANGUAGE_HANDLEBARS));
 
         $this->assertEquals('viewName', $this->_message->getTemplateName());
 
@@ -89,14 +90,22 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
             ]
         ], $this->_message->getGlobalMergeVars());
 
-        $this->assertEquals(\nickcv\mandrill\Message::LANGUAGE_HANDLEBARS,
-            $this->_message->getMandrillMessageArray()['merge_language']);
+        $this->assertEquals(
+            Message::LANGUAGE_HANDLEBARS,
+            $this->_message->getMandrillMessageArray()['merge_language']
+        );
     }
 
     public function testMessageSetRecipient()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTo('email@email.it'));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTo(['email2@email.it' => 'fakeuser', 'email@email.it', 'email3@email.it', 'asdf', 'fakeuser' => 'email4@email.it']));
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTo([
+            'email2@email.it' => 'fakeuser',
+            'email@email.it',
+            'email3@email.it',
+            'asdf',
+            'fakeuser' => 'email4@email.it'
+        ]));
         $contactList = $this->_message->getTo();
         $this->assertCount(3, $contactList);
         $this->assertContains('email@email.it', $contactList);
@@ -121,10 +130,16 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setFrom('asdf'));
         $this->assertEquals('My Application<email@email.it>', $this->_message->getFrom());
 
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setFrom(['fakeuser' => 'email4@email.it']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setFrom(['fakeuser' => 'email4@email.it'])
+        );
         $this->assertEquals('My Application<email@email.it>', $this->_message->getFrom());
 
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setFrom(['email2@email.it' => 'fakeuser']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setFrom(['email2@email.it' => 'fakeuser'])
+        );
         $this->assertEquals('fakeuser<email2@email.it>', $this->_message->getFrom());
 
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setFrom(['email3@email.it' => '']));
@@ -141,7 +156,13 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageSetReplyTo()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setReplyTo('email@email.it'));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setReplyTo(['email2@email.it' => 'fakeuser', 'email@email.it', 'email3@email.it', 'asdf', 'fakeuser' => 'email4@email.it']));
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setReplyTo([
+            'email2@email.it' => 'fakeuser',
+            'email@email.it',
+            'email3@email.it',
+            'asdf',
+            'fakeuser' => 'email4@email.it'
+        ]));
         $contactList = $this->_message->getReplyTo();
         $this->assertCount(3, $contactList);
         $this->assertContains('email@email.it', $contactList);
@@ -153,7 +174,13 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageSetCC()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setCc('email@email.it'));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setCc(['email2@email.it' => 'fakeuser', 'email@email.it', 'email3@email.it', 'asdf', 'fakeuser' => 'email4@email.it']));
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setCc([
+            'email2@email.it' => 'fakeuser',
+            'email@email.it',
+            'email3@email.it',
+            'asdf',
+            'fakeuser' => 'email4@email.it'
+        ]));
         $contactList = $this->_message->getCc();
         $this->assertCount(3, $contactList);
         $this->assertContains('email@email.it', $contactList);
@@ -165,7 +192,13 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageSetBCC()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setBcc('email@email.it'));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setBcc(['email2@email.it' => 'fakeuser', 'email@email.it', 'email3@email.it', 'asdf', 'fakeuser' => 'email4@email.it']));
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setBcc([
+            'email2@email.it' => 'fakeuser',
+            'email@email.it',
+            'email3@email.it',
+            'asdf',
+            'fakeuser' => 'email4@email.it'
+        ]));
         $contactList = $this->_message->getBcc();
         $this->assertCount(3, $contactList);
         $this->assertContains('email@email.it', $contactList);
@@ -182,24 +215,39 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
     public function testMessageSetTextBody()
     {
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setTextBody('testo<script>alert("ciao");</script>'));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setTextBody('testo<script>alert("ciao");</script>')
+        );
         $this->assertEquals('testo', $this->_message->getTextBody());
     }
 
     public function testMessageSetHtmlBody()
     {
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setHtmlBody('<a>testo & co</a><script>alert("ciao");</script>'));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setHtmlBody('<a>testo & co</a><script>alert("ciao");</script>')
+        );
         $this->assertEquals('<a>testo & co</a><script>alert("ciao");</script>', $this->_message->getHtmlBody());
     }
 
     public function testMessageAttach()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attach($this->getTestImagePath()));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attach($this->getTestImagePath(), ['fileName' => 'test2.png', 'contentType' => 'text/html']));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attach(__DIR__ . DIRECTORY_SEPARATOR . 'asdf.png'));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->attach($this->getTestImagePath(), ['fileName' => 'test2.png', 'contentType' => 'text/html'])
+        );
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->attach(__DIR__ . DIRECTORY_SEPARATOR . 'asdf.png')
+        );
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attach(__DIR__));
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attachContent($this->getTestPdfBinary()));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->attachContent($this->getTestPdfBinary(), ['fileName' => '12.txt', 'contentType' => 'image/png']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->attachContent($this->getTestPdfBinary(), ['fileName' => '12.txt', 'contentType' => 'image/png'])
+        );
 
         $attachments = $this->_message->getAttachments();
         $this->assertCount(4, $attachments);
@@ -224,13 +272,22 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageEmbed()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embed($this->getTestImagePath()));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embed($this->getTestImagePath(), ['fileName' => 'test2.png', 'contentType' => 'image/jpeg']));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embed(__DIR__ . DIRECTORY_SEPARATOR . 'asdf.png'));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message', $this->_message->embed($this->getTestImagePath(),
+            ['fileName' => 'test2.png', 'contentType' => 'image/jpeg'])
+        );
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->embed(__DIR__ . DIRECTORY_SEPARATOR . 'asdf.png')
+        );
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embed(__DIR__));
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embed($this->getTestPdfPath()));
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embedContent('ancora un po'));
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embedContent($this->getTestImageBinary()));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->embedContent($this->getTestImageBinary(), ['fileName' => '12.txt', 'contentType' => 'text/html']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message', $this->_message->embedContent($this->getTestImageBinary(),
+            ['fileName' => '12.txt', 'contentType' => 'text/html'])
+        );
 
         $attachments = $this->_message->getEmbeddedContent();
         $this->assertCount(4, $attachments);
@@ -255,8 +312,14 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
     public function testMessageGlobalMergeVars()
     {
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setGlobalMergeVars(['var' => 'value']));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setGlobalMergeVars(['_illegal' => 'value']));
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setGlobalMergeVars(['var2' => 'value2', 'var3' => 'value3']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setGlobalMergeVars(['_illegal' => 'value'])
+        );
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setGlobalMergeVars(['var2' => 'value2', 'var3' => 'value3'])
+        );
 
         $this->assertEquals([
             [
@@ -295,7 +358,10 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
     public function testMessageMetadata()
     {
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setMetadata(['group_id' => 'users_active']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setMetadata(['group_id' => 'users_active'])
+        );
 
         $this->assertEquals(['group_id' => 'users_active'], $this->_message->getMetadata());
     }
@@ -365,7 +431,10 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
 
         $this->_message->disableTemplateDefaults();
 
-        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setFrom(['email2@email.it' => 'fakeuser']));
+        $this->assertInstanceOf(
+            '\nickcv\mandrill\Message',
+            $this->_message->setFrom(['email2@email.it' => 'fakeuser'])
+        );
         $this->assertEquals('fakeuser<email2@email.it>', $this->_message->getFrom());
         $this->_message->enableTemplateDefaults();
         $this->assertEquals('fakeuser<email2@email.it>', $this->_message->getFrom());
@@ -570,17 +639,19 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
      */
     private function getTestImagePath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'test.png';
+        return __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'test.png';
     }
 
     /**
      * @param boolean $encode
+     *
      * @return string
      */
     private function getTestImageBinary($encode = false)
     {
-        if ($this->_testImageBinary === null)
+        if ($this->_testImageBinary === null) {
             $this->_testImageBinary = file_get_contents($this->getTestImagePath());
+        }
 
         return $encode ? base64_encode($this->_testImageBinary) : $this->_testImageBinary;
     }
@@ -590,19 +661,20 @@ class MandrillMessageTest extends \Codeception\TestCase\Test
      */
     private function getTestPdfPath()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . 'test.pdf';
+        return __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'test.pdf';
     }
 
     /**
      * @param boolean $encode
+     *
      * @return string
      */
     private function getTestPdfBinary($encode = false)
     {
-        if ($this->_testPdfBinary === null)
+        if ($this->_testPdfBinary === null) {
             $this->_testPdfBinary = file_get_contents($this->getTestPdfPath());
+        }
 
         return $encode ? base64_encode($this->_testPdfBinary) : $this->_testPdfBinary;
     }
-
 }

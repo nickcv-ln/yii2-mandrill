@@ -3,5 +3,5 @@ tests/ export-ignore
 phpcs.xml export-ignore
 README.md export-ignore
 .gitignore export-ignore
-codeception.yml export-ignore
+phpunit.xml.dist export-ignore
 documentation.md export-ignore
