@@ -123,10 +123,6 @@ class Mailer extends BaseMailer
      */
     public function setApikey(string $apikey)
     {
-        if (!is_string($apikey)) {
-            throw new InvalidConfigException('"' . get_class($this) . '::apikey" should be a string, "' . gettype($apikey) . '" given.');
-        }
-
         $trimmedApikey = trim($apikey);
         if (!strlen($trimmedApikey) > 0) {
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" length should be greater than 0.');

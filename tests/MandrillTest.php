@@ -19,8 +19,8 @@ class MandrillTest extends TestCase
 
     public function testApikeyMustBeString()
     {
-        $this->expectException('yii\base\InvalidConfigException');
-        $this->expectExceptionMessage('"nickcv\mandrill\Mailer::apikey" should be a string, "array" given.');
+        $this->expectException('TypeError');
+//        $this->expectExceptionMessage('"nickcv\mandrill\Mailer::apikey" should be a string, "array" given.');
         new Mailer(['apikey' => []]);
     }
 

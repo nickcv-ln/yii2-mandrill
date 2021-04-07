@@ -191,7 +191,7 @@ class Message extends BaseMessage
      * @var array
      * @since 1.3.0
      */
-    private $_templateContent;
+    private $_templateContent = [];
 
     /**
      * Value used to decide whether the message should calculate default values
@@ -405,11 +405,11 @@ class Message extends BaseMessage
      * The default value for the sender address is the adminEmail parameter
      * inside `config/params.php`.
      *
-     * @return string
+     * @return string|null
      * @see \nickcv\mandrill\Message::setFrom() setter
      *
      */
-    public function getFrom(): string
+    public function getFrom()
     {
         $from = null;
 
@@ -473,11 +473,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
-     * @return array
+     * @return array|null
      * @see \nickcv\mandrill\Message::setTo() setter
      *
      */
-    public function getTo(): array
+    public function getTo()
     {
         return $this->_to;
     }
@@ -511,11 +511,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
-     * @return array
+     * @return array|null
      * @see \nickcv\mandrill\Message::setReplyTo() setter
      *
      */
-    public function getReplyTo(): array
+    public function getReplyTo()
     {
         return $this->_replyTo;
     }
@@ -549,11 +549,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
-     * @return array
+     * @return array|null
      * @see \nickcv\mandrill\Message::setCc() setter
      *
      */
-    public function getCc(): array
+    public function getCc()
     {
         return $this->_cc;
     }
@@ -587,11 +587,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
-     * @return array
+     * @return array|null
      * @see \nickcv\mandrill\Message::setBcc() setter
      *
      */
-    public function getBcc(): array
+    public function getBcc()
     {
         return $this->_bcc;
     }
@@ -618,11 +618,11 @@ class Message extends BaseMessage
     /**
      * Returns the html-encoded subject.
      *
-     * @return string
+     * @return string|null
      * @see \nickcv\mandrill\Message::setSubject() setter
      *
      */
-    public function getSubject(): string
+    public function getSubject()
     {
         return $this->_subject;
     }
@@ -649,11 +649,11 @@ class Message extends BaseMessage
     /**
      * Returns the html-purified version of the raw text body.
      *
-     * @return string
+     * @return string|null
      * @see \nickcv\mandrill\Message::setTextBody() setter
      *
      */
-    public function getTextBody(): string
+    public function getTextBody()
     {
         return $this->_text;
     }
@@ -680,11 +680,11 @@ class Message extends BaseMessage
     /**
      * Returns the html purified version of the html body.
      *
-     * @return string
+     * @return string|null
      * @see \nickcv\mandrill\Message::setHtmlBody() setter
      *
      */
-    public function getHtmlBody(): string
+    public function getHtmlBody()
     {
         return $this->_html;
     }
@@ -880,10 +880,10 @@ class Message extends BaseMessage
     /**
      * Returns the name of the mandrill template to be used.
      *
-     * @return string
+     * @return string|null
      * @since 1.3.0
      */
-    public function getTemplateName(): string
+    public function getTemplateName()
     {
         return $this->_templateName;
     }
@@ -939,10 +939,10 @@ class Message extends BaseMessage
     }
 
     /**
-     * @return string
+     * @return string|null
      * @since 1.7.0
      */
-    public function getSubaccount(): string
+    public function getSubaccount()
     {
         return $this->_subaccount;
     }
@@ -1427,29 +1427,29 @@ class Message extends BaseMessage
     /**
      * Returns the from name default value if no one was set by the user.
      *
-     * @return string
+     * @return string|null
      */
-    private function getFromName(): string
+    private function getFromName()
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromName ? $this->_fromName : '';
+            return $this->_fromName ? $this->_fromName : null;
         }
 
-        return empty($this->_fromName) ? $this->_fromName : Yii::$app->name;
+        return $this->_fromName ? $this->_fromName : Yii::$app->name;
     }
 
     /**
      * Returns the from address default value if no one was set by the user.
      *
-     * @return string
+     * @return string|null
      */
-    private function getFromAddress(): string
+    private function getFromAddress()
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromAddress ? $this->_fromAddress : '';
+            return $this->_fromAddress ? $this->_fromAddress : null;
         }
 
-        return empty($this->_fromAddress) ? $this->_fromAddress : Yii::$app->params['adminEmail'];
+        return $this->_fromAddress ? $this->_fromAddress : Yii::$app->params['adminEmail'];
     }
 
     /**
@@ -1479,13 +1479,13 @@ class Message extends BaseMessage
      * Generates and returns the single recipient array following Mandrill
      * API's specs.
      *
-     * @param string $key
+     * @param string|integer $key
      * @param string $value
      * @param string $type
      *
      * @return array
      */
-    private function getRecipientEntry(string $key, string $value, string $type): array
+    private function getRecipientEntry($key, string $value, string $type): array
     {
         return [
             'email' => is_string($key) ? $key : $value,
