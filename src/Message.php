@@ -284,9 +284,9 @@ class Message extends BaseMessage
     /**
      * Mandrill does not let users set a charset.
      *
+     * @return null
      * @see \nickcv\mandrill\Message::setCharset() setter
      *
-     * @return null
      */
     public function getCharset()
     {
@@ -296,13 +296,13 @@ class Message extends BaseMessage
     /**
      * Mandrill does not let users set a charset.
      *
-     * @see \nickcv\mandrill\Message::getCharset() getter
-     *
      * @param string $charset character set name.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getCharset() getter
+     *
      */
-    public function setCharset($charset)
+    public function setCharset($charset): Message
     {
         return $this;
     }
@@ -310,11 +310,11 @@ class Message extends BaseMessage
     /**
      * Returns the list of tags you already set for this message.
      *
+     * @return array the list of tags
      * @see \nickcv\mandrill\Message::setTags() setter
      *
-     * @return array the list of tags
      */
-    public function getTags()
+    public function getTags(): array
     {
         return $this->_tags;
     }
@@ -332,13 +332,13 @@ class Message extends BaseMessage
      *
      * Some common tags include *registration* and *password reset*.
      *
-     * @see \nickcv\mandrill\Message::getTags() getter
-     *
      * @param string|array $tag tag or list of tags
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getTags() getter
+     *
      */
-    public function setTags($tag)
+    public function setTags($tag): Message
     {
         if (is_string($tag) && $this->isTagValid($tag, '_tags')) {
             $this->_tags[] = $tag;
@@ -361,7 +361,7 @@ class Message extends BaseMessage
      * @return boolean
      * @since 1.3.0
      */
-    public function isAsync()
+    public function isAsync(): bool
     {
         return $this->_async;
     }
@@ -372,7 +372,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.3.0
      */
-    public function enableAsync()
+    public function enableAsync(): Message
     {
         $this->_async = true;
 
@@ -385,7 +385,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.3.0
      */
-    public function disableAsync()
+    public function disableAsync(): Message
     {
         $this->_async = false;
 
@@ -405,11 +405,11 @@ class Message extends BaseMessage
      * The default value for the sender address is the adminEmail parameter
      * inside `config/params.php`.
      *
+     * @return string
      * @see \nickcv\mandrill\Message::setFrom() setter
      *
-     * @return string
      */
-    public function getFrom()
+    public function getFrom(): string
     {
         $from = null;
 
@@ -427,8 +427,6 @@ class Message extends BaseMessage
     /**
      * Sets the message sender.
      *
-     * @see \nickcv\mandrill\Message::getFrom() getter
-     *
      * @param string|array $from sender email address.
      * You may specify sender name in addition to email address using format:
      * `[email => name]`.
@@ -437,8 +435,10 @@ class Message extends BaseMessage
      * as the sender name.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getFrom() getter
+     *
      */
-    public function setFrom($from)
+    public function setFrom($from): Message
     {
         if (is_string($from) && filter_var($from, FILTER_VALIDATE_EMAIL)) {
             $this->_fromAddress = $from;
@@ -473,11 +473,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
+     * @return array
      * @see \nickcv\mandrill\Message::setTo() setter
      *
-     * @return array
      */
-    public function getTo()
+    public function getTo(): array
     {
         return $this->_to;
     }
@@ -485,16 +485,16 @@ class Message extends BaseMessage
     /**
      * Sets the message recipient(s).
      *
-     * @see \nickcv\mandrill\Message::getTo() getter
-     *
      * @param string|array $to receiver email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getTo() getter
+     *
      */
-    public function setTo($to)
+    public function setTo($to): Message
     {
         $this->storeEmailAddressesInContainer($to, '_to');
 
@@ -511,11 +511,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
+     * @return array
      * @see \nickcv\mandrill\Message::setReplyTo() setter
      *
-     * @return array
      */
-    public function getReplyTo()
+    public function getReplyTo(): array
     {
         return $this->_replyTo;
     }
@@ -523,16 +523,16 @@ class Message extends BaseMessage
     /**
      * Sets the message recipient(s).
      *
-     * @see \nickcv\mandrill\Message::getReplyTo() getter
-     *
      * @param string|array $replyTo Reply-To email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getReplyTo() getter
+     *
      */
-    public function setReplyTo($replyTo)
+    public function setReplyTo($replyTo): Message
     {
         $this->storeEmailAddressesInContainer($replyTo, '_replyTo');
 
@@ -549,11 +549,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
+     * @return array
      * @see \nickcv\mandrill\Message::setCc() setter
      *
-     * @return array
      */
-    public function getCc()
+    public function getCc(): array
     {
         return $this->_cc;
     }
@@ -561,16 +561,16 @@ class Message extends BaseMessage
     /**
      * Sets the message recipient(s).
      *
-     * @see \nickcv\mandrill\Message::getCc() getter
-     *
      * @param string|array $cc cc email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getCc() getter
+     *
      */
-    public function setCc($cc)
+    public function setCc($cc): Message
     {
         $this->storeEmailAddressesInContainer($cc, '_cc');
 
@@ -587,11 +587,11 @@ class Message extends BaseMessage
      * ]
      * ~~~
      *
+     * @return array
      * @see \nickcv\mandrill\Message::setBcc() setter
      *
-     * @return array
      */
-    public function getBcc()
+    public function getBcc(): array
     {
         return $this->_bcc;
     }
@@ -599,16 +599,16 @@ class Message extends BaseMessage
     /**
      * Sets the message recipient(s).
      *
-     * @see \nickcv\mandrill\Message::getBcc() getter
-     *
      * @param string|array $bcc bcc email address.
      * You may pass an array of addresses if multiple recipients should receive this message.
      * You may also specify receiver name in addition to email address using format:
      * `[email => name]`.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getBcc() getter
+     *
      */
-    public function setBcc($bcc)
+    public function setBcc($bcc): Message
     {
         $this->storeEmailAddressesInContainer($bcc, '_bcc');
 
@@ -618,11 +618,11 @@ class Message extends BaseMessage
     /**
      * Returns the html-encoded subject.
      *
+     * @return string
      * @see \nickcv\mandrill\Message::setSubject() setter
      *
-     * @return string
      */
-    public function getSubject()
+    public function getSubject(): string
     {
         return $this->_subject;
     }
@@ -630,14 +630,14 @@ class Message extends BaseMessage
     /**
      * Sets the message subject.
      *
-     * @see \nickcv\mandrill\Message::getSubject() getter
-     *
      * @param string $subject
      * The subject will be trimmed.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getSubject() getter
+     *
      */
-    public function setSubject($subject)
+    public function setSubject($subject): Message
     {
         if (is_string($subject)) {
             $this->_subject = trim($subject);
@@ -649,11 +649,11 @@ class Message extends BaseMessage
     /**
      * Returns the html-purified version of the raw text body.
      *
+     * @return string
      * @see \nickcv\mandrill\Message::setTextBody() setter
      *
-     * @return string
      */
-    public function getTextBody()
+    public function getTextBody(): string
     {
         return $this->_text;
     }
@@ -661,14 +661,14 @@ class Message extends BaseMessage
     /**
      * Sets the raw text body.
      *
-     * @see \nickcv\mandrill\Message::getTextBody() getter
-     *
      * @param string $text
      * The text will be purified.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getTextBody() getter
+     *
      */
-    public function setTextBody($text)
+    public function setTextBody($text): Message
     {
         if (is_string($text)) {
             $this->_text = HtmlPurifier::process($text);
@@ -680,11 +680,11 @@ class Message extends BaseMessage
     /**
      * Returns the html purified version of the html body.
      *
+     * @return string
      * @see \nickcv\mandrill\Message::setHtmlBody() setter
      *
-     * @return string
      */
-    public function getHtmlBody()
+    public function getHtmlBody(): string
     {
         return $this->_html;
     }
@@ -692,13 +692,13 @@ class Message extends BaseMessage
     /**
      * Sets the html body.
      *
-     * @see \nickcv\mandrill\Message::getHtmlBody() getter
-     *
      * @param string $html
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getHtmlBody() getter
+     *
      */
-    public function setHtmlBody($html)
+    public function setHtmlBody($html): Message
     {
         if (is_string($html)) {
             $this->_html = $html;
@@ -710,20 +710,18 @@ class Message extends BaseMessage
     /**
      * Returns the attachments array.
      *
-     * @see \nickcv\mandrill\Message::attach() setter for file name
+     * @return array
      * @see \nickcv\mandrill\Message::attachContent() setter for binary
      *
-     * @return array
+     * @see \nickcv\mandrill\Message::attach() setter for file name
      */
-    public function getAttachments()
+    public function getAttachments(): array
     {
         return $this->_attachments;
     }
 
     /**
      * Attaches existing file to the email message.
-     *
-     * @see \nickcv\mandrill\Message::getAttachments() getter
      *
      * @param string $fileName full file name
      * @param array $options options for embed file. Valid options are:
@@ -733,8 +731,10 @@ class Message extends BaseMessage
      *
      * @return static
      * @throws \yii\base\InvalidConfigException
+     * @see \nickcv\mandrill\Message::getAttachments() getter
+     *
      */
-    public function attach($fileName, array $options = [])
+    public function attach($fileName, array $options = []): Message
     {
         if (file_exists($fileName) && !is_dir($fileName)) {
             $purifiedOptions = [
@@ -750,8 +750,6 @@ class Message extends BaseMessage
     /**
      * Attach specified content as file for the email message.
      *
-     * @see \nickcv\mandrill\Message::getAttachments() getter
-     *
      * @param string $content attachment file content.
      * @param array $options options for embed file. Valid options are:
      *
@@ -759,15 +757,18 @@ class Message extends BaseMessage
      * - contentType: attached file MIME type.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getAttachments() getter
+     *
      */
-    public function attachContent($content, array $options = [])
+    public function attachContent($content, array $options = []): Message
     {
         $purifiedOptions = is_array($options) ? $options : [];
 
         if (is_string($content) && strlen($content) !== 0) {
             $this->_attachments[] = [
                 'name' => ArrayHelper::getValue($purifiedOptions, 'fileName', ('file_' . count($this->_attachments))),
-                'type' => ArrayHelper::getValue($purifiedOptions, 'contentType', $this->getMimeTypeFromBinary($content)),
+                'type' => ArrayHelper::getValue($purifiedOptions, 'contentType',
+                    $this->getMimeTypeFromBinary($content)),
                 'content' => base64_encode($content),
             ];
         }
@@ -778,20 +779,18 @@ class Message extends BaseMessage
     /**
      * Returns the images array.
      *
-     * @see \nickcv\mandrill\Message::embed() setter for file name
+     * @return array list of embedded content
      * @see \nickcv\mandrill\Message::embedContent() setter for binary
      *
-     * @return array list of embedded content
+     * @see \nickcv\mandrill\Message::embed() setter for file name
      */
-    public function getEmbeddedContent()
+    public function getEmbeddedContent(): array
     {
         return $this->_images;
     }
 
     /**
      * Embeds an image in the email message.
-     *
-     * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
      *
      * @param string $fileName file name.
      * @param array $options options for embed file. Valid options are:
@@ -801,8 +800,10 @@ class Message extends BaseMessage
      *
      * @return static
      * @throws \yii\base\InvalidConfigException
+     * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
+     *
      */
-    public function embed($fileName, array $options = [])
+    public function embed($fileName, array $options = []): Message
     {
         if (file_exists($fileName) && !is_dir($fileName) && strpos(FileHelper::getMimeType($fileName), 'image') === 0) {
             $purifiedOptions = [
@@ -818,8 +819,6 @@ class Message extends BaseMessage
     /**
      * Embed a binary as an image in the message.
      *
-     * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
-     *
      * @param string $content attachment file content.
      * @param array $options options for embed file. Valid options are:
      *
@@ -827,15 +826,22 @@ class Message extends BaseMessage
      * - contentType: attached file MIME type.
      *
      * @return static
+     * @see \nickcv\mandrill\Message::getEmbeddedContent() getter
+     *
      */
-    public function embedContent($content, array $options = [])
+    public function embedContent($content, array $options = []): Message
     {
         $purifiedOptions = is_array($options) ? $options : [];
 
-        if (is_string($content) && strlen($content) !== 0 && strpos($this->getMimeTypeFromBinary($content), 'image') === 0) {
+        if (is_string($content) && strlen($content) !== 0 && strpos($this->getMimeTypeFromBinary($content),
+                'image') === 0) {
             $this->_images[] = [
                 'name' => ArrayHelper::getValue($purifiedOptions, 'fileName', ('file_' . count($this->_images))),
-                'type' => ArrayHelper::getValue($purifiedOptions, 'contentType', $this->getMimeTypeFromBinary($content)),
+                'type' => ArrayHelper::getValue(
+                    $purifiedOptions,
+                    'contentType',
+                    $this->getMimeTypeFromBinary($content)
+                ),
                 'content' => base64_encode($content),
             ];
         }
@@ -853,8 +859,11 @@ class Message extends BaseMessage
      * @return static
      * @since 1.3.0
      */
-    public function setTemplateData($templateName, array $templateContent = [], $templateLanguage = self::LANGUAGE_MAILCHIMP)
-    {
+    public function setTemplateData(
+        string $templateName,
+        array $templateContent = [],
+        string $templateLanguage = self::LANGUAGE_MAILCHIMP
+    ): Message {
         $this->_templateName = $templateName;
 
         if ($templateLanguage === self::LANGUAGE_MAILCHIMP) {
@@ -874,7 +883,7 @@ class Message extends BaseMessage
      * @return string
      * @since 1.3.0
      */
-    public function getTemplateName()
+    public function getTemplateName(): string
     {
         return $this->_templateName;
     }
@@ -885,7 +894,7 @@ class Message extends BaseMessage
      * @return array
      * @since 1.3.0
      */
-    public function getTemplateContent()
+    public function getTemplateContent(): array
     {
         return $this->_templateContent;
     }
@@ -896,7 +905,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.4.0
      */
-    public function enableTemplateDefaults()
+    public function enableTemplateDefaults(): Message
     {
         $this->_calculateDefaultValues = true;
 
@@ -909,7 +918,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.4.0
      */
-    public function disableTemplateDefaults()
+    public function disableTemplateDefaults(): Message
     {
         $this->_calculateDefaultValues = false;
 
@@ -922,7 +931,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function setSubaccount($subaccount)
+    public function setSubaccount(string $subaccount): Message
     {
         $this->_subaccount = $subaccount;
 
@@ -933,7 +942,7 @@ class Message extends BaseMessage
      * @return string
      * @since 1.7.0
      */
-    public function getSubaccount()
+    public function getSubaccount(): string
     {
         return $this->_subaccount;
     }
@@ -944,7 +953,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function setAsImportant()
+    public function setAsImportant(): Message
     {
         $this->_important = true;
 
@@ -958,7 +967,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function setAsNotImportant()
+    public function setAsNotImportant(): Message
     {
         $this->_important = false;
 
@@ -969,7 +978,7 @@ class Message extends BaseMessage
      * @return boolean
      * @since 1.7.0
      */
-    public function isImportant()
+    public function isImportant(): bool
     {
         return $this->_important;
     }
@@ -981,7 +990,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function enableOpensTracking()
+    public function enableOpensTracking(): Message
     {
         $this->_trackOpens = true;
 
@@ -994,7 +1003,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function disableOpensTracking()
+    public function disableOpensTracking(): Message
     {
         $this->_trackOpens = false;
 
@@ -1007,7 +1016,7 @@ class Message extends BaseMessage
      * @return boolean
      * @since 1.7.0
      */
-    public function areOpensTracked()
+    public function areOpensTracked(): bool
     {
         return $this->_trackOpens;
     }
@@ -1019,7 +1028,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function enableClicksTracking()
+    public function enableClicksTracking(): Message
     {
         $this->_trackClicks = true;
 
@@ -1032,7 +1041,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.7.0
      */
-    public function disableClicksTracking()
+    public function disableClicksTracking(): Message
     {
         $this->_trackClicks = false;
 
@@ -1045,7 +1054,7 @@ class Message extends BaseMessage
      * @return boolean
      * @since 1.7.0
      */
-    public function areClicksTracked()
+    public function areClicksTracked(): bool
     {
         return $this->_trackClicks;
     }
@@ -1056,7 +1065,7 @@ class Message extends BaseMessage
      * @return array
      * @since 1.4.0
      */
-    public function getGlobalMergeVars()
+    public function getGlobalMergeVars(): array
     {
         return $this->_globalMergeVars;
     }
@@ -1066,7 +1075,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    public function getMergeVars()
+    public function getMergeVars(): array
     {
         return $this->_mergeVars;
     }
@@ -1080,7 +1089,7 @@ class Message extends BaseMessage
      * @return static
      * @since 1.4.0
      */
-    public function setGlobalMergeVars(array $mergeVars)
+    public function setGlobalMergeVars(array $mergeVars): Message
     {
         foreach ($mergeVars as $name => $content) {
             if ($name[0] === '_') {
@@ -1111,7 +1120,7 @@ class Message extends BaseMessage
      *
      * @return static
      */
-    public function setMergeVars(array $mergeVars)
+    public function setMergeVars(array $mergeVars): Message
     {
         $this->_mergeVars = $mergeVars;
 
@@ -1123,7 +1132,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    public function getMetadata()
+    public function getMetadata(): array
     {
         return $this->_metadata;
     }
@@ -1133,7 +1142,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    public function getRecipientMetadata()
+    public function getRecipientMetadata(): array
     {
         return $this->_recipientMetadata;
     }
@@ -1152,7 +1161,7 @@ class Message extends BaseMessage
      *
      * @return static
      */
-    public function setMetadata(array $metadata)
+    public function setMetadata(array $metadata): Message
     {
         $this->_metadata = $metadata;
 
@@ -1184,7 +1193,7 @@ class Message extends BaseMessage
      *
      * @return static
      */
-    public function setRecipientMetadata(array $recipientMetadata)
+    public function setRecipientMetadata(array $recipientMetadata): Message
     {
         $this->_recipientMetadata = $recipientMetadata;
 
@@ -1196,7 +1205,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    public function getGoogleAnalyticsDomains()
+    public function getGoogleAnalyticsDomains(): array
     {
         return $this->_googleAnalyticsDomains;
     }
@@ -1206,7 +1215,7 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    public function getGoogleAnalyticsCampaign()
+    public function getGoogleAnalyticsCampaign(): string
     {
         return $this->_googleAnalyticsCampaign;
     }
@@ -1218,7 +1227,7 @@ class Message extends BaseMessage
      *
      * @return static
      */
-    public function setGoogleAnalyticsDomains(array $domains)
+    public function setGoogleAnalyticsDomains(array $domains): Message
     {
         $this->_googleAnalyticsDomains = $domains;
 
@@ -1232,7 +1241,7 @@ class Message extends BaseMessage
      *
      * @return static
      */
-    public function setGoogleAnalyticsCampaign($campaign)
+    public function setGoogleAnalyticsCampaign($campaign): Message
     {
         $this->_googleAnalyticsCampaign = $campaign;
 
@@ -1244,7 +1253,7 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    public function toString()
+    public function toString(): string
     {
         return $this->getSubject() . ' - Recipients:'
             . ' [TO] ' . implode('; ', $this->getTo())
@@ -1258,7 +1267,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    public function getMandrillMessageArray()
+    public function getMandrillMessageArray(): array
     {
         return [
             'headers' => [
@@ -1293,7 +1302,7 @@ class Message extends BaseMessage
      * @param string|array $emailAddresses
      * @param string $container
      */
-    private function storeEmailAddressesInContainer($emailAddresses, $container)
+    private function storeEmailAddressesInContainer($emailAddresses, string $container)
     {
         if (is_string($emailAddresses) && $this->isRecipientValid($emailAddresses, $container)) {
             $this->{$container}[] = $emailAddresses;
@@ -1314,7 +1323,7 @@ class Message extends BaseMessage
      * @param string $value
      * @param string $container
      */
-    private function storeArrayEmailAddressInContainer($key, $value, $container)
+    private function storeArrayEmailAddressInContainer($key, string $value, string $container)
     {
         $name = is_string($key) ? $value : null;
         $singleAddress = is_string($key) ? $key : $value;
@@ -1336,7 +1345,7 @@ class Message extends BaseMessage
      *
      * @return boolean
      */
-    private function isRecipientValid($emailAddress, $privateAttributeName)
+    private function isRecipientValid(string $emailAddress, string $privateAttributeName): bool
     {
         if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
             return false;
@@ -1362,7 +1371,7 @@ class Message extends BaseMessage
      *
      * @return boolean
      */
-    private function isTagValid($string, $privateAttributeName)
+    private function isTagValid(string $string, string $privateAttributeName): bool
     {
         if (array_search($string, $this->{$privateAttributeName}) !== false) {
             return false;
@@ -1386,7 +1395,7 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    private function getMimeTypeFromBinary($binary)
+    private function getMimeTypeFromBinary(string $binary): string
     {
         if ($this->_finfo === null) {
             $this->_finfo = new \finfo(FILEINFO_MIME_TYPE);
@@ -1401,7 +1410,7 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    private function getReplyToString()
+    private function getReplyToString(): string
     {
         $addresses = [];
         foreach ($this->_replyTo as $key => $value) {
@@ -1420,13 +1429,13 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    private function getFromName()
+    private function getFromName(): string
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromName ? $this->_fromName : null;
+            return $this->_fromName ? $this->_fromName : '';
         }
 
-        return $this->_fromName ? $this->_fromName : Yii::$app->name;
+        return empty($this->_fromName) ? $this->_fromName : Yii::$app->name;
     }
 
     /**
@@ -1434,13 +1443,13 @@ class Message extends BaseMessage
      *
      * @return string
      */
-    private function getFromAddress()
+    private function getFromAddress(): string
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromAddress ? $this->_fromAddress : null;
+            return $this->_fromAddress ? $this->_fromAddress : '';
         }
 
-        return $this->_fromAddress ? $this->_fromAddress : Yii::$app->params['adminEmail'];
+        return empty($this->_fromAddress) ? $this->_fromAddress : Yii::$app->params['adminEmail'];
     }
 
     /**
@@ -1448,7 +1457,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    private function getAllRecipients()
+    private function getAllRecipients(): array
     {
         $recipients = [];
         foreach ($this->_to as $key => $value) {
@@ -1476,7 +1485,7 @@ class Message extends BaseMessage
      *
      * @return array
      */
-    private function getRecipientEntry($key, $value, $type)
+    private function getRecipientEntry(string $key, string $value, string $type): array
     {
         return [
             'email' => is_string($key) ? $key : $value,
@@ -1493,7 +1502,7 @@ class Message extends BaseMessage
      * @return array
      * @since 1.3.0
      */
-    private function convertParamsForTemplate($params)
+    private function convertParamsForTemplate(array $params): array
     {
         $merge = [];
         foreach ($params as $key => $value) {

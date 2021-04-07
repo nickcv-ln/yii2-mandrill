@@ -77,7 +77,7 @@ class Mailer extends BaseMailer
 
     /**
      * @var ApiClient the Mailchimp API instance
-     * @since 1.9.0
+     * @since 2.0.0
      */
     private $_mailchimp;
 
@@ -121,7 +121,7 @@ class Mailer extends BaseMailer
      *
      * @throws InvalidConfigException
      */
-    public function setApikey($apikey)
+    public function setApikey(string $apikey)
     {
         if (!is_string($apikey)) {
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" should be a string, "' . gettype($apikey) . '" given.');
@@ -142,7 +142,7 @@ class Mailer extends BaseMailer
      * @since 1.6.0
      * @deprecated
      */
-    public function getMandrill()
+    public function getMandrill(): ApiClient
     {
         return $this->_mailchimp;
     }
@@ -151,9 +151,9 @@ class Mailer extends BaseMailer
      * Gets Mailchimp instance
      *
      * @return ApiClient initialized Mailchimp API client
-     * @since 1.9.0
+     * @since 2.0.0
      */
-    public function getMailchimp()
+    public function getMailchimp(): ApiClient
     {
         return $this->_mailchimp;
     }
@@ -203,7 +203,7 @@ class Mailer extends BaseMailer
      *
      * @return boolean whether the message is sent successfully
      */
-    protected function sendMessage($message)
+    protected function sendMessage($message): bool
     {
         Yii::info(
             'Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"',
@@ -236,7 +236,7 @@ class Mailer extends BaseMailer
      *
      * @return boolean
      */
-    private function wasMessageSentSuccessful($mandrillResponse)
+    private function wasMessageSentSuccessful($mandrillResponse): bool
     {
         $this->_mandrillResponse = $mandrillResponse;
         if (is_string($mandrillResponse) || $mandrillResponse instanceof RequestException) {
