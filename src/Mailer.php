@@ -15,7 +15,9 @@ use GuzzleHttp\Exception\RequestException;
 use MailchimpTransactional\ApiClient;
 use MailchimpTransactional\Configuration;
 use Yii;
+use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\helpers\Json;
 use yii\mail\BaseMailer;
 
 /**
@@ -107,7 +109,7 @@ class Mailer extends BaseMailer
         try {
             $this->_mailchimp = new ApiClient();
             $this->_mailchimp->setApiKey($this->_apikey);
-            $this->_mailchimp->setDefaultOutputFormat('php');
+            $this->_mailchimp->setDefaultOutputFormat('json');
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage());
             throw new \Exception('an error occurred with your mailer. Please check the application logs.', 500);
@@ -234,21 +236,27 @@ class Mailer extends BaseMailer
      */
     private function wasMessageSentSuccessful($mandrillResponse): bool
     {
-        $this->_mandrillResponse = $mandrillResponse;
-        if (is_string($mandrillResponse) || $mandrillResponse instanceof RequestException) {
-            if ($mandrillResponse instanceof RequestException) {
-                /** @var RequestException $mandrillResponse */
-                Yii::error(
-                    'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse->getMessage(),
-                    self::LOG_CATEGORY
-                );
-            } else {
-                /** @var string $mandrillResponse */
-                Yii::error(
-                    'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse,
-                    self::LOG_CATEGORY
-                );
-            }
+        if ($mandrillResponse instanceof RequestException) {
+            Yii::error(
+                'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse->getMessage(),
+                self::LOG_CATEGORY
+            );
+            return false;
+        }
+        try {
+            $this->_mandrillResponse = Json::decode($mandrillResponse);
+        } catch (InvalidArgumentException $e) {
+            Yii::error(
+                'A mandrill error occurred: ' . $e->getName() . ' - ' . $e->getMessage(),
+                self::LOG_CATEGORY
+            );
+        }
+        if (is_string($this->_mandrillResponse)) {
+            /** @var string $mandrillResponse */
+            Yii::error(
+                'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse,
+                self::LOG_CATEGORY
+            );
             return false;
         }
 
