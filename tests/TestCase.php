@@ -1,7 +1,7 @@
 <?php
 /**
  * @package yii2-mandrill
- * @author Simon Karlen <simi.albi@gmail.com>
+ * @author Simon Karlen <simi.outlook@gmail.com>
  */
 
 namespace yiiunit\extensions\mandrill;

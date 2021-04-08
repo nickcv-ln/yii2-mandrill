@@ -187,7 +187,7 @@ Unit Testing
 All the Classes within the package have been unit tested.
 The tests are included within the package.
 
-If you wish to run the tests install codeception following the Yii2 documentation.
+If you wish to run the tests install phpunit following the Yii2 documentation.
 
 The tests use the developer Mandrill Test API key which is only whitelisted for the developer IP.
 
