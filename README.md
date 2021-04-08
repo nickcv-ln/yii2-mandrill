@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2
-[![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![Build Status](https://travis-ci.org/nickcv-ln/yii2-mandrill.svg)](https://travis-ci.org/nickcv-ln/yii2-mandrill) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
+[![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![build](https://github.com/nickcv-ln/yii2-mandrill/actions/workflows/build.yml/badge.svg)](https://github.com/nickcv-ln/yii2-mandrill/actions/workflows/build.yml) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
 
 Change Log
 ----------
@@ -187,7 +187,7 @@ Unit Testing
 All the Classes within the package have been unit tested.
 The tests are included within the package.
 
-If you wish to run the tests install codeception following the Yii2 documentation.
+If you wish to run the tests install phpunit following the Yii2 documentation.
 
 The tests use the developer Mandrill Test API key which is only whitelisted for the developer IP.
 

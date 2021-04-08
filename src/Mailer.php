@@ -11,11 +11,12 @@
 
 namespace nickcv\mandrill;
 
+use GuzzleHttp\Exception\RequestException;
+use MailchimpTransactional\ApiClient;
+use MailchimpTransactional\Configuration;
 use Yii;
-use yii\mail\BaseMailer;
 use yii\base\InvalidConfigException;
-use Mandrill;
-use Mandrill_Error;
+use yii\mail\BaseMailer;
 
 /**
  * Mailer is the class that consuming the Message object sends emails thorugh
@@ -75,12 +76,13 @@ class Mailer extends BaseMailer
     public $messageClass = '\nickcv\mandrill\Message';
 
     /**
-     * @var Mandrill the Mandrill instance
+     * @var ApiClient the Mailchimp API instance
+     * @since 2.0.0
      */
-    private $_mandrill;
+    private $_mailchimp;
 
     /**
-     * @var array last response from mandrill
+     * @var array|RequestException|string last response from mandrill
      * @since 1.7.0
      */
     private $_mandrillResponse = [];
@@ -103,7 +105,9 @@ class Mailer extends BaseMailer
         }
 
         try {
-            $this->_mandrill = new Mandrill($this->_apikey);
+            $this->_mailchimp = new ApiClient();
+            $this->_mailchimp->setApiKey($this->_apikey);
+            $this->_mailchimp->setDefaultOutputFormat('php');
         } catch (\Exception $exc) {
             Yii::error($exc->getMessage());
             throw new \Exception('an error occurred with your mailer. Please check the application logs.', 500);
@@ -117,12 +121,8 @@ class Mailer extends BaseMailer
      *
      * @throws InvalidConfigException
      */
-    public function setApikey($apikey)
+    public function setApikey(string $apikey)
     {
-        if (!is_string($apikey)) {
-            throw new InvalidConfigException('"' . get_class($this) . '::apikey" should be a string, "' . gettype($apikey) . '" given.');
-        }
-
         $trimmedApikey = trim($apikey);
         if (!strlen($trimmedApikey) > 0) {
             throw new InvalidConfigException('"' . get_class($this) . '::apikey" length should be greater than 0.');
@@ -134,12 +134,24 @@ class Mailer extends BaseMailer
     /**
      * Gets Mandrill instance
      *
-     * @return Mandrill initialized Mandrill
+     * @return ApiClient initialized Mailchimp
      * @since 1.6.0
+     * @deprecated
      */
-    public function getMandrill()
+    public function getMandrill(): ApiClient
     {
-        return $this->_mandrill;
+        return $this->_mailchimp;
+    }
+
+    /**
+     * Gets Mailchimp instance
+     *
+     * @return ApiClient initialized Mailchimp API client
+     * @since 2.0.0
+     */
+    public function getMailchimp(): ApiClient
+    {
+        return $this->_mailchimp;
     }
 
     /**
@@ -187,65 +199,93 @@ class Mailer extends BaseMailer
      *
      * @return boolean whether the message is sent successfully
      */
-    protected function sendMessage($message)
+    protected function sendMessage($message): bool
     {
-        Yii::info('Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"', self::LOG_CATEGORY);
+        Yii::info(
+            'Sending email "' . $message->getSubject() . '" to "' . implode(', ', $message->getTo()) . '"',
+            self::LOG_CATEGORY
+        );
 
-        try {
-            if ($this->useMandrillTemplates) {
-                return $this->wasMessageSentSuccesfully(
-                    $this->_mandrill->messages->sendTemplate(
-                        $message->getTemplateName(),
-                        $message->getTemplateContent(),
-                        $message->getMandrillMessageArray(),
-                        $message->isAsync()
-                    )
-                );
-            } else {
-                return $this->wasMessageSentSuccesfully(
-                    $this->_mandrill->messages->send(
-                        $message->getMandrillMessageArray(),
-                        $message->isAsync()
-                    )
-                );
-            }
-        } catch (Mandrill_Error $e) {
-            Yii::error('A mandrill error occurred: ' . get_class($e) . ' - ' . $e->getMessage(), self::LOG_CATEGORY);
-
-            return false;
+        if ($this->useMandrillTemplates) {
+            return $this->wasMessageSentSuccessful(
+                $this->_mailchimp->messages->sendTemplate([
+                    'template_name' => $message->getTemplateName(),
+                    'template_content' => $message->getTemplateContent(),
+                    'message' => $message->getMandrillMessageArray(),
+                    'async' => $message->isAsync()
+                ])
+            );
+        } else {
+            return $this->wasMessageSentSuccessful(
+                $this->_mailchimp->messages->sendRaw([
+                    'message' => $message->getMandrillMessageArray(),
+                    'async' => $message->isAsync()
+                ])
+            );
         }
     }
 
     /**
      * parse the mandrill response and returns false if any message was either invalid or rejected
      *
-     * @param array $mandrillResponse
+     * @param array|RequestException|string $mandrillResponse
      *
      * @return boolean
      */
-    private function wasMessageSentSuccesfully($mandrillResponse)
+    private function wasMessageSentSuccessful($mandrillResponse): bool
     {
         $this->_mandrillResponse = $mandrillResponse;
+        if (is_string($mandrillResponse) || $mandrillResponse instanceof RequestException) {
+            if ($mandrillResponse instanceof RequestException) {
+                /** @var RequestException $mandrillResponse */
+                Yii::error(
+                    'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse->getMessage(),
+                    self::LOG_CATEGORY
+                );
+            } else {
+                /** @var string $mandrillResponse */
+                Yii::error(
+                    'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse,
+                    self::LOG_CATEGORY
+                );
+            }
+            return false;
+        }
 
         $return = true;
         foreach ($mandrillResponse as $recipient) {
             switch ($recipient['status']) {
                 case self::STATUS_INVALID:
                     $return = false;
-                    Yii::warning('the email for "' . $recipient['email'] . '" has not been sent: status "' . $recipient['status'] . '"', self::LOG_CATEGORY);
+                    Yii::warning(
+                        'the email for "' . $recipient['email'] . '" has not been sent: status "' . $recipient['status'] . '"',
+                        self::LOG_CATEGORY
+                    );
                     break;
                 case self::STATUS_QUEUED:
-                    Yii::info('the email for "' . $recipient['email'] . '" is now in a queue waiting to be sent.', self::LOG_CATEGORY);
+                    Yii::info(
+                        'the email for "' . $recipient['email'] . '" is now in a queue waiting to be sent.',
+                        self::LOG_CATEGORY
+                    );
                     break;
                 case self::STATUS_REJECTED:
                     $return = false;
-                    Yii::warning('the email for "' . $recipient['email'] . '" has been rejected: reason "' . $recipient['reject_reason'] . '"', self::LOG_CATEGORY);
+                    Yii::warning(
+                        'the email for "' . $recipient['email'] . '" has been rejected: reason "' . $recipient['reject_reason'] . '"',
+                        self::LOG_CATEGORY
+                    );
                     break;
                 case self::STATUS_SCHEDULED:
-                    Yii::info('the email submission for "' . $recipient['email'] . '" has been scheduled.', self::LOG_CATEGORY);
+                    Yii::info(
+                        'the email submission for "' . $recipient['email'] . '" has been scheduled.',
+                        self::LOG_CATEGORY
+                    );
                     break;
                 case self::STATUS_SENT:
-                    Yii::info('the email for "' . $recipient['email'] . '" has been sent.', self::LOG_CATEGORY);
+                    Yii::info(
+                        'the email for "' . $recipient['email'] . '" has been sent.',
+                        self::LOG_CATEGORY
+                    );
                     break;
             }
         }
