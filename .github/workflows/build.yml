@@ -34,5 +34,7 @@ jobs:
       - name: Install dependencies
         run: composer update $DEFAULT_COMPOSER_FLAGS
       - name: Run unit tests
+        env:
+          MANDRILL_API_KEY: ${{ secrets.MANDRILL_API_KEY }}
         run: vendor/bin/phpunit --verbose --colors=always
         continue-on-error: true # if is fork
