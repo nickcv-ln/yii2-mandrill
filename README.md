@@ -1,7 +1,7 @@
 Mandrill API Extension
 ======================
 Mandrill Api Integration for Yii2
-[![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![Build Status](https://travis-ci.org/nickcv-ln/yii2-mandrill.svg)](https://travis-ci.org/nickcv-ln/yii2-mandrill) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
+[![Latest Stable Version](https://poser.pugx.org/nickcv/yii2-mandrill/v/stable)](https://packagist.org/packages/nickcv/yii2-mandrill) [![build](https://github.com/nickcv-ln/yii2-mandrill/actions/workflows/build.yml/badge.svg)](https://github.com/nickcv-ln/yii2-mandrill/actions/workflows/build.yml) [![Total Downloads](https://poser.pugx.org/nickcv/yii2-mandrill/downloads)](https://packagist.org/packages/nickcv/yii2-mandrill) [![License](https://poser.pugx.org/nickcv/yii2-mandrill/license)](https://packagist.org/packages/nickcv/yii2-mandrill)
 
 Change Log
 ----------
