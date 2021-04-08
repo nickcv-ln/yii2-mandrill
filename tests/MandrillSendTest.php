@@ -15,20 +15,27 @@ use nickcv\mandrill\Mailer;
 class MandrillSendTest extends TestCase
 {
     /**
+     * @var string
+     */
+    private $_apiKey;
+
+    /**
      * {@inheritDoc}
      */
     protected function setUp()
     {
         parent::setUp();
 
-        if (!isset($_ENV['MANDRILL_API_KEY'])) {
+        $this->_apiKey = getenv('MANDRILL_API_KEY');
+
+        if (!$this->_apiKey) {
             $this->markTestSkipped('API Key not set in secrets. Test skipped.');
         }
     }
 
     public function testSendMessage()
     {
-        $mandrill = new Mailer(['apikey' => $_ENV['MANDRILL_API_KEY']]);
+        $mandrill = new Mailer(['apikey' => $this->_apiKey]);
         $result = $mandrill->compose('test')
                            ->setTo('test@example.com')
                            ->setSubject('test email')
@@ -50,7 +57,7 @@ class MandrillSendTest extends TestCase
     public function testSendMessageUsingMandrillTemplate()
     {
         $mandrill = new Mailer([
-            'apikey' => $_ENV['MANDRILL_API_KEY'],
+            'apikey' => $this->_apiKey,
             'useMandrillTemplates' => true,
         ]);
         $result = $mandrill->compose('testTemplate', ['WORD' => 'my word'])
@@ -75,7 +82,7 @@ class MandrillSendTest extends TestCase
     public function testSendMessageUsingMandrillTemplateHandlebars()
     {
         $mandrill = new Mailer([
-            'apikey' => $_ENV['MANDRILL_API_KEY'],
+            'apikey' => $this->_apiKey,
             'useMandrillTemplates' => true,
             'useTemplateDefaults' => false,
             'templateLanguage' => Mailer::LANGUAGE_HANDLEBARS,
@@ -99,7 +106,7 @@ class MandrillSendTest extends TestCase
     public function testCannotSendIfMandrillTemplateNotFound()
     {
         $mandrill = new Mailer([
-            'apikey' => $_ENV['MANDRILL_API_KEY'],
+            'apikey' => $this->_apiKey,
             'useMandrillTemplates' => true,
         ]);
 
@@ -119,7 +126,7 @@ class MandrillSendTest extends TestCase
     /**
      * @return string
      */
-    private function getTestImagePath()
+    private function getTestImagePath(): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'test.png';
     }
@@ -127,7 +134,7 @@ class MandrillSendTest extends TestCase
     /**
      * @return string
      */
-    private function getTestPdfPath()
+    private function getTestPdfPath(): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'test.pdf';
     }
