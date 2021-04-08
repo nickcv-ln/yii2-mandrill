@@ -261,7 +261,7 @@ class Mailer extends BaseMailer
         }
 
         $return = true;
-        foreach ($mandrillResponse as $recipient) {
+        foreach ($this->_mandrillResponse as $recipient) {
             switch ($recipient['status']) {
                 case self::STATUS_INVALID:
                     $return = false;
