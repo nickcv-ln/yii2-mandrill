@@ -43,7 +43,7 @@ class MandrillSendTest extends TestCase
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
         $this->assertArrayHasKey('email', $lastTransaction);
-        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertEquals($this->_toAddress, $lastTransaction['email']);
         $this->assertArrayHasKey('status', $lastTransaction);
         $this->assertEquals('queued', $lastTransaction['status']);
         $this->assertArrayHasKey('_id', $lastTransaction);
@@ -69,7 +69,7 @@ class MandrillSendTest extends TestCase
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
         $this->assertArrayHasKey('email', $lastTransaction);
-        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertEquals($this->_toAddress, $lastTransaction['email']);
         $this->assertArrayHasKey('status', $lastTransaction);
         $this->assertEquals('queued', $lastTransaction['status']);
         $this->assertArrayHasKey('_id', $lastTransaction);
@@ -94,7 +94,7 @@ class MandrillSendTest extends TestCase
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
         $this->assertArrayHasKey('email', $lastTransaction);
-        $this->assertEquals('simi.albi@gmail.com', $lastTransaction['email']);
+        $this->assertEquals($this->_toAddress, $lastTransaction['email']);
         $this->assertArrayHasKey('status', $lastTransaction);
         $this->assertArrayHasKey('_id', $lastTransaction);
 
