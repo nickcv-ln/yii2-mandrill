@@ -20,28 +20,25 @@ class MandrillSendTest extends TestCase
     private $_apiKey;
 
     /**
-     * {@inheritDoc}
+     * @var string
      */
-    protected function setUp()
-    {
-        parent::setUp();
+    private $_fromAddress;
 
-        $this->_apiKey = getenv('MANDRILL_API_KEY');
-
-        if (!$this->_apiKey) {
-            $this->markTestSkipped('API Key not set in secrets. Test skipped.');
-        }
-    }
+    /**
+     * @var string
+     */
+    private $_toAddress;
 
     public function testSendMessage()
     {
         $mandrill = new Mailer(['apikey' => $this->_apiKey]);
         $result = $mandrill->compose('test')
-                           ->setTo('test@example.com')
-                           ->setSubject('test email')
-                           ->embed($this->getTestImagePath())
-                           ->attach($this->getTestPdfPath())
-                           ->send();
+            ->setFrom($this->_fromAddress)
+            ->setTo($this->_toAddress)
+            ->setSubject('test email')
+            ->embed($this->getTestImagePath())
+            ->attach($this->getTestPdfPath())
+            ->send();
 
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
@@ -61,12 +58,13 @@ class MandrillSendTest extends TestCase
             'useMandrillTemplates' => true,
         ]);
         $result = $mandrill->compose('testTemplate', ['WORD' => 'my word'])
-                           ->setTo('test@example.com')
-                           ->setSubject('test template email')
-                           ->embed($this->getTestImagePath())
-                           ->attach($this->getTestPdfPath())
-                           ->setGlobalMergeVars(['MERGEVAR' => 'prova'])
-                           ->send();
+            ->setFrom($this->_fromAddress)
+            ->setTo($this->_toAddress)
+            ->setSubject('test template email')
+            ->embed($this->getTestImagePath())
+            ->attach($this->getTestPdfPath())
+            ->setGlobalMergeVars(['MERGEVAR' => 'prova'])
+            ->send();
 
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
@@ -88,15 +86,15 @@ class MandrillSendTest extends TestCase
             'templateLanguage' => Mailer::LANGUAGE_HANDLEBARS,
         ]);
         $result = $mandrill->compose('testTemplateHandlebars', ['variable' => 'test content'])
-                           ->setFrom('testing@creationgears.com')
-                           ->setTo('test@example.com')
-                           ->setSubject('test handlebars')
-                           ->send();
+            ->setFrom($this->_fromAddress)
+            ->setTo($this->_toAddress)
+            ->setSubject('test handlebars')
+            ->send();
 
         $this->assertInternalType('array', $mandrill->getLastTransaction());
         $lastTransaction = $mandrill->getLastTransaction()[0];
         $this->assertArrayHasKey('email', $lastTransaction);
-        $this->assertEquals('test@example.com', $lastTransaction['email']);
+        $this->assertEquals('simi.albi@gmail.com', $lastTransaction['email']);
         $this->assertArrayHasKey('status', $lastTransaction);
         $this->assertArrayHasKey('_id', $lastTransaction);
 
@@ -111,16 +109,34 @@ class MandrillSendTest extends TestCase
         ]);
 
         $result = $mandrill->compose('madeupTemplate', ['WORD' => 'my word'])
-                           ->setTo('test@example.com')
-                           ->setSubject('test template email')
-                           ->embed($this->getTestImagePath())
-                           ->attach($this->getTestPdfPath())
-                           ->send();
+            ->setFrom($this->_fromAddress)
+            ->setTo($this->_toAddress)
+            ->setSubject('test template email')
+            ->embed($this->getTestImagePath())
+            ->attach($this->getTestPdfPath())
+            ->send();
 
         $this->assertInternalType('array', $mandrill->getLastTransaction());
-        $this->assertCount(0, $mandrill->getLastTransaction());
+        $this->assertArrayHasKey('status', $mandrill->getLastTransaction());
+        $this->assertEquals('error', $mandrill->getLastTransaction()['status']);
 
         $this->assertFalse($result);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->_apiKey = getenv('MANDRILL_API_KEY');
+        $this->_fromAddress = getenv('MANDRILL_FROM_ADDRESS');
+        $this->_toAddress = getenv('MANDRILL_TO_ADDRESS');
+
+        if (!$this->_apiKey || !$this->_fromAddress || !$this->_toAddress) {
+            $this->markTestSkipped('One of "API key", "from address" or "to address" not set in secrets. Test skipped.');
+        }
     }
 
     /**

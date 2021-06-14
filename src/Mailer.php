@@ -17,6 +17,7 @@ use MailchimpTransactional\Configuration;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\mail\BaseMailer;
 
@@ -39,12 +40,6 @@ class Mailer extends BaseMailer
 
     const LANGUAGE_MAILCHIMP = 'mailchimp';
     const LANGUAGE_HANDLEBARS = 'handlebars';
-
-    /**
-     * @var string Mandrill API key
-     */
-    private $_apikey;
-
     /**
      * Whether the mailer should use mandrill templates instead of Yii views.
      *
@@ -52,7 +47,6 @@ class Mailer extends BaseMailer
      * @since 1.2.0
      */
     public $useMandrillTemplates = false;
-
     /**
      * Whether the mailer should use the template defaults when using mandrill
      * templates.
@@ -61,7 +55,6 @@ class Mailer extends BaseMailer
      * @since 1.4.0
      */
     public $useTemplateDefaults = true;
-
     /**
      * What language is used in mandrill templates, either mailchimp or handlebars
      * Mailchimp language allows to use mc:edit and *|VAR|*
@@ -71,12 +64,14 @@ class Mailer extends BaseMailer
      * @since 1.5.0
      */
     public $templateLanguage = self::LANGUAGE_MAILCHIMP;
-
     /**
      * @var string message default class name.
      */
     public $messageClass = '\nickcv\mandrill\Message';
-
+    /**
+     * @var string Mandrill API key
+     */
+    private $_apikey;
     /**
      * @var ApiClient the Mailchimp API instance
      * @since 2.0.0
@@ -241,27 +236,30 @@ class Mailer extends BaseMailer
                 'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse->getMessage(),
                 self::LOG_CATEGORY
             );
+
             return false;
         }
-        try {
-            $this->_mandrillResponse = Json::decode($mandrillResponse);
-        } catch (InvalidArgumentException $e) {
-            Yii::error(
-                'A mandrill error occurred: ' . $e->getName() . ' - ' . $e->getMessage(),
-                self::LOG_CATEGORY
-            );
-        }
+        $this->_mandrillResponse = $mandrillResponse;
         if (is_string($this->_mandrillResponse)) {
             /** @var string $mandrillResponse */
+            try {
+                list(, $body) = explode("\r\n\r\n", $this->_mandrillResponse);
+                $this->_mandrillResponse = Json::decode($body);
+            } catch (InvalidArgumentException $e) {
+                $this->_mandrillResponse = [];
+            }
+
             Yii::error(
                 'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse,
                 self::LOG_CATEGORY
             );
+
             return false;
         }
 
         $return = true;
-        foreach ($this->_mandrillResponse as $recipient) {
+        foreach ($this->_mandrillResponse as &$recipient) {
+            $recipient = ArrayHelper::toArray($recipient);
             switch ($recipient['status']) {
                 case self::STATUS_INVALID:
                     $return = false;

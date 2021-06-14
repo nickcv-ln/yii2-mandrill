@@ -36,5 +36,7 @@ jobs:
       - name: Run unit tests
         env:
           MANDRILL_API_KEY: ${{ secrets.MANDRILL_API_KEY }}
+          MANDRILL_FROM_ADDRESS: ${{ secrets.MANDRILL_FROM_ADDRESS }}
+          MANDRILL_TO_ADDRESS: ${{ secrets.MANDRILL_TO_ADDRESS }}
         run: vendor/bin/phpunit --verbose --colors=always
         continue-on-error: true # if is fork
