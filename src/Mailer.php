@@ -219,7 +219,7 @@ class Mailer extends BaseMailer
             );
         } else {
             return $this->wasMessageSentSuccessful(
-                $this->_mailchimp->messages->sendRaw([
+                $this->_mailchimp->messages->send([
                     'message' => $message->getMandrillMessageArray(),
                     'async' => $message->isAsync()
                 ])
