@@ -83,7 +83,7 @@ class MandrillMessageTest extends TestCase
 
         $this->assertEquals('viewName', $this->_message->getTemplateName());
 
-        $this->assertEquals([
+        $this->assertArraySubset([
             [
                 'name' => 'money',
                 'content' => 300,

@@ -19,6 +19,9 @@ use yii\web\Controller;
  */
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * {@inheritDoc}
+     */
     protected function setUp()
     {
         parent::setUp();

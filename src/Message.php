@@ -767,8 +767,7 @@ class Message extends BaseMessage
         if (is_string($content) && strlen($content) !== 0) {
             $this->_attachments[] = [
                 'name' => ArrayHelper::getValue($purifiedOptions, 'fileName', ('file_' . count($this->_attachments))),
-                'type' => ArrayHelper::getValue($purifiedOptions, 'contentType',
-                    $this->getMimeTypeFromBinary($content)),
+                'type' => ArrayHelper::getValue($purifiedOptions, 'contentType', $this->getMimeTypeFromBinary($content)),
                 'content' => base64_encode($content),
             ];
         }
@@ -832,15 +831,15 @@ class Message extends BaseMessage
     public function embedContent($content, array $options = []): Message
     {
         $purifiedOptions = is_array($options) ? $options : [];
+        $mimeType = $this->getMimeTypeFromBinary($content);
 
-        if (is_string($content) && strlen($content) !== 0 && strpos($this->getMimeTypeFromBinary($content),
-                'image') === 0) {
+        if (is_string($content) && strlen($content) !== 0 && strpos($mimeType, 'image') === 0) {
             $this->_images[] = [
                 'name' => ArrayHelper::getValue($purifiedOptions, 'fileName', ('file_' . count($this->_images))),
                 'type' => ArrayHelper::getValue(
                     $purifiedOptions,
                     'contentType',
-                    $this->getMimeTypeFromBinary($content)
+                    $mimeType
                 ),
                 'content' => base64_encode($content),
             ];
@@ -866,11 +865,11 @@ class Message extends BaseMessage
     ): Message {
         $this->_templateName = $templateName;
 
-        if ($templateLanguage === self::LANGUAGE_MAILCHIMP) {
+//        if ($templateLanguage === self::LANGUAGE_MAILCHIMP) {
             $this->_templateContent = $this->convertParamsForTemplate($templateContent);
-        } elseif ($templateLanguage === self::LANGUAGE_HANDLEBARS) {
+//        if ($templateLanguage === self::LANGUAGE_HANDLEBARS) {
             $this->setGlobalMergeVars($templateContent);
-        }
+//        }
 
         $this->_mergeLanguage = $templateLanguage;
 
@@ -1432,10 +1431,10 @@ class Message extends BaseMessage
     private function getFromName()
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromName ? $this->_fromName : null;
+            return $this->_fromName ?: null;
         }
 
-        return $this->_fromName ? $this->_fromName : Yii::$app->name;
+        return $this->_fromName ?: Yii::$app->name;
     }
 
     /**
@@ -1446,10 +1445,10 @@ class Message extends BaseMessage
     private function getFromAddress()
     {
         if ($this->_calculateDefaultValues) {
-            return $this->_fromAddress ? $this->_fromAddress : null;
+            return $this->_fromAddress ?: null;
         }
 
-        return $this->_fromAddress ? $this->_fromAddress : Yii::$app->params['adminEmail'];
+        return $this->_fromAddress ?: Yii::$app->params['adminEmail'];
     }
 
     /**
