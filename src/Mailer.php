@@ -237,16 +237,14 @@ class Mailer extends BaseMailer
     private function wasMessageSentSuccessful($mandrillResponse): bool
     {
         if ($mandrillResponse instanceof RequestException) {
-            var_dump($mandrillResponse);
             Yii::error(
                 'A mandrill error occurred: ' . Configuration::class . ' - ' . $mandrillResponse->getMessage(),
                 self::LOG_CATEGORY
             );
 
-            return false;
+            $mandrillResponse = preg_replace('#(\{.*\})#', '$1', $mandrillResponse->getMessage());
         }
         $this->_mandrillResponse = $mandrillResponse;
-        var_dump($this->_mandrillResponse);
         if (is_string($this->_mandrillResponse)) {
             /** @var string $mandrillResponse */
             try {
