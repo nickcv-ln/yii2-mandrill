@@ -7,6 +7,7 @@
 namespace yiiunit\extensions\mandrill;
 
 use nickcv\mandrill\Mailer;
+use Yii;
 
 /**
  * Class MandrillSendTest
@@ -121,6 +122,30 @@ class MandrillSendTest extends TestCase
         $this->assertEquals('error', $mandrill->getLastTransaction()['status']);
 
         $this->assertFalse($result);
+    }
+
+    /**
+     * @depends testSendMessage
+     */
+    public function testSendAt()
+    {
+        $mandrill = new Mailer(['apikey' => $this->_apiKey]);
+        $result = $mandrill->compose('test')
+            ->setFrom($this->_fromAddress)
+            ->setTo($this->_toAddress)
+            ->setSubject('test send at email')
+            ->setSendAt(Yii::$app->formatter->asDate('+5min', 'yyyy-MM-dd HH:mm:ss'))
+            ->send();
+
+        $this->assertInternalType('array', $mandrill->getLastTransaction());
+        $lastTransaction = $mandrill->getLastTransaction()[0];
+        $this->assertArrayHasKey('email', $lastTransaction);
+        $this->assertEquals($this->_toAddress, $lastTransaction['email']);
+        $this->assertArrayHasKey('status', $lastTransaction);
+        $this->assertEquals('scheduled', $lastTransaction['status']);
+        $this->assertArrayHasKey('_id', $lastTransaction);
+
+        $this->assertTrue($result);
     }
 
     /**
