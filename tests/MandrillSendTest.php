@@ -124,6 +124,9 @@ class MandrillSendTest extends TestCase
         $this->assertFalse($result);
     }
 
+    /**
+     * @depends testSendMessage
+     */
     public function testSendAt()
     {
         $mandrill = new Mailer(['apikey' => $this->_apiKey]);
@@ -139,7 +142,7 @@ class MandrillSendTest extends TestCase
         $this->assertArrayHasKey('email', $lastTransaction);
         $this->assertEquals($this->_toAddress, $lastTransaction['email']);
         $this->assertArrayHasKey('status', $lastTransaction);
-        $this->assertEquals('queued', $lastTransaction['status']);
+        $this->assertEquals('scheduled', $lastTransaction['status']);
         $this->assertArrayHasKey('_id', $lastTransaction);
 
         $this->assertTrue($result);
