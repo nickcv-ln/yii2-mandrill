@@ -242,10 +242,9 @@ class Mailer extends BaseMailer
                 self::LOG_CATEGORY
             );
 
-            $mandrillResponse = "\r\n\r\n" . preg_replace('#.*\s(\{.*\}).*#', '$1', $mandrillResponse->getMessage());
+            $mandrillResponse = "\r\n\r\n" . preg_replace('#.*\s*(\{.*\}).*#', '$1', $mandrillResponse->getMessage());
         }
         $this->_mandrillResponse = $mandrillResponse;
-        var_dump($this->_mandrillResponse);
         if (is_string($this->_mandrillResponse)) {
             /** @var string $mandrillResponse */
             try {
