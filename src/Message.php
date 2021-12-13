@@ -178,6 +178,22 @@ class Message extends BaseMessage
     private $_async = false;
 
     /**
+     * The name of the dedicated ip pool that should be used to send the message. If you do not have any dedicated IPs,
+     * this parameter has no effect. If you specify a pool that does not exist, your default pool will be used instead.
+     *
+     * @var string
+     */
+    private $_ipPool;
+
+    /**
+     * When this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the
+     * past, the message will be sent immediately.
+     *
+     * @var string
+     */
+    private $_sendAt;
+
+    /**
      * The name of the template inside mandrill.
      *
      * @var string
@@ -388,6 +404,55 @@ class Message extends BaseMessage
     public function disableAsync(): Message
     {
         $this->_async = false;
+
+        return $this;
+    }
+
+    /**
+     * The name of the dedicated ip pool that should is set to be used to send the message.
+     *
+     * @return string|null
+     */
+    public function getIpPool()
+    {
+        return $this->_ipPool;
+    }
+
+    /**
+     * The name of the dedicated ip pool that should be used to send the message. If you do not have any dedicated IPs,
+     * this parameter has no effect. If you specify a pool that does not exist, your default pool will be used instead.
+     *
+     * @param string $ipPool Ip pool name
+     * @return static
+     */
+    public function setIpPool(string $ipPool): Message
+    {
+        $this->_ipPool = $ipPool;
+
+        return $this;
+    }
+
+    /**
+     * When this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format.
+     *
+     * @return string|null
+     */
+    public function getSendAt()
+    {
+        return $this->_sendAt;
+    }
+
+    /**
+     * When this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the
+     * past, the message will be sent immediately.
+     *
+     * @param string $sendAt The date in YYYY-MM-DD HH:MM:SS format
+     *
+     * @return static
+     */
+    public function setSendAt(string $sendAt): Message
+    {
+        $this->_sendAt = $sendAt;
 
         return $this;
     }
@@ -860,15 +925,16 @@ class Message extends BaseMessage
      */
     public function setTemplateData(
         string $templateName,
-        array $templateContent = [],
+        array  $templateContent = [],
         string $templateLanguage = self::LANGUAGE_MAILCHIMP
-    ): Message {
+    ): Message
+    {
         $this->_templateName = $templateName;
 
 //        if ($templateLanguage === self::LANGUAGE_MAILCHIMP) {
-            $this->_templateContent = $this->convertParamsForTemplate($templateContent);
+        $this->_templateContent = $this->convertParamsForTemplate($templateContent);
 //        if ($templateLanguage === self::LANGUAGE_HANDLEBARS) {
-            $this->setGlobalMergeVars($templateContent);
+        $this->setGlobalMergeVars($templateContent);
 //        }
 
         $this->_mergeLanguage = $templateLanguage;
@@ -925,6 +991,15 @@ class Message extends BaseMessage
     }
 
     /**
+     * @return string|null
+     * @since 1.7.0
+     */
+    public function getSubaccount()
+    {
+        return $this->_subaccount;
+    }
+
+    /**
      * @param string $subaccount
      *
      * @return static
@@ -935,15 +1010,6 @@ class Message extends BaseMessage
         $this->_subaccount = $subaccount;
 
         return $this;
-    }
-
-    /**
-     * @return string|null
-     * @since 1.7.0
-     */
-    public function getSubaccount()
-    {
-        return $this->_subaccount;
     }
 
     /**
@@ -1070,16 +1136,6 @@ class Message extends BaseMessage
     }
 
     /**
-     * Returns the merge vars that will be submitted to mandrill.
-     *
-     * @return array
-     */
-    public function getMergeVars(): array
-    {
-        return $this->_mergeVars;
-    }
-
-    /**
      * Adds the given merge vars to the global merge vars array.
      * Merge vars are case insensitive and cannot start with _
      *
@@ -1104,6 +1160,15 @@ class Message extends BaseMessage
         return $this;
     }
 
+    /**
+     * Returns the merge vars that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getMergeVars(): array
+    {
+        return $this->_mergeVars;
+    }
 
     /**
      * Adds the given merge vars to the merge vars array.
@@ -1137,16 +1202,6 @@ class Message extends BaseMessage
     }
 
     /**
-     * Returns the per recipient meta data that will be submitted to mandrill.
-     *
-     * @return array
-     */
-    public function getRecipientMetadata(): array
-    {
-        return $this->_recipientMetadata;
-    }
-
-    /**
      * Adds the given meta data to the global meta data array
      *
      * @param array $metadata
@@ -1165,6 +1220,16 @@ class Message extends BaseMessage
         $this->_metadata = $metadata;
 
         return $this;
+    }
+
+    /**
+     * Returns the per recipient meta data that will be submitted to mandrill.
+     *
+     * @return array
+     */
+    public function getRecipientMetadata(): array
+    {
+        return $this->_recipientMetadata;
     }
 
     /**
@@ -1210,16 +1275,6 @@ class Message extends BaseMessage
     }
 
     /**
-     * Returns the Google Analytics campaign that will be submitted to mandrill.
-     *
-     * @return string
-     */
-    public function getGoogleAnalyticsCampaign(): string
-    {
-        return $this->_googleAnalyticsCampaign;
-    }
-
-    /**
      * Sets the Google Analytics domains that will be submitted to mandrill.
      *
      * @param array $domains
@@ -1231,6 +1286,16 @@ class Message extends BaseMessage
         $this->_googleAnalyticsDomains = $domains;
 
         return $this;
+    }
+
+    /**
+     * Returns the Google Analytics campaign that will be submitted to mandrill.
+     *
+     * @return string
+     */
+    public function getGoogleAnalyticsCampaign(): string
+    {
+        return $this->_googleAnalyticsCampaign;
     }
 
     /**

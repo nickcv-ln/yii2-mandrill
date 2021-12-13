@@ -3,6 +3,7 @@
 namespace yiiunit\extensions\mandrill;
 
 use nickcv\mandrill\Message;
+use Yii;
 
 class MandrillMessageTest extends TestCase
 {
@@ -58,6 +59,14 @@ class MandrillMessageTest extends TestCase
         $this->assertTrue($this->_message->isAsync());
         $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->disableAsync());
         $this->assertFalse($this->_message->isAsync());
+    }
+
+    public function testSendAt()
+    {
+        $date = Yii::$app->formatter->asDate('+5min', 'yyyy-MM-dd HH:mm:ss');
+        $this->assertNull($this->_message->getSendAt());
+        $this->assertInstanceOf('\nickcv\mandrill\Message', $this->_message->setSendAt($date));
+        $this->assertEquals($date, $this->_message->getSendAt());
     }
 
     public function testSetTemplateData()

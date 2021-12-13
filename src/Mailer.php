@@ -203,21 +203,26 @@ class Mailer extends BaseMailer
             self::LOG_CATEGORY
         );
 
+        $config = [
+            'message' =>  $message->getMandrillMessageArray(),
+            'async' => $message->isAsync()
+        ];
+        if ($message->getIpPool()) {
+            $config['ip_pool'] = $message->getIpPool();
+        }
+        if ($message->getSendAt()) {
+            $config['send_at'] = $message->getSendAt();
+        }
+
         if ($this->useMandrillTemplates) {
+            $config['template_name'] = $message->getTemplateName();
+            $config['template_content'] = $message->getTemplateContent();
             return $this->wasMessageSentSuccessful(
-                $this->_mailchimp->messages->sendTemplate([
-                    'template_name' => $message->getTemplateName(),
-                    'template_content' => $message->getTemplateContent(),
-                    'message' => $message->getMandrillMessageArray(),
-                    'async' => $message->isAsync()
-                ])
+                $this->_mailchimp->messages->sendTemplate($config)
             );
         } else {
             return $this->wasMessageSentSuccessful(
-                $this->_mailchimp->messages->send([
-                    'message' => $message->getMandrillMessageArray(),
-                    'async' => $message->isAsync()
-                ])
+                $this->_mailchimp->messages->send($config)
             );
         }
     }
