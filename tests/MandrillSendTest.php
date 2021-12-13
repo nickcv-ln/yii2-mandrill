@@ -118,6 +118,10 @@ class MandrillSendTest extends TestCase
             ->send();
 
         $this->assertInternalType('array', $mandrill->getLastTransaction());
+        if (!isset($mandrill->getLastTransaction()['status'])) {
+            var_dump($mandrill->getLastTransaction());
+        }
+        $this->assertArrayHasKey('status', $mandrill->getLastTransaction());
         $this->assertEquals('error', $mandrill->getLastTransaction()['status']);
 
         $this->assertFalse($result);
