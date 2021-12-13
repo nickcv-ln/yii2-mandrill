@@ -244,6 +244,7 @@ class Mailer extends BaseMailer
 
             return false;
         }
+        var_dump($this->_mandrillResponse);
         $this->_mandrillResponse = $mandrillResponse;
         if (is_string($this->_mandrillResponse)) {
             /** @var string $mandrillResponse */
